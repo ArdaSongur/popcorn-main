@@ -1,0 +1,25 @@
+---
+import { categoryLabels, formatArticleDate, getArticleUrl } from "../utils/articles.js";
+
+const { article } = Astro.props;
+const articleUrl = getArticleUrl(article);
+const categoryLabel = categoryLabels[article.category] ?? article.category;
+---
+
+<article class="article-card">
+    <a class="article-card-image" href={articleUrl} aria-label={article.title}>
+        <img
+            src={article.coverImage || "/images/article-placeholder.svg"}
+            alt={article.title}
+            loading="lazy"
+            onerror="this.onerror=null; this.src='/images/article-placeholder.svg';"
+        />
+    </a>
+
+    <div class="article-card-content">
+        <span class="article-category">{categoryLabel}</span>
+        <h3><a href={articleUrl}>{article.title}</a></h3>
+        <p>{article.excerpt}</p>
+        <time datetime={article.publishedAt}>{formatArticleDate(article.publishedAt)}</time>
+    </div>
+</article>

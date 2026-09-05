@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import ArticleContent from "../../components/ArticleContent.astro";
+import articles from "../../data/articles.json";
+import {
+    categoryLabels,
+    formatArticleDate
+} from "../../utils/articles.js";
+
+export function getStaticPaths() {
+    return articles.map((article) => ({
+        params: {
+            category: article.category,
+            slug: article.slug
+        },
+        props: { article }
+    }));
+}
+
+const { article } = Astro.props;
+const categoryLabel = categoryLabels[article.category] ?? article.category;
+const articleTags = new Set(article.tags);
+const relatedArticles = articles
+    .filter((candidate) => candidate.id !== article.id)
+    .map((candidate) => ({
+        article: candidate,
+        sameCategory: candidate.category === article.category ? 1 : 0,
+        sharedTags: candidate.tags.filter((tag) => articleTags.has(tag)).length
+    }))
+    .filter((candidate) => candidate.sameCategory || candidate.sharedTags)
+    .sort((first, second) =>
+        second.sameCategory - first.sameCategory ||
+        second.sharedTags - first.sharedTags ||
+        new Date(second.article.publishedAt).getTime() - new Date(first.article.publishedAt).getTime()
+    )
+    .slice(0, 3)
+    .map((candidate) => candidate.article);
+---
+
+<BaseLayout title={article.seoTitle} description={article.seoDescription}>
+    <article class="page-container article-detail">
+        <nav class="breadcrumb" aria-label="Sayfa yolu">
+            <a href="/">Ana Sayfa</a>
+            <span aria-hidden="true">/</span>
+            <a href={`/${article.category}/`}>{categoryLabel}</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{article.title}</span>
+        </nav>
+
+        <header class="article-header">
+            <span class="article-category">{categoryLabel}</span>
+            <h1>{article.title}</h1>
+            <p>{article.excerpt}</p>
+            <time datetime={article.publishedAt}>{formatArticleDate(article.publishedAt)}</time>
+        </header>
+
+        <div class="article-cover">
+            <img
+                src={article.coverImage || "/images/article-placeholder.svg"}
+                alt={article.title}
+                onerror="this.onerror=null; this.src='/images/article-placeholder.svg';"
+            />
+        </div>
+
+        <ArticleContent blocks={article.content} />
+
+        {relatedArticles.length > 0 && (
+            <section class="article-related" aria-labelledby="article-related-title">
+                <div class="section-header">
+                    <h2 id="article-related-title">Bunlar da ilginizi çekebilir</h2>
+                </div>
+                <div class="article-list">
+                    {relatedArticles.map((relatedArticle) => <ArticleCard article={relatedArticle} />)}
+                </div>
+            </section>
+        )}
+
+        <section class="comments-placeholder" aria-labelledby="comments-title">
+            <h2 id="comments-title">Yorumlar</h2>
+            <div class="comments-mount" data-article-id={article.id}>
+                <p>Yorum alanı ileride burada yer alacak.</p>
+            </div>
+        </section>
+    </article>
+</BaseLayout>

@@ -1,7 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "./ArticleCard.astro";
+import articles from "../data/articles.json";
+import { sortArticlesNewest } from "../utils/articles.js";
 
-const { title, description } = Astro.props;
+const { title, description, category } = Astro.props;
+const categoryArticles = sortArticlesNewest(
+    articles.filter((article) => article.category === category)
+);
 ---
 
 <BaseLayout title={`${title} | Popcorn`} description={description}>
@@ -21,13 +27,20 @@ const { title, description } = Astro.props;
                 <h2 id="category-content-title">Yeni İçerikler</h2>
             </div>
 
-            <div class="article-list-placeholder">
-                <div class="article-image-placeholder" aria-hidden="true"></div>
-                <div>
-                    <h3>İçerikler yakında burada</h3>
-                    <p>Bu kategoriye eklenen makaleler bu alanda listelenecek.</p>
+            {categoryArticles.length > 0 ? (
+                <div class="article-list">
+                    {categoryArticles.map((article) => <ArticleCard article={article} />)}
                 </div>
-            </div>
+            ) : (
+                <div class="article-empty-state">
+                    <h3>Henüz içerik yok</h3>
+                    <p>Bu kategoriye eklenen makaleler burada listelenecek.</p>
+                </div>
+            )}
         </section>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">
+            Reklam Alanı
+        </div>
     </div>
 </BaseLayout>

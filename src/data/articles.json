@@ -1,0 +1,190 @@
+[
+    {
+        "id": 1001,
+        "title": "Merkür Retrosuna Kısa Bir Bakış",
+        "slug": "merkur-retrosuna-kisa-bir-bakis",
+        "category": "astroloji",
+        "excerpt": "Astroloji makale yapısını test etmek için hazırlanmış kısa demo içerik.",
+        "coverImage": "https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-05T14:30:00+03:00",
+        "seoTitle": "Merkür Retrosuna Kısa Bir Bakış | Popcorn",
+        "seoDescription": "Merkür retrosu hakkında kısa demo astroloji içeriği.",
+        "tags": ["merkür", "retro", "gezegenler"],
+        "content": [
+            { "type": "paragraph", "text": "Bu metin, astroloji makale şablonunu göstermek için hazırlanmış kısa bir demo paragraftır." },
+            { "type": "heading2", "text": "Retro dönemini takip etmek" },
+            { "type": "paragraph", "text": "Gerçek editoryal içerik eklendiğinde bu bölüm ayrıntılı bilgilerle güncellenecek." },
+            { "type": "ad" },
+            { "type": "heading3", "text": "Kısa not" },
+            { "type": "paragraph", "text": "Tarihleri ve kişisel harita etkilerini ayrı ayrı değerlendirmek gerekir." }
+        ]
+    },
+    {
+        "id": 1002,
+        "title": "Doğum Haritasında Yükselen Burç",
+        "slug": "dogum-haritasinda-yukselen-burc",
+        "category": "astroloji",
+        "excerpt": "Yükselen burç konulu detay sayfasını sınamak için kısa demo makale.",
+        "coverImage": "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-03T10:15:00+03:00",
+        "seoTitle": "Doğum Haritasında Yükselen Burç | Popcorn",
+        "seoDescription": "Yükselen burç hakkında kısa demo içerik.",
+        "tags": ["doğum haritası", "burçlar", "yükselen"],
+        "content": [
+            { "type": "paragraph", "text": "Bu kısa demo, yükselen burç makalelerinin sayfada nasıl görüneceğini gösterir." },
+            { "type": "heading2", "text": "Yükselen burç nedir?" },
+            { "type": "paragraph", "text": "Ayrıntılı açıklama, editoryal içerik hazır olduğunda bu alana eklenecek." },
+            { "type": "image", "src": "/images/article-placeholder.svg", "alt": "Astroloji demo görseli" }
+        ]
+    },
+    {
+        "id": 2001,
+        "title": "Pratik Kahvaltı Tabağı Fikri",
+        "slug": "pratik-kahvalti-tabagi-fikri",
+        "category": "yemek-tarifleri",
+        "excerpt": "Tarif sayfası veri modelini göstermek için hazırlanmış kısa demo içerik.",
+        "coverImage": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-04T09:00:00+03:00",
+        "seoTitle": "Pratik Kahvaltı Tabağı Fikri | Popcorn",
+        "seoDescription": "Kısa bir demo kahvaltı içeriği.",
+        "tags": ["kahvaltı", "pratik tarif", "mutfak"],
+        "content": [
+            { "type": "paragraph", "text": "Bu tarif metni yalnızca makale ve içerik bloklarını test etmek için hazırlanmıştır." },
+            { "type": "heading2", "text": "Gerekli malzemeler" },
+            { "type": "paragraph", "text": "Gerçek tarif yayına alınırken malzeme listesi bu alana eklenecek." },
+            { "type": "ad" },
+            { "type": "heading3", "text": "Servis önerisi" },
+            { "type": "paragraph", "text": "Mevsim ürünleriyle sunum zenginleştirilebilir." }
+        ]
+    },
+    {
+        "id": 2002,
+        "title": "Fırında Sebze İçin Temel Adımlar",
+        "slug": "firinda-sebze-icin-temel-adimlar",
+        "category": "yemek-tarifleri",
+        "excerpt": "Yemek tarifi şablonunu sınamak için kısa ve açıkça demo olan içerik.",
+        "coverImage": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-01T18:45:00+03:00",
+        "seoTitle": "Fırında Sebze İçin Temel Adımlar | Popcorn",
+        "seoDescription": "Fırında sebze hazırlamaya yönelik kısa demo içerik.",
+        "tags": ["sebze", "pratik tarif", "fırın"],
+        "content": [
+            { "type": "paragraph", "text": "Bu alan gerçek bir tarif yerine kısa demo metni içerir." },
+            { "type": "heading2", "text": "Hazırlık" },
+            { "type": "paragraph", "text": "Sebzelerin eşit boyutta kesilmesi pişirme süresini dengeler." },
+            { "type": "image", "src": "/images/article-placeholder.svg", "alt": "Tarif demo görseli" }
+        ]
+    },
+    {
+        "id": 3001,
+        "title": "Bir Sergiyi Gezerken Nelere Bakılır?",
+        "slug": "bir-sergiyi-gezerken-nelere-bakilir",
+        "category": "kultur-sanat",
+        "excerpt": "Kültür sanat makale görünümünü test eden kısa demo rehber.",
+        "coverImage": "https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-05T11:20:00+03:00",
+        "seoTitle": "Bir Sergiyi Gezerken Nelere Bakılır? | Popcorn",
+        "seoDescription": "Sergi deneyimi üzerine kısa demo kültür sanat içeriği.",
+        "tags": ["sergi", "sanat", "rehber"],
+        "content": [
+            { "type": "paragraph", "text": "Bu kısa demo metni kültür sanat içerik şablonunu göstermek için hazırlandı." },
+            { "type": "heading2", "text": "İlk izlenim" },
+            { "type": "paragraph", "text": "Eserle ilgili bilgiyi okumadan önce kendi izleniminize zaman ayırabilirsiniz." },
+            { "type": "ad" },
+            { "type": "heading3", "text": "Mekânı fark etmek" },
+            { "type": "paragraph", "text": "Sergileme biçimi de anlatının bir parçası olabilir." }
+        ]
+    },
+    {
+        "id": 3002,
+        "title": "Okuma Listesi Nasıl Oluşturulur?",
+        "slug": "okuma-listesi-nasil-olusturulur",
+        "category": "kultur-sanat",
+        "excerpt": "Edebiyat içerikleri için kullanılacak yapıyı gösteren kısa demo makale.",
+        "coverImage": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-02T16:10:00+03:00",
+        "seoTitle": "Okuma Listesi Nasıl Oluşturulur? | Popcorn",
+        "seoDescription": "Okuma listesi oluşturma üzerine kısa demo içerik.",
+        "tags": ["kitap", "edebiyat", "rehber"],
+        "content": [
+            { "type": "paragraph", "text": "Bu içerik, edebiyat makalelerinin yerleşimini test eden kısa bir demodur." },
+            { "type": "heading2", "text": "Küçük bir listeyle başlamak" },
+            { "type": "paragraph", "text": "Farklı türlerden birkaç kitap seçmek listeyi sürdürülebilir kılabilir." },
+            { "type": "image", "src": "/images/article-placeholder.svg", "alt": "Kitaplar için demo görsel" }
+        ]
+    },
+    {
+        "id": 4001,
+        "title": "Rüyada Deniz Görmek İçin Demo Tabir",
+        "slug": "ruyada-deniz-gormek-demo-tabir",
+        "category": "ruya-tabirleri",
+        "excerpt": "Rüya tabiri sayfa yapısını test etmek amacıyla hazırlanmış kısa demo.",
+        "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-04T07:35:00+03:00",
+        "seoTitle": "Rüyada Deniz Görmek İçin Demo Tabir | Popcorn",
+        "seoDescription": "Rüyada deniz görmek hakkında kısa demo içerik.",
+        "tags": ["deniz", "su", "rüya sembolleri"],
+        "content": [
+            { "type": "paragraph", "text": "Bu metin gerçek bir tabir değil, makale sistemini göstermek için hazırlanmış kısa bir demodur." },
+            { "type": "heading2", "text": "Sembolün bağlamı" },
+            { "type": "paragraph", "text": "Rüyadaki duygu ve ayrıntılar yorumun bağlamını değiştirebilir." },
+            { "type": "ad" }
+        ]
+    },
+    {
+        "id": 4002,
+        "title": "Rüyada Anahtar Görmek İçin Demo Tabir",
+        "slug": "ruyada-anahtar-gormek-demo-tabir",
+        "category": "ruya-tabirleri",
+        "excerpt": "İkinci rüya tabiri route’unu doğrulamak için kısa demo içerik.",
+        "coverImage": "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-08-31T08:05:00+03:00",
+        "seoTitle": "Rüyada Anahtar Görmek İçin Demo Tabir | Popcorn",
+        "seoDescription": "Rüyada anahtar sembolü üzerine kısa demo içerik.",
+        "tags": ["anahtar", "rüya sembolleri", "kapı"],
+        "content": [
+            { "type": "paragraph", "text": "Bu kısa demo içerik, rüya tabiri detay sayfasının veri akışını sınar." },
+            { "type": "heading2", "text": "Ayrıntıları hatırlamak" },
+            { "type": "paragraph", "text": "Anahtarın nerede görüldüğü gibi ayrıntılar gerçek içerikte ayrıca ele alınabilir." },
+            { "type": "image", "src": "/images/article-placeholder.svg", "alt": "Rüya tabiri demo görseli" }
+        ]
+    },
+    {
+        "id": 5001,
+        "title": "Küçük Hedeflerle Başlamak",
+        "slug": "kucuk-hedeflerle-baslamak",
+        "category": "kisisel-gelisim",
+        "excerpt": "Kişisel gelişim makale şablonunu göstermek için kısa demo içerik.",
+        "coverImage": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-03T13:40:00+03:00",
+        "seoTitle": "Küçük Hedeflerle Başlamak | Popcorn",
+        "seoDescription": "Küçük hedefler belirleme üzerine kısa demo içerik.",
+        "tags": ["hedef", "alışkanlık", "üretkenlik"],
+        "content": [
+            { "type": "paragraph", "text": "Bu metin kişisel gelişim içerik tasarımını göstermek için hazırlanmış kısa bir demodur." },
+            { "type": "heading2", "text": "İlk adımı küçültmek" },
+            { "type": "paragraph", "text": "Kolay tamamlanan ilk adım, alışkanlığın devamını destekleyebilir." },
+            { "type": "ad" },
+            { "type": "heading3", "text": "İlerlemeyi görmek" },
+            { "type": "paragraph", "text": "Basit bir kayıt yöntemi ilerlemeyi görünür kılabilir." }
+        ]
+    },
+    {
+        "id": 5002,
+        "title": "Odaklanma Alanı Hazırlamak",
+        "slug": "odaklanma-alani-hazirlamak",
+        "category": "kisisel-gelisim",
+        "excerpt": "İçerik listesi ve ilgili makaleleri sınayan kısa demo yazı.",
+        "coverImage": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80",
+        "publishedAt": "2026-09-01T12:25:00+03:00",
+        "seoTitle": "Odaklanma Alanı Hazırlamak | Popcorn",
+        "seoDescription": "Odaklanma alanı hazırlamak üzerine kısa demo içerik.",
+        "tags": ["odaklanma", "alışkanlık", "üretkenlik"],
+        "content": [
+            { "type": "paragraph", "text": "Bu kısa demo, kişisel gelişim makalelerinin görünümünü test eder." },
+            { "type": "heading2", "text": "Dikkat dağıtıcıları azaltmak" },
+            { "type": "paragraph", "text": "Çalışma öncesinde masayı sadeleştirmek başlangıcı kolaylaştırabilir." },
+            { "type": "image", "src": "/images/article-placeholder.svg", "alt": "Çalışma alanı demo görseli" }
+        ]
+    }
+]

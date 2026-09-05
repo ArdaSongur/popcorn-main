@@ -1,9 +1,24 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import MovieCard from "../components/MovieCard.astro";
+import ArticleCard from "../components/ArticleCard.astro";
 import data from "../data/data.json";
+import articles from "../data/articles.json";
+import { sortArticlesNewest } from "../utils/articles.js";
 
 const featuredMovies = data.movies.slice(0, 4);
+const articleSections = [
+    { category: "astroloji", title: "✨ Astroloji" },
+    { category: "kultur-sanat", title: "🎨 Kültür & Sanat" },
+    { category: "yemek-tarifleri", title: "🍴 Yemek Tarifleri" },
+    { category: "ruya-tabirleri", title: "🌙 Rüya Tabirleri" },
+    { category: "kisisel-gelisim", title: "🧠 Kişisel Gelişim" }
+].map((section) => ({
+    ...section,
+    articles: sortArticlesNewest(
+        articles.filter((article) => article.category === section.category)
+    ).slice(0, 3)
+}));
 ---
 
 
@@ -70,84 +85,18 @@ const featuredMovies = data.movies.slice(0, 4);
         </div>
 
 
-        <section class="home-section">
+        {articleSections.map((section) => (
+            <section class="home-section">
+                <div class="section-header">
+                    <h2>{section.title}</h2>
+                    <a href={`/${section.category}/`}>Tümünü Gör →</a>
+                </div>
 
-            <div class="section-header">
-                <h2>✨ Astroloji</h2>
-                <a href="/astroloji/">Tümünü Gör →</a>
-            </div>
-
-            <div class="placeholder-grid">
-                <div class="placeholder-card">Astroloji İçeriği</div>
-                <div class="placeholder-card">Astroloji İçeriği</div>
-                <div class="placeholder-card">Astroloji İçeriği</div>
-            </div>
-
-        </section>
-
-
-        <section class="home-section">
-
-            <div class="section-header">
-                <h2>🎨 Kültür & Sanat</h2>
-                <a href="/kultur-sanat/">Tümünü Gör →</a>
-            </div>
-
-            <div class="placeholder-grid">
-                <div class="placeholder-card">İçerik</div>
-                <div class="placeholder-card">İçerik</div>
-                <div class="placeholder-card">İçerik</div>
-            </div>
-
-        </section>
-
-
-        <section class="home-section">
-
-            <div class="section-header">
-                <h2>🍴 Yemek Tarifleri</h2>
-                <a href="/yemek-tarifleri/">Tümünü Gör →</a>
-            </div>
-
-            <div class="placeholder-grid">
-                <div class="placeholder-card">Tarif</div>
-                <div class="placeholder-card">Tarif</div>
-                <div class="placeholder-card">Tarif</div>
-            </div>
-
-        </section>
-
-
-        <section class="home-section">
-
-            <div class="section-header">
-                <h2>🌙 Rüya Tabirleri</h2>
-                <a href="/ruya-tabirleri/">Tümünü Gör →</a>
-            </div>
-
-            <div class="placeholder-grid">
-                <div class="placeholder-card">Rüya Tabiri</div>
-                <div class="placeholder-card">Rüya Tabiri</div>
-                <div class="placeholder-card">Rüya Tabiri</div>
-            </div>
-
-        </section>
-
-
-        <section class="home-section">
-
-            <div class="section-header">
-                <h2>🧠 Kişisel Gelişim</h2>
-                <a href="/kisisel-gelisim/">Tümünü Gör →</a>
-            </div>
-
-            <div class="placeholder-grid">
-                <div class="placeholder-card">İçerik</div>
-                <div class="placeholder-card">İçerik</div>
-                <div class="placeholder-card">İçerik</div>
-            </div>
-
-        </section>
+                <div class="article-list home-article-list">
+                    {section.articles.map((article) => <ArticleCard article={article} />)}
+                </div>
+            </section>
+        ))}
 
     </div>
 

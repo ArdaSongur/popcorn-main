@@ -1,0 +1,26 @@
+---
+const { blocks = [] } = Astro.props;
+---
+
+<div class="article-body">
+    {blocks.map((block) => (
+        block.type === "paragraph" ? (
+            <p>{block.text}</p>
+        ) : block.type === "heading2" ? (
+            <h2>{block.text}</h2>
+        ) : block.type === "heading3" ? (
+            <h3>{block.text}</h3>
+        ) : block.type === "image" ? (
+            <figure>
+                <img
+                    src={block.src || "/images/article-placeholder.svg"}
+                    alt={block.alt || "Makale görseli"}
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='/images/article-placeholder.svg';"
+                />
+            </figure>
+        ) : block.type === "ad" ? (
+            <div class="ad-placeholder article-ad" aria-label="Reklam alanı">Reklam Alanı</div>
+        ) : null
+    ))}
+</div>
