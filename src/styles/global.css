@@ -4,6 +4,11 @@
     padding: 0;
 }
 
+html {
+    background: #111114;
+    color-scheme: dark;
+}
+
 body {
     background: #111114;
     color: #f5f5f5;
@@ -76,6 +81,24 @@ a {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.theme-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 14px;
+    border: 1px solid #35353d;
+    border-radius: 8px;
+    background: #25252b;
+    color: #f5f5f5;
+    cursor: pointer;
+    text-align: left;
+}
+
+.theme-toggle:hover {
+    background: #2d2d34;
 }
 
 .site-content {
@@ -905,6 +928,309 @@ a {
     background: #18181c;
 }
 
+.movie-list-section {
+    margin-top: 48px;
+}
+
+.movie-list-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.movie-list-card {
+    display: grid;
+    grid-template-columns: minmax(240px, 360px) minmax(0, 1fr);
+    min-height: 220px;
+    overflow: hidden;
+    border: 1px solid #303038;
+    border-radius: 15px;
+    background: #1b1b20;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.movie-list-card:hover {
+    transform: translateY(-2px);
+    border-color: #484852;
+}
+
+.movie-list-card-cover {
+    display: block;
+    min-height: 220px;
+    overflow: hidden;
+    background: #24242a;
+}
+
+.movie-list-card-cover img,
+.movie-list-cover img,
+.movie-list-pick-poster img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.movie-list-card-content {
+    display: flex;
+    min-width: 0;
+    padding: 26px 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.movie-list-card-content h3 {
+    margin: 8px 0 10px;
+    font-size: clamp(22px, 3vw, 31px);
+    line-height: 1.2;
+}
+
+.movie-list-card-content h3 a:hover,
+.movie-list-pick-content h2 a:hover {
+    text-decoration: underline;
+}
+
+.movie-list-card-content p {
+    color: #aaaab3;
+}
+
+.text-link {
+    display: inline-block;
+    margin-top: 17px;
+    color: #d5b463;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.featured-movie-lists {
+    margin: 0 0 48px;
+}
+
+.movie-list-header {
+    max-width: 900px;
+}
+
+.movie-list-header h1 {
+    margin: 10px 0 18px;
+    font-size: clamp(38px, 6vw, 66px);
+    line-height: 1.06;
+    overflow-wrap: anywhere;
+}
+
+.movie-list-header p {
+    max-width: 760px;
+    color: #bbbbc3;
+    font-size: clamp(17px, 2vw, 20px);
+}
+
+.movie-list-cover {
+    max-width: 1040px;
+    margin-top: 38px;
+    overflow: hidden;
+    aspect-ratio: 16 / 7;
+    border: 1px solid #303038;
+    border-radius: 16px;
+    background: #1b1b20;
+}
+
+.movie-list-picks {
+    max-width: 1040px;
+    margin-top: 56px;
+}
+
+.movie-list-pick {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #303038;
+    border-radius: 14px;
+    background: #1b1b20;
+}
+
+.movie-list-pick-poster {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    border-radius: 10px;
+    background: #24242a;
+}
+
+.movie-list-pick-content {
+    min-width: 0;
+    align-self: center;
+}
+
+.movie-list-pick-content h2 {
+    margin: 10px 0 3px;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.15;
+}
+
+.movie-list-pick-meta {
+    color: #8f8f99;
+    font-size: 14px;
+}
+
+.movie-list-pick-note {
+    max-width: 720px;
+    margin-top: 18px;
+    color: #c3c3ca;
+    line-height: 1.7;
+}
+
+html[data-theme="light"] {
+    background: #f4f4f6;
+    color-scheme: light;
+}
+
+html[data-theme="light"] body {
+    background: #f4f4f6;
+    color: #1c1c21;
+}
+
+html[data-theme="light"] .sidebar {
+    background: #ffffff;
+    border-color: #dcdce2;
+}
+
+html[data-theme="light"] .sidebar-nav a,
+html[data-theme="light"] .sidebar-bottom a {
+    color: #4d4d56;
+}
+
+html[data-theme="light"] .sidebar-nav a:hover,
+html[data-theme="light"] .sidebar-bottom a:hover {
+    background: #ededf1;
+    color: #17171b;
+}
+
+html[data-theme="light"] .theme-toggle,
+html[data-theme="light"] .favorite-button,
+html[data-theme="light"] .filter-buttons button {
+    border-color: #d4d4dc;
+    background: #eeeef2;
+    color: #222228;
+}
+
+html[data-theme="light"] .theme-toggle:hover {
+    background: #e5e5ea;
+}
+
+html[data-theme="light"] .mobile-menu-button {
+    background: #ffffff;
+    color: #1c1c21;
+    box-shadow: 0 2px 12px rgba(20, 20, 25, 0.12);
+}
+
+html[data-theme="light"] .home-hero {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.58)),
+        #dddde4;
+}
+
+html[data-theme="light"] .movie-card,
+html[data-theme="light"] .placeholder-card,
+html[data-theme="light"] .filter-panel,
+html[data-theme="light"] .detail-poster,
+html[data-theme="light"] .detail-meta div,
+html[data-theme="light"] .article-list-placeholder,
+html[data-theme="light"] .horoscope-card,
+html[data-theme="light"] .horoscope-feature,
+html[data-theme="light"] .article-card,
+html[data-theme="light"] .article-empty-state,
+html[data-theme="light"] .article-cover,
+html[data-theme="light"] .article-body figure,
+html[data-theme="light"] .comments-mount,
+html[data-theme="light"] .movie-list-card,
+html[data-theme="light"] .movie-list-cover,
+html[data-theme="light"] .movie-list-pick {
+    border-color: #d8d8df;
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .horoscope-feature {
+    background:
+        radial-gradient(circle at 12% 50%, rgba(167, 126, 24, 0.13), transparent 34%),
+        #ffffff;
+}
+
+html[data-theme="light"] .filter-panel input,
+html[data-theme="light"] .filter-panel select {
+    border-color: #ceced6;
+    background: #ffffff;
+    color: #222228;
+}
+
+html[data-theme="light"] .filter-buttons button.is-active {
+    border-color: #a77e18;
+    background: #a77e18;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .home-hero p,
+html[data-theme="light"] .page-heading p,
+html[data-theme="light"] .detail-description,
+html[data-theme="light"] .article-card-content p,
+html[data-theme="light"] .article-header > p,
+html[data-theme="light"] .article-body p,
+html[data-theme="light"] .horoscope-content p,
+html[data-theme="light"] .horoscope-feature-content p,
+html[data-theme="light"] .movie-list-card-content p,
+html[data-theme="light"] .movie-list-header p,
+html[data-theme="light"] .movie-list-pick-note {
+    color: #555560;
+}
+
+html[data-theme="light"] .section-header a,
+html[data-theme="light"] .movie-card-info p,
+html[data-theme="light"] .filter-panel label > span,
+html[data-theme="light"] .type-filter legend,
+html[data-theme="light"] .media-results-heading p,
+html[data-theme="light"] .back-link,
+html[data-theme="light"] .article-card-content time,
+html[data-theme="light"] .article-header time,
+html[data-theme="light"] .horoscope-feature-content time,
+html[data-theme="light"] .breadcrumb,
+html[data-theme="light"] .breadcrumb span[aria-current="page"],
+html[data-theme="light"] .movie-list-pick-meta {
+    color: #676772;
+}
+
+html[data-theme="light"] .detail-meta div,
+html[data-theme="light"] .comments-placeholder {
+    border-color: #d8d8df;
+}
+
+html[data-theme="light"] .detail-meta dt {
+    color: #72727d;
+}
+
+html[data-theme="light"] .type-badge,
+html[data-theme="light"] .article-category {
+    border-color: #d8bd75;
+    background: #fff6dc;
+    color: #79590d;
+}
+
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .text-link {
+    color: #856312;
+}
+
+html[data-theme="light"] .ad-placeholder,
+html[data-theme="light"] .empty-results {
+    border-color: #bdbdc6;
+    color: #787883;
+}
+
+html[data-theme="light"] .movie-list-card-cover,
+html[data-theme="light"] .movie-list-pick-poster,
+html[data-theme="light"] .horoscope-image,
+html[data-theme="light"] .article-card-image {
+    background: #e9e9ee;
+}
+
 @media (max-width: 1100px) {
     .media-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -935,7 +1261,8 @@ a {
     .media-detail-hero,
     .article-list-placeholder,
     .horoscope-card,
-    .article-card {
+    .article-card,
+    .movie-list-card {
         grid-template-columns: 1fr;
     }
 
@@ -985,6 +1312,21 @@ a {
     .article-body {
         margin-top: 32px;
     }
+
+    .movie-list-card-cover {
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+    }
+
+    .movie-list-card-content {
+        padding: 21px;
+    }
+
+    .movie-list-cover {
+        margin-top: 28px;
+        aspect-ratio: 16 / 9;
+        border-radius: 12px;
+    }
 }
 
 @media (max-width: 430px) {
@@ -1003,6 +1345,21 @@ a {
     }
 
     .horoscope-related .section-header {
+        align-items: flex-start;
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .movie-list-pick {
+        grid-template-columns: 1fr;
+    }
+
+    .movie-list-pick-poster {
+        width: min(70%, 210px);
+    }
+
+    .featured-movie-lists .section-header,
+    .movie-list-section .section-header {
         align-items: flex-start;
         gap: 8px;
         flex-direction: column;

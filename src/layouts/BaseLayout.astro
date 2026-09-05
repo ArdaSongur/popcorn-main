@@ -14,6 +14,17 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <script is:inline>
+        (() => {
+            try {
+                const savedTheme = localStorage.getItem("theme");
+                document.documentElement.dataset.theme = savedTheme === "light" ? "light" : "dark";
+            } catch {
+                document.documentElement.dataset.theme = "dark";
+            }
+        })();
+    </script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
 </head>
@@ -36,6 +47,34 @@ const {
 
         button?.addEventListener("click", () => {
             sidebar?.classList.toggle("open");
+        });
+
+        const themeButton = document.getElementById("themeButton");
+        const themeIcon = themeButton?.querySelector("[data-theme-icon]");
+        const themeLabel = themeButton?.querySelector("[data-theme-label]");
+
+        const updateThemeButton = () => {
+            const isLight = document.documentElement.dataset.theme === "light";
+
+            if (themeIcon) themeIcon.textContent = isLight ? "☀️" : "🌙";
+            if (themeLabel) themeLabel.textContent = isLight ? "Açık Tema" : "Koyu Tema";
+            themeButton?.setAttribute("aria-pressed", String(isLight));
+            themeButton?.setAttribute("aria-label", isLight ? "Koyu temaya geç" : "Açık temaya geç");
+        };
+
+        updateThemeButton();
+
+        themeButton?.addEventListener("click", () => {
+            const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+            document.documentElement.dataset.theme = nextTheme;
+
+            try {
+                localStorage.setItem("theme", nextTheme);
+            } catch {
+                // Tema yine bu sayfa açık kaldığı sürece uygulanır.
+            }
+
+            updateThemeButton();
         });
     </script>
 

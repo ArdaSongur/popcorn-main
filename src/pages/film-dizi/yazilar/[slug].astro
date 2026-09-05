@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import listsData from "../../../data/lists.json";
+import data from "../../../data/data.json";
+import { slugify } from "../../../utils/slugify.js";
+
+export function getStaticPaths() {
+    return listsData.lists.map((list) => ({
+        params: { slug: list.slug },
+        props: { list }
+    }));
+}
+
+const { list } = Astro.props;
+const contentItems = [...data.movies, ...data.series];
+const picks = list.picks
+    .map((pick) => {
+        const item = contentItems.find((candidate) => candidate.id === pick.contentId);
+        return item ? { item, note: pick.note } : null;
+    })
+    .filter(Boolean);
+---
+
+<BaseLayout title={`${list.title} | Popcorn`} description={list.intro}>
+    <article class="page-container movie-list-detail">
+        <nav class="breadcrumb" aria-label="Sayfa yolu">
+            <a href="/">Ana Sayfa</a>
+            <span aria-hidden="true">/</span>
+            <a href="/film-dizi/">Filmler & Diziler</a>
+            <span aria-hidden="true">/</span>
+            <a href="/film-dizi/yazilar/">Yazılar</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{list.title}</span>
+        </nav>
+
+        <header class="movie-list-header">
+            <span class="eyebrow">FİLM & DİZİ YAZISI</span>
+            <h1>{list.title}</h1>
+            <p>{list.intro}</p>
+        </header>
+
+        <div class="movie-list-cover">
+            <img
+                src={list.cover || "/images/article-placeholder.svg"}
+                alt={list.title}
+                onerror="this.onerror=null; this.src='/images/article-placeholder.svg';"
+            />
+        </div>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+
+        <section class="movie-list-picks" aria-labelledby="picks-title">
+            <div class="section-header">
+                <h2 id="picks-title">Listedeki Yapımlar</h2>
+            </div>
+
+            {picks.map(({ item, note }) => {
+                const itemUrl = `/film-dizi/${slugify(item.title)}/`;
+                const typeLabel = item.type === "movie" ? "Film" : "Dizi";
+
+                return (
+                    <article class="movie-list-pick">
+                        <a class="movie-list-pick-poster" href={itemUrl} aria-label={item.title}>
+                            <img
+                                src={item.image}
+                                alt={`${item.title} posteri`}
+                                loading="lazy"
+                                onerror="this.onerror=null; this.src='/images/poster-placeholder.svg';"
+                            />
+                        </a>
+                        <div class="movie-list-pick-content">
+                            <span class="type-badge">{typeLabel}</span>
+                            <h2><a href={itemUrl}>{item.title}</a></h2>
+                            <p class="movie-list-pick-meta">{item.year} • {item.genre}</p>
+                            <p class="movie-list-pick-note">{note}</p>
+                            <a class="text-link" href={itemUrl}>Detay Sayfasına Git →</a>
+                        </div>
+                    </article>
+                );
+            })}
+        </section>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+    </article>
+</BaseLayout>

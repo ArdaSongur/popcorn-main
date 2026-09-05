@@ -1,0 +1,21 @@
+---
+const { list } = Astro.props;
+const listUrl = `/film-dizi/yazilar/${list.slug}/`;
+---
+
+<article class="movie-list-card">
+    <a class="movie-list-card-cover" href={listUrl} aria-label={list.title}>
+        <img
+            src={list.cover || "/images/article-placeholder.svg"}
+            alt={list.title}
+            loading="lazy"
+            onerror="this.onerror=null; this.src='/images/article-placeholder.svg';"
+        />
+    </a>
+    <div class="movie-list-card-content">
+        <span class="eyebrow">FİLM & DİZİ YAZISI</span>
+        <h3><a href={listUrl}>{list.title}</a></h3>
+        <p>{list.intro}</p>
+        <a class="text-link" href={listUrl}>Yazıyı Oku →</a>
+    </div>
+</article>

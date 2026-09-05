@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import MovieListCard from "../../../components/MovieListCard.astro";
+import listsData from "../../../data/lists.json";
+
+const lists = listsData.lists;
+---
+
+<BaseLayout
+    title="Film & Dizi Yazıları | Popcorn"
+    description="Popcorn film ve dizi önerileri, seçkileri ve izleme listeleri."
+>
+    <div class="page-container movie-list-index">
+        <nav class="breadcrumb" aria-label="Sayfa yolu">
+            <a href="/">Ana Sayfa</a>
+            <span aria-hidden="true">/</span>
+            <a href="/film-dizi/">Filmler & Diziler</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Yazılar</span>
+        </nav>
+
+        <header class="page-heading">
+            <span class="eyebrow">POPCORN SEÇKİLERİ</span>
+            <h1>Film & Dizi Yazıları</h1>
+            <p>İzleme listeniz için film ve dizi önerileri ile tematik seçkileri keşfedin.</p>
+        </header>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+
+        <section class="movie-list-section" aria-labelledby="all-lists-title">
+            <div class="section-header">
+                <h2 id="all-lists-title">Tüm Yazılar</h2>
+            </div>
+
+            {lists.length > 0 ? (
+                <div class="movie-list-grid">
+                    {lists.map((list) => <MovieListCard list={list} />)}
+                </div>
+            ) : (
+                <div class="article-empty-state">
+                    <h3>Henüz yazı yok</h3>
+                    <p>Film ve dizi seçkileri bu alanda listelenecek.</p>
+                </div>
+            )}
+        </section>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+    </div>
+</BaseLayout>
