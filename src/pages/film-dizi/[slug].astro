@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MovieCard from "../../components/MovieCard.astro";
+import data from "../../data/data.json";
+import { slugify } from "../../utils/slugify.js";
+
+const items = [...data.movies, ...data.series];
+
+export function getStaticPaths() {
+    return [...data.movies, ...data.series].map((item) => ({
+        params: { slug: slugify(item.title) },
+        props: { item }
+    }));
+}
+
+const { item } = Astro.props;
+const relatedItems = items
+    .filter((candidate) => candidate.genre === item.genre && candidate.id !== item.id)
+    .slice(0, 4);
+const typeLabel = item.type === "movie" ? "Film" : "Dizi";
+---
+
+<BaseLayout title={`${item.title} | Popcorn`} description={item.description}>
+    <article class="page-container media-detail">
+        <a class="back-link" href="/film-dizi/">← Filmler & Diziler'e dön</a>
+
+        <div class="media-detail-hero">
+            <div class="detail-poster">
+                <img src={item.image} alt={`${item.title} posteri`} />
+            </div>
+
+            <div class="detail-content">
+                <span class="type-badge">{typeLabel}</span>
+                <h1>{item.title}</h1>
+
+                <dl class="detail-meta">
+                    <div><dt>Yıl</dt><dd>{item.year}</dd></div>
+                    <div><dt>Puan</dt><dd>⭐ {item.rating}</dd></div>
+                    <div><dt>Tür</dt><dd>{item.genre}</dd></div>
+                </dl>
+
+                <p class="detail-description">{item.description}</p>
+
+                <button class="favorite-button detail-favorite" type="button" data-id={item.id}>
+                    🤍 Favorilere Ekle
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+
+        {relatedItems.length > 0 && (
+            <section class="related-section" aria-labelledby="related-title">
+                <div class="section-header">
+                    <h2 id="related-title">Bunlar da ilginizi çekebilir</h2>
+                </div>
+                <div class="media-grid related-grid">
+                    {relatedItems.map((relatedItem) => <MovieCard item={relatedItem} />)}
+                </div>
+            </section>
+        )}
+    </article>
+</BaseLayout>

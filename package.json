@@ -1,0 +1,26 @@
+{
+  "name": "popcorn-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "dev": "astro dev",
+  "build": "astro build",
+  "preview": "astro preview"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArdaSongur/popcorn-main.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ArdaSongur/popcorn-main/issues"
+  },
+  "homepage": "https://github.com/ArdaSongur/popcorn-main#readme",
+  "dependencies": {
+    "astro": "^7.3.1"
+  }
+}

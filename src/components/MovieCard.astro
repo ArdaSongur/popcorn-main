@@ -1,0 +1,48 @@
+---
+import { slugify } from "../utils/slugify.js";
+
+const { item } = Astro.props;
+const itemUrl = `/film-dizi/${slugify(item.title)}/`;
+---
+
+<article class="movie-card">
+
+    <a href={itemUrl} class="movie-card-poster">
+
+        <img
+            src={item.image}
+            alt={`${item.title} posteri`}
+            loading="lazy"
+            onerror="this.onerror=null; this.src='/images/poster-placeholder.svg';"
+
+        />
+
+        <span class="movie-rating">
+            ⭐ {item.rating}
+        </span>
+
+    </a>
+
+    <div class="movie-card-info">
+
+        <h3>
+            <a href={itemUrl}>
+                {item.title}
+            </a>
+        </h3>
+
+        <p>
+            {item.year} • {item.genre}
+        </p>
+
+        <button
+            class="favorite-button"
+            type="button"
+            data-id={item.id}
+        >
+            🤍 Favori
+        </button>
+
+    </div>
+
+</article>

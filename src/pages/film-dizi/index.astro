@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MovieCard from "../../components/MovieCard.astro";
+import data from "../../data/data.json";
+
+const items = [...data.movies, ...data.series];
+const genres = [...new Set(items.map((item) => item.genre))].sort((a, b) =>
+    a.localeCompare(b, "tr")
+);
+---
+
+<BaseLayout
+    title="Filmler & Diziler | Popcorn"
+    description="Popcorn film ve dizi arşivini keşfedin; içerikleri ada, türe ve içerik tipine göre filtreleyin."
+>
+    <div class="page-container media-library">
+        <header class="page-heading">
+            <span class="eyebrow">POPCORN SEÇKİSİ</span>
+            <h1>Filmler & Diziler</h1>
+            <p>İzlemek istediğiniz yapımı arayın, türüne veya içerik tipine göre keşfedin.</p>
+        </header>
+
+        <section class="filter-panel" aria-label="Film ve dizi filtreleri">
+            <label class="search-field">
+                <span>İçerik ara</span>
+                <input id="mediaSearch" type="search" placeholder="Film veya dizi adı..." autocomplete="off" />
+            </label>
+
+            <fieldset class="type-filter">
+                <legend>İçerik tipi</legend>
+                <div class="filter-buttons">
+                    <button type="button" class="is-active" data-type="all" aria-pressed="true">Tümü</button>
+                    <button type="button" data-type="movie" aria-pressed="false">Filmler</button>
+                    <button type="button" data-type="series" aria-pressed="false">Diziler</button>
+                </div>
+            </fieldset>
+
+            <label class="genre-filter">
+                <span>Tür</span>
+                <select id="genreFilter">
+                    <option value="all">Tüm türler</option>
+                    {genres.map((genre) => <option value={genre}>{genre}</option>)}
+                </select>
+            </label>
+        </section>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+
+        <div class="media-results-heading">
+            <h2>Tüm İçerikler</h2>
+            <p id="resultCount" aria-live="polite">{items.length} içerik</p>
+        </div>
+
+        <div class="media-grid" id="mediaGrid">
+            {items.map((item) => (
+                <div
+                    class="media-grid-item"
+                    data-title={item.title.toLocaleLowerCase("tr-TR")}
+                    data-type={item.type}
+                    data-genre={item.genre}
+                >
+                    <MovieCard item={item} />
+                </div>
+            ))}
+        </div>
+
+        <p class="empty-results" id="emptyResults" hidden>
+            Seçtiğiniz filtrelere uygun içerik bulunamadı.
+        </p>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+    </div>
+
+    <script>
+        const searchInput = document.querySelector("#mediaSearch");
+        const genreSelect = document.querySelector("#genreFilter");
+        const typeButtons = [...document.querySelectorAll(".filter-buttons [data-type]")];
+        const cards = [...document.querySelectorAll(".media-grid-item")];
+        const resultCount = document.querySelector("#resultCount");
+        const emptyResults = document.querySelector("#emptyResults");
+        let selectedType = "all";
+
+        const normalize = (value) => value.trim().toLocaleLowerCase("tr-TR");
+
+        const updateResults = () => {
+            const query = normalize(searchInput?.value ?? "");
+            const selectedGenre = genreSelect?.value ?? "all";
+            let visibleCount = 0;
+
+            cards.forEach((card) => {
+                const matchesSearch = card.dataset.title?.includes(query);
+                const matchesType = selectedType === "all" || card.dataset.type === selectedType;
+                const matchesGenre = selectedGenre === "all" || card.dataset.genre === selectedGenre;
+                const isVisible = Boolean(matchesSearch && matchesType && matchesGenre);
+
+                card.hidden = !isVisible;
+                if (isVisible) visibleCount += 1;
+            });
+
+            if (resultCount) resultCount.textContent = `${visibleCount} içerik`;
+            if (emptyResults) emptyResults.hidden = visibleCount !== 0;
+        };
+
+        searchInput?.addEventListener("input", updateResults);
+        genreSelect?.addEventListener("change", updateResults);
+
+        typeButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                selectedType = button.dataset.type ?? "all";
+                typeButtons.forEach((item) => {
+                    const isActive = item === button;
+                    item.classList.toggle("is-active", isActive);
+                    item.setAttribute("aria-pressed", String(isActive));
+                });
+                updateResults();
+            });
+        });
+    </script>
+</BaseLayout>

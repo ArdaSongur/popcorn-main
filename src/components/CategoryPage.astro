@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={`${title} | Popcorn`} description={description}>
+    <div class="page-container category-page">
+        <header class="page-heading">
+            <span class="eyebrow">POPCORN</span>
+            <h1>{title}</h1>
+            <p>{description}</p>
+        </header>
+
+        <div class="ad-placeholder" aria-label="Reklam alanı">
+            Reklam Alanı
+        </div>
+
+        <section class="category-content" aria-labelledby="category-content-title">
+            <div class="section-header">
+                <h2 id="category-content-title">Yeni İçerikler</h2>
+            </div>
+
+            <div class="article-list-placeholder">
+                <div class="article-image-placeholder" aria-hidden="true"></div>
+                <div>
+                    <h3>İçerikler yakında burada</h3>
+                    <p>Bu kategoriye eklenen makaleler bu alanda listelenecek.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</BaseLayout>

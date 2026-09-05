@@ -1,0 +1,43 @@
+---
+import Sidebar from "../components/Sidebar.astro";
+import "../styles/global.css";
+
+const {
+    title = "Popcorn",
+    description = "Film, dizi, astroloji ve lifestyle içerikleri."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+</head>
+
+<body>
+
+    <button class="mobile-menu-button" id="menuButton" aria-label="Menüyü aç">
+        ☰
+    </button>
+
+    <Sidebar />
+
+    <main class="site-content">
+        <slot />
+    </main>
+
+    <script>
+        const button = document.getElementById("menuButton");
+        const sidebar = document.getElementById("sidebar");
+
+        button?.addEventListener("click", () => {
+            sidebar?.classList.toggle("open");
+        });
+    </script>
+
+</body>
+</html>

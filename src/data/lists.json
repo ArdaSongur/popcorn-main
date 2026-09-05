@@ -1,0 +1,38 @@
+{
+    "lists": [
+        {
+            "id": 1,
+            "slug": "tvd-benzeri-diziler",
+            "title": "The Vampire Diaries Sevenler İçin 5 Dizi Önerisi",
+            "cover": "https://image.tmdb.org/t/p/w780/apbrbWs8M9lyOpJYU5WXrpFbk1Z.jpg",
+            "intro": "TVD'nin gizemli atmosferini ve karakter derinliğini özleyenler için, benzer bir his veren birkaç yapım derledim.",
+            "picks": [
+                {
+                    "contentId": 102,
+                    "note": "Gizemli kasaba havası ve iç içe geçen zaman çizgileriyle TVD'nin atmosferine en çok yaklaşan yapım bence."
+                },
+                {
+                    "contentId": 103,
+                    "note": "Doğaüstü olaylar ve arkadaş grubu dinamiği açısından benzer bir enerji taşıyor."
+                },
+                {
+                    "contentId": 105,
+                    "note": "Gizemli kasaba havası ve iç içe geçen zaman çizgileriyle TVD'nin atmosferine en çok yaklaşan yapım bence."
+                }
+                ,
+                {
+                    "contentId": 106,
+                    "note": "Gizemli kasaba havası ve iç içe geçen zaman çizgileriyle TVD'nin atmosferine en çok yaklaşan yapım bence."
+                },
+                {
+                    "contentId": 107,
+                    "note": "Gizemli kasaba havası ve iç içe geçen zaman çizgileriyle TVD'nin atmosferine en çok yaklaşan yapım bence."
+                },
+                {
+                    "contentId": 108,
+                    "note": "Gizemli kasaba havası ve iç içe geçen zaman çizgileriyle TVD'nin atmosferine en çok yaklaşan yapım bence."
+                }
+            ]
+        }
+    ]
+}

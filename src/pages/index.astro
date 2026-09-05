@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MovieCard from "../components/MovieCard.astro";
+import data from "../data/data.json";
+
+const featuredMovies = data.movies.slice(0, 4);
+---
+
+
+<BaseLayout
+    title="Popcorn | Film, Astroloji, Kültür ve Lifestyle"
+    description="Film, dizi, astroloji, yemek tarifleri, kültür sanat, rüya tabirleri ve kişisel gelişim içerikleri."
+>
+
+    <div class="home-container">
+
+        <section class="home-hero">
+
+            <div class="home-hero-content">
+                <span class="home-hero-label">
+                    POPCORN'DA BUGÜN
+                </span>
+
+                <h1>Keşfedecek çok şey var.</h1>
+
+                <p>
+                    Film ve dizilerden günlük burç yorumlarına,
+                    yemek tariflerinden kültür ve sanata kadar
+                    Popcorn'un öne çıkan içeriklerini keşfet.
+                </p>
+            </div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🎬 Filmler & Diziler</h2>
+                <a href="/film-dizi/">Tümünü Gör →</a>
+            </div>
+
+           <div class="placeholder-grid">
+    {featuredMovies.map((movie) => (
+        <MovieCard item={movie} />
+    ))}
+</div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🔮 Günlük Burç Yorumları</h2>
+                <a href="/astroloji/gunluk-burc-yorumlari/">
+                    Bugünün Yorumları →
+                </a>
+            </div>
+
+            <div class="placeholder-card">
+                Bugünün günlük burç içeriği
+            </div>
+
+        </section>
+
+
+        <div class="ad-placeholder">
+            Reklam Alanı
+        </div>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>✨ Astroloji</h2>
+                <a href="/astroloji/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                <div class="placeholder-card">Astroloji İçeriği</div>
+                <div class="placeholder-card">Astroloji İçeriği</div>
+                <div class="placeholder-card">Astroloji İçeriği</div>
+            </div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🎨 Kültür & Sanat</h2>
+                <a href="/kultur-sanat/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                <div class="placeholder-card">İçerik</div>
+                <div class="placeholder-card">İçerik</div>
+                <div class="placeholder-card">İçerik</div>
+            </div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🍴 Yemek Tarifleri</h2>
+                <a href="/yemek-tarifleri/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                <div class="placeholder-card">Tarif</div>
+                <div class="placeholder-card">Tarif</div>
+                <div class="placeholder-card">Tarif</div>
+            </div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🌙 Rüya Tabirleri</h2>
+                <a href="/ruya-tabirleri/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                <div class="placeholder-card">Rüya Tabiri</div>
+                <div class="placeholder-card">Rüya Tabiri</div>
+                <div class="placeholder-card">Rüya Tabiri</div>
+            </div>
+
+        </section>
+
+
+        <section class="home-section">
+
+            <div class="section-header">
+                <h2>🧠 Kişisel Gelişim</h2>
+                <a href="/kisisel-gelisim/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                <div class="placeholder-card">İçerik</div>
+                <div class="placeholder-card">İçerik</div>
+                <div class="placeholder-card">İçerik</div>
+            </div>
+
+        </section>
+
+    </div>
+
+</BaseLayout>

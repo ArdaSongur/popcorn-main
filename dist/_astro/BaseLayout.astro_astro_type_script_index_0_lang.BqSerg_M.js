@@ -1,0 +1,1 @@
+import{t as e}from"./rolldown-runtime.D9-fqq9M.js";var t=e((()=>{var e=document.getElementById(`menuButton`),t=document.getElementById(`sidebar`);e?.addEventListener(`click`,()=>{t?.classList.toggle(`open`)})}));export default t();
