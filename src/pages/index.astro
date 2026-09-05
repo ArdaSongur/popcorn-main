@@ -33,6 +33,11 @@ const articleSections = [
 
     <div class="home-container">
 
+        <aside class="home-welcome" id="homeWelcome" hidden aria-live="polite">
+            <span aria-hidden="true">✦</span>
+            <p>Hoş geldin, <strong id="homeWelcomeUsername"></strong></p>
+        </aside>
+
         <section class="home-hero">
 
             <div class="home-hero-content">
@@ -92,5 +97,40 @@ const articleSections = [
         ))}
 
     </div>
+
+    <script>
+        import { supabase } from "../lib/supabase.js";
+
+        const welcome = document.getElementById("homeWelcome");
+        const welcomeUsername = document.getElementById("homeWelcomeUsername");
+
+        const renderWelcome = async (session) => {
+            if (!session?.user) {
+                if (welcome) welcome.hidden = true;
+                return;
+            }
+
+            const { data: profile } = await supabase
+                .from("profiles")
+                .select("username")
+                .eq("id", session.user.id)
+                .maybeSingle();
+
+            if (!profile?.username) {
+                if (welcome) welcome.hidden = true;
+                return;
+            }
+
+            if (welcomeUsername) welcomeUsername.textContent = `@${profile.username}`;
+            if (welcome) welcome.hidden = false;
+        };
+
+        const { data: { session } } = await supabase.auth.getSession();
+        await renderWelcome(session);
+
+        supabase.auth.onAuthStateChange((_event, nextSession) => {
+            void renderWelcome(nextSession);
+        });
+    </script>
 
 </BaseLayout>

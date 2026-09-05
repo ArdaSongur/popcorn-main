@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MovieCard from "../components/MovieCard.astro";
+import data from "../data/data.json";
+import { slugify } from "../utils/slugify.js";
+
+const items = [...data.movies, ...data.series];
+---
+
+<BaseLayout
+    title="Favorilerim | Popcorn"
+    description="Favori film ve dizilerinizi görüntüleyin."
+>
+    <section class="page-container favorites-page">
+        <header class="page-heading">
+            <span class="eyebrow">KİŞİSEL LİSTEN</span>
+            <h1>Favorilerim</h1>
+            <p>Beğendiğin film ve dizileri burada bir arada bulabilirsin.</p>
+        </header>
+
+        <div class="favorites-status" id="favoritesLoading" role="status">
+            Favoriler yükleniyor…
+        </div>
+
+        <div class="favorites-status" id="favoritesLogin" hidden>
+            <h2>Favorilerini görmek için giriş yap</h2>
+            <p>Kaydettiğin film ve dizilere hesabından ulaşabilirsin.</p>
+            <a class="favorites-action" href="/giris/">Giriş Yap</a>
+        </div>
+
+        <div class="favorites-status" id="favoritesEmpty" hidden>
+            <h2>Henüz favorin yok</h2>
+            <p>Film ve dizi kartlarındaki favori butonuyla listeni oluşturabilirsin.</p>
+            <a class="favorites-action" href="/film-dizi/">Film ve Dizileri Keşfet</a>
+        </div>
+
+        <div class="favorites-status is-error" id="favoritesError" hidden>
+            Favoriler yüklenemedi. Lütfen daha sonra tekrar deneyin.
+        </div>
+
+        <div class="media-grid favorites-grid" id="favoritesGrid" hidden>
+            {items.map((item) => (
+                <div class="favorite-card-item" data-favorite-card={slugify(item.title)} hidden>
+                    <MovieCard item={item} />
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <script>
+        import { supabase } from "../lib/supabase.js";
+        import { getFavoriteSlugs } from "../lib/favorites.js";
+
+        const loading = document.getElementById("favoritesLoading");
+        const login = document.getElementById("favoritesLogin");
+        const empty = document.getElementById("favoritesEmpty");
+        const errorMessage = document.getElementById("favoritesError");
+        const grid = document.getElementById("favoritesGrid");
+        const cards = Array.from(document.querySelectorAll("[data-favorite-card]"));
+
+        const hideStatuses = () => {
+            if (loading) loading.hidden = true;
+            if (login) login.hidden = true;
+            if (empty) empty.hidden = true;
+            if (errorMessage) errorMessage.hidden = true;
+        };
+
+        const updateEmptyState = () => {
+            const visibleCards = cards.filter((card) => !card.hidden);
+            if (grid) grid.hidden = visibleCards.length === 0;
+            if (empty) empty.hidden = visibleCards.length !== 0;
+        };
+
+        const loadFavorites = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            hideStatuses();
+
+            if (!session?.user) {
+                cards.forEach((card) => { card.hidden = true; });
+                if (grid) grid.hidden = true;
+                if (login) login.hidden = false;
+                return;
+            }
+
+            try {
+                const favoriteSlugs = await getFavoriteSlugs(session.user.id);
+                cards.forEach((card) => {
+                    card.hidden = !favoriteSlugs.has(card.dataset.favoriteCard);
+                });
+                updateEmptyState();
+            } catch (error) {
+                console.error("Favoriler yüklenemedi:", error);
+                if (grid) grid.hidden = true;
+                if (errorMessage) errorMessage.hidden = false;
+            }
+        };
+
+        document.addEventListener("popcorn:favorite-removed", (event) => {
+            const card = cards.find((item) => item.dataset.favoriteCard === event.detail?.slug);
+            if (card) card.hidden = true;
+            updateEmptyState();
+        });
+
+        await loadFavorites();
+    </script>
+</BaseLayout>

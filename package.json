@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "astro dev",
-  "build": "astro build",
-  "preview": "astro preview"
-},
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ArdaSongur/popcorn-main.git"
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ArdaSongur/popcorn-main#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.115.0",
     "astro": "^7.3.1"
   }
 }

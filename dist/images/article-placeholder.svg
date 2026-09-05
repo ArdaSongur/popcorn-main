@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
-  <title id="title">Makale görseli yer tutucusu</title>
-  <desc id="description">Popcorn makaleleri için koyu renkli görsel yer tutucusu</desc>
-  <rect width="1200" height="675" fill="#1b1b20"/>
-  <path d="M0 540 280 300l190 170 170-145 560 350H0Z" fill="#292930"/>
-  <circle cx="865" cy="190" r="72" fill="#d5b463" opacity=".55"/>
-  <text x="600" y="590" text-anchor="middle" fill="#a9a9b2" font-size="34" font-family="Arial, sans-serif">POPCORN</text>
-</svg>

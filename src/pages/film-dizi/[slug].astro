@@ -41,8 +41,14 @@ const typeLabel = item.type === "movie" ? "Film" : "Dizi";
 
                 <p class="detail-description">{item.description}</p>
 
-                <button class="favorite-button detail-favorite" type="button" data-id={item.id}>
-                    🤍 Favorilere Ekle
+                <button
+                    class="favorite-button detail-favorite"
+                    type="button"
+                    data-favorite-button
+                    data-media-slug={slugify(item.title)}
+                    aria-pressed="false"
+                >
+                    🤍 Favori
                 </button>
             </div>
         </div>

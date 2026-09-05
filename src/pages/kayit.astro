@@ -1,0 +1,270 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Kayıt Ol | Popcorn"
+    description="Popcorn hesabınızı oluşturun."
+>
+    <section class="auth-page">
+        <div class="auth-card">
+            <div class="auth-heading">
+                <span class="eyebrow">POPCORN'A KATIL</span>
+                <h1>Hesabını oluştur</h1>
+                <p>Keşfetmeye devam etmek için birkaç saniyede kayıt ol.</p>
+            </div>
+
+            <form class="auth-form" id="registerForm" novalidate>
+                <label for="registerUsername">
+                    <span>Kullanıcı adı</span>
+                    <input
+                        id="registerUsername"
+                        name="username"
+                        type="text"
+                        autocomplete="username"
+                        placeholder="kullanici_adi"
+                        minlength="3"
+                        maxlength="24"
+                        pattern="[a-z0-9_]{3,24}"
+                        aria-describedby="usernameHint usernameAvailability"
+                        required
+                    />
+                    <small class="auth-field-hint" id="usernameHint">3-24 karakter; yalnızca küçük harf, rakam ve _</small>
+                    <small class="auth-field-status" id="usernameAvailability" aria-live="polite"></small>
+                </label>
+
+                <label for="registerEmail">
+                    <span>E-posta</span>
+                    <input
+                        id="registerEmail"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="ornek@email.com"
+                        required
+                    />
+                </label>
+
+                <label for="registerPassword">
+                    <span>Şifre</span>
+                    <div class="auth-password-field">
+                        <input
+                            id="registerPassword"
+                            name="password"
+                            type="password"
+                            autocomplete="new-password"
+                            placeholder="En az 8 karakter"
+                            minlength="8"
+                            required
+                        />
+                        <button type="button" data-password-toggle="registerPassword" aria-label="Şifreyi göster">
+                            Göster
+                        </button>
+                    </div>
+                </label>
+
+                <label for="registerPasswordAgain">
+                    <span>Şifre tekrar</span>
+                    <div class="auth-password-field">
+                        <input
+                            id="registerPasswordAgain"
+                            name="passwordAgain"
+                            type="password"
+                            autocomplete="new-password"
+                            placeholder="Şifreni tekrar yaz"
+                            minlength="8"
+                            required
+                        />
+                        <button type="button" data-password-toggle="registerPasswordAgain" aria-label="Şifre tekrarını göster">
+                            Göster
+                        </button>
+                    </div>
+                </label>
+
+                <div class="auth-message" id="registerMessage" role="status" aria-live="polite" hidden></div>
+
+                <button class="auth-submit" id="registerSubmit" type="submit">
+                    Kayıt Ol
+                </button>
+            </form>
+
+            <p class="auth-switch">Zaten hesabın var mı? <a href="/giris/">Giriş yap</a></p>
+        </div>
+    </section>
+
+    <script>
+        import { supabase } from "../lib/supabase.js";
+
+        const form = document.getElementById("registerForm");
+        const usernameInput = document.getElementById("registerUsername");
+        const emailInput = document.getElementById("registerEmail");
+        const passwordInput = document.getElementById("registerPassword");
+        const passwordAgainInput = document.getElementById("registerPasswordAgain");
+        const submitButton = document.getElementById("registerSubmit");
+        const message = document.getElementById("registerMessage");
+        const usernameAvailability = document.getElementById("usernameAvailability");
+        const usernamePattern = /^[a-z0-9_]{3,24}$/;
+        let usernameCheckTimer;
+        let usernameCheckId = 0;
+
+        const showMessage = (text, type) => {
+            if (!message) return;
+            message.textContent = text;
+            message.className = `auth-message is-${type}`;
+            message.hidden = false;
+        };
+
+        const setUsernameStatus = (text, type = "") => {
+            if (!usernameAvailability) return;
+            usernameAvailability.textContent = text;
+            usernameAvailability.className = type
+                ? `auth-field-status is-${type}`
+                : "auth-field-status";
+        };
+
+        const checkUsernameAvailability = async (username) => {
+            if (!usernamePattern.test(username)) return false;
+
+            const checkId = ++usernameCheckId;
+            setUsernameStatus("Uygunluk kontrol ediliyor…", "loading");
+
+            const { data, error } = await supabase.rpc("is_username_available", {
+                candidate: username
+            });
+
+            if (checkId !== usernameCheckId) return false;
+
+            if (error) {
+                setUsernameStatus("Kullanıcı adı şu anda kontrol edilemiyor.", "error");
+                return false;
+            }
+
+            setUsernameStatus(
+                data ? "Kullanıcı adı uygun." : "Bu kullanıcı adı zaten kullanılıyor.",
+                data ? "success" : "error"
+            );
+            return Boolean(data);
+        };
+
+        usernameInput?.addEventListener("input", () => {
+            if (!(usernameInput instanceof HTMLInputElement)) return;
+            window.clearTimeout(usernameCheckTimer);
+            usernameCheckId += 1;
+
+            const username = usernameInput.value.trim();
+            if (!username) {
+                setUsernameStatus("");
+                return;
+            }
+
+            if (!usernamePattern.test(username)) {
+                setUsernameStatus("Kullanıcı adı formatı uygun değil.", "error");
+                return;
+            }
+
+            usernameCheckTimer = window.setTimeout(
+                () => void checkUsernameAvailability(username),
+                450
+            );
+        });
+
+        document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const input = document.getElementById(button.dataset.passwordToggle);
+                if (!(input instanceof HTMLInputElement)) return;
+
+                const willShow = input.type === "password";
+                input.type = willShow ? "text" : "password";
+                button.textContent = willShow ? "Gizle" : "Göster";
+                button.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
+            });
+        });
+
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!(usernameInput instanceof HTMLInputElement)
+                || !(emailInput instanceof HTMLInputElement)
+                || !(passwordInput instanceof HTMLInputElement)
+                || !(passwordAgainInput instanceof HTMLInputElement)
+                || !(submitButton instanceof HTMLButtonElement)) return;
+
+            const username = usernameInput.value.trim();
+
+            if (!usernamePattern.test(username)) {
+                showMessage("Kullanıcı adı 3-24 karakter olmalı ve yalnızca küçük harf, rakam veya _ içermelidir.", "error");
+                usernameInput.focus();
+                return;
+            }
+
+            if (!emailInput.validity.valid) {
+                showMessage("Geçerli bir e-posta adresi girin.", "error");
+                emailInput.focus();
+                return;
+            }
+
+            if (passwordInput.value.length < 8) {
+                showMessage("Şifre en az 8 karakter olmalıdır.", "error");
+                passwordInput.focus();
+                return;
+            }
+
+            if (passwordInput.value !== passwordAgainInput.value) {
+                showMessage("Şifreler eşleşmiyor.", "error");
+                passwordAgainInput.focus();
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Kayıt oluşturuluyor…";
+            showMessage("Kullanıcı adı kontrol ediliyor…", "loading");
+
+            const isUsernameAvailable = await checkUsernameAvailability(username);
+            if (!isUsernameAvailable) {
+                showMessage(
+                    usernameAvailability?.classList.contains("is-error")
+                        ? usernameAvailability.textContent
+                        : "Bu kullanıcı adı kullanılamıyor.",
+                    "error"
+                );
+                submitButton.disabled = false;
+                submitButton.textContent = "Kayıt Ol";
+                return;
+            }
+
+            showMessage("Hesabınız oluşturuluyor…", "loading");
+
+            const { data, error } = await supabase.auth.signUp({
+                email: emailInput.value.trim(),
+                password: passwordInput.value,
+                options: {
+                    data: { username }
+                }
+            });
+
+            if (error) {
+                const { data: isStillAvailable } = await supabase.rpc("is_username_available", {
+                    candidate: username
+                });
+                showMessage(
+                    isStillAvailable === false
+                        ? "Bu kullanıcı adı az önce başka biri tarafından alındı. Lütfen farklı bir kullanıcı adı seçin."
+                        : "Kayıt oluşturulamadı. E-posta adresinizi ve bilgilerinizi kontrol edip tekrar deneyin.",
+                    "error"
+                );
+                submitButton.disabled = false;
+                submitButton.textContent = "Kayıt Ol";
+                return;
+            }
+
+            form.reset();
+            showMessage(
+                data.session
+                    ? "Hesabınız oluşturuldu ve giriş yapıldı."
+                    : "Hesabınız oluşturuldu. Giriş yapmadan önce e-posta adresinize gönderilen doğrulama bağlantısını açın.",
+                "success"
+            );
+            submitButton.textContent = "Kayıt Tamamlandı";
+        });
+    </script>
+</BaseLayout>

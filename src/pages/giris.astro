@@ -1,0 +1,153 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Giriş Yap | Popcorn"
+    description="Popcorn hesabınıza giriş yapın."
+>
+    <section class="auth-page">
+        <div class="auth-card">
+            <div class="auth-heading">
+                <span class="eyebrow">TEKRAR HOŞ GELDİN</span>
+                <h1>Hesabına giriş yap</h1>
+                <p>Popcorn deneyimine kaldığın yerden devam et.</p>
+            </div>
+
+            <form class="auth-form" id="loginForm" novalidate>
+                <label for="loginIdentifier">
+                    <span>E-posta veya Kullanıcı Adı</span>
+                    <input
+                        id="loginIdentifier"
+                        name="identifier"
+                        type="text"
+                        autocomplete="username"
+                        placeholder="ornek@email.com veya kullanici_adi"
+                        required
+                    />
+                </label>
+
+                <label for="loginPassword">
+                    <span>Şifre</span>
+                    <div class="auth-password-field">
+                        <input
+                            id="loginPassword"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="Şifren"
+                            required
+                        />
+                        <button type="button" id="loginPasswordToggle" aria-label="Şifreyi göster">
+                            Göster
+                        </button>
+                    </div>
+                </label>
+
+                <div class="auth-message" id="loginMessage" role="status" aria-live="polite" hidden></div>
+
+                <button class="auth-submit" id="loginSubmit" type="submit">
+                    Giriş Yap
+                </button>
+            </form>
+
+            <p class="auth-switch">Hesabın yok mu? <a href="/kayit/">Kayıt ol</a></p>
+        </div>
+    </section>
+
+    <script>
+        import { supabase } from "../lib/supabase.js";
+
+        const form = document.getElementById("loginForm");
+        const identifierInput = document.getElementById("loginIdentifier");
+        const passwordInput = document.getElementById("loginPassword");
+        const submitButton = document.getElementById("loginSubmit");
+        const passwordToggle = document.getElementById("loginPasswordToggle");
+        const message = document.getElementById("loginMessage");
+
+        const showMessage = (text, type) => {
+            if (!message) return;
+            message.textContent = text;
+            message.className = `auth-message is-${type}`;
+            message.hidden = false;
+        };
+
+        passwordToggle?.addEventListener("click", () => {
+            if (!(passwordInput instanceof HTMLInputElement)) return;
+
+            const willShow = passwordInput.type === "password";
+            passwordInput.type = willShow ? "text" : "password";
+            passwordToggle.textContent = willShow ? "Gizle" : "Göster";
+            passwordToggle.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
+        });
+
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!(identifierInput instanceof HTMLInputElement)
+                || !(passwordInput instanceof HTMLInputElement)
+                || !(submitButton instanceof HTMLButtonElement)) return;
+
+            const identifier = identifierInput.value.trim();
+            const isEmail = identifier.includes("@");
+
+            if (!identifier) {
+                showMessage("E-posta adresinizi veya kullanıcı adınızı girin.", "error");
+                identifierInput.focus();
+                return;
+            }
+
+            if (!isEmail && !/^[a-z0-9_]{3,24}$/.test(identifier.toLowerCase())) {
+                showMessage("Geçerli bir kullanıcı adı girin.", "error");
+                identifierInput.focus();
+                return;
+            }
+
+            if (!passwordInput.value) {
+                showMessage("Şifrenizi girin.", "error");
+                passwordInput.focus();
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Giriş yapılıyor…";
+            showMessage("Bilgileriniz kontrol ediliyor…", "loading");
+
+            let loginError = null;
+
+            if (isEmail) {
+                const { error } = await supabase.auth.signInWithPassword({
+                    email: identifier,
+                    password: passwordInput.value
+                });
+                loginError = error;
+            } else {
+                const { data, error } = await supabase.functions.invoke("login-with-username", {
+                    body: {
+                        username: identifier.toLowerCase(),
+                        password: passwordInput.value
+                    }
+                });
+
+                if (error || !data?.access_token || !data?.refresh_token) {
+                    loginError = error ?? new Error("invalid_credentials");
+                } else {
+                    const { error: sessionError } = await supabase.auth.setSession({
+                        access_token: data.access_token,
+                        refresh_token: data.refresh_token
+                    });
+                    loginError = sessionError;
+                }
+            }
+
+            if (loginError) {
+                showMessage("E-posta/kullanıcı adı veya şifre hatalı.", "error");
+                submitButton.disabled = false;
+                submitButton.textContent = "Giriş Yap";
+                return;
+            }
+
+            window.location.assign("/");
+        });
+    </script>
+</BaseLayout>

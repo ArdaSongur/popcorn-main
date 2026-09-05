@@ -42,6 +42,8 @@ const {
     </main>
 
     <script>
+        import { initFavoriteButtons } from "../lib/favorites.js";
+
         const button = document.getElementById("menuButton");
         const sidebar = document.getElementById("sidebar");
 
@@ -76,6 +78,8 @@ const {
 
             updateThemeButton();
         });
+
+        initFavoriteButtons();
     </script>
 
 </body>

@@ -38,7 +38,9 @@ const itemUrl = `/film-dizi/${slugify(item.title)}/`;
         <button
             class="favorite-button"
             type="button"
-            data-id={item.id}
+            data-favorite-button
+            data-media-slug={slugify(item.title)}
+            aria-pressed="false"
         >
             🤍 Favori
         </button>

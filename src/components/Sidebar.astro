@@ -1,19 +1,96 @@
-<aside class="sidebar" id="sidebar">
-    <a href="/" class="sidebar-logo">
-        🍿 <span>POPCORN</span>
-    </a>
+---
+const pathname = Astro.url.pathname;
 
-    <nav class="sidebar-nav">
-        <a href="/">🏠 Ana Sayfa</a>
-        <a href="/film-dizi/">🎬 Filmler & Diziler</a>
-        <a href="/astroloji/">🔮 Astroloji</a>
-        <a href="/yemek-tarifleri/">🍴 Yemek Tarifleri</a>
-        <a href="/kultur-sanat/">🎨 Kültür & Sanat</a>
-        <a href="/ruya-tabirleri/">🌙 Rüya Tabirleri</a>
-        <a href="/kisisel-gelisim/">🧠 Kişisel Gelişim</a>
-    </nav>
+const isActive = (path) => {
+    if (path === "/") return pathname === "/";
+    return pathname.startsWith(path);
+};
+---
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-main">
+
+        <a href="/" class="sidebar-logo">
+            <span class="sidebar-logo-mark">🍿</span>
+
+            <div class="sidebar-logo-text">
+                <strong>POPCORN</strong>
+                <small>Keşfet. Oku. İzle.</small>
+            </div>
+        </a>
+
+        <div class="sidebar-section-label">
+            KEŞFET
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="/"
+                class:list={["sidebar-link", { active: isActive("/") }]}
+            >
+                <span class="sidebar-icon">⌂</span>
+                <span>Ana Sayfa</span>
+            </a>
+
+            <a
+                href="/film-dizi/"
+                class:list={["sidebar-link", { active: isActive("/film-dizi/") }]}
+            >
+                <span class="sidebar-icon">▶</span>
+                <span>Filmler & Diziler</span>
+            </a>
+
+            <a
+                href="/astroloji/"
+                class:list={["sidebar-link", { active: isActive("/astroloji/") }]}
+            >
+                <span class="sidebar-icon">✦</span>
+                <span>Astroloji</span>
+            </a>
+
+            <a
+                href="/yemek-tarifleri/"
+                class:list={["sidebar-link", { active: isActive("/yemek-tarifleri/") }]}
+            >
+                <span class="sidebar-icon">♨</span>
+                <span>Yemek Tarifleri</span>
+            </a>
+
+            <a
+                href="/kultur-sanat/"
+                class:list={["sidebar-link", { active: isActive("/kultur-sanat/") }]}
+            >
+                <span class="sidebar-icon">◇</span>
+                <span>Kültür & Sanat</span>
+            </a>
+
+            <a
+                href="/ruya-tabirleri/"
+                class:list={["sidebar-link", { active: isActive("/ruya-tabirleri/") }]}
+            >
+                <span class="sidebar-icon">☾</span>
+                <span>Rüya Tabirleri</span>
+            </a>
+
+            <a
+                href="/kisisel-gelisim/"
+                class:list={["sidebar-link", { active: isActive("/kisisel-gelisim/") }]}
+            >
+                <span class="sidebar-icon">◎</span>
+                <span>Kişisel Gelişim</span>
+            </a>
+
+        </nav>
+
+    </div>
+
 
     <div class="sidebar-bottom">
+
+        <div class="sidebar-divider"></div>
+
         <button
             class="theme-toggle"
             id="themeButton"
@@ -24,7 +101,74 @@
             <span data-theme-icon aria-hidden="true">🌙</span>
             <span data-theme-label>Koyu Tema</span>
         </button>
-        <a href="/favorilerim/">❤️ Favorilerim</a>
-        <a href="/giris/">👤 Giriş Yap</a>
+
+        <a href="/favorilerim/" class="sidebar-secondary-link">
+            <span>♡</span>
+            Favorilerim
+        </a>
+
+        <a href="/giris/" class="sidebar-login" id="sidebarGuest">
+            <span>●</span>
+
+            <div>
+                <strong>Giriş Yap</strong>
+                <small>Favorilerini ve yorumlarını yönet</small>
+            </div>
+        </a>
+
+        <div class="sidebar-authenticated" id="sidebarAuthenticated" hidden>
+            <a class="sidebar-account" href="/hesabim/">
+                <span aria-hidden="true">●</span>
+
+                <div>
+                    <strong>Hesabım</strong>
+                    <small id="sidebarUserEmail"></small>
+                </div>
+            </a>
+
+            <button class="sidebar-logout" id="sidebarLogout" type="button">
+                Çıkış Yap
+            </button>
+        </div>
+
     </div>
+
 </aside>
+
+<script>
+    import { supabase } from "../lib/supabase.js";
+
+    const guestLink = document.getElementById("sidebarGuest");
+    const authenticatedArea = document.getElementById("sidebarAuthenticated");
+    const userEmail = document.getElementById("sidebarUserEmail");
+    const logoutButton = document.getElementById("sidebarLogout");
+
+    const renderSession = (session) => {
+        const isSignedIn = Boolean(session?.user);
+
+        if (guestLink) guestLink.hidden = isSignedIn;
+        if (authenticatedArea) authenticatedArea.hidden = !isSignedIn;
+        if (userEmail) userEmail.textContent = session?.user?.email ?? "";
+    };
+
+    const { data: { session } } = await supabase.auth.getSession();
+    renderSession(session);
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+        renderSession(nextSession);
+    });
+
+    logoutButton?.addEventListener("click", async () => {
+        logoutButton.disabled = true;
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            logoutButton.disabled = false;
+            window.alert("Çıkış yapılırken bir hata oluştu. Lütfen tekrar deneyin.");
+        }
+    });
+
+    document.addEventListener("astro:before-swap", () => {
+        authListener.subscription.unsubscribe();
+    }, { once: true });
+</script>
