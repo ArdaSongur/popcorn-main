@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Popcorn | Filmler</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <script>
+    if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-mode");
+    }
+</script>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        🍿 POPCORN
+    </a>
+
+    <nav>
+
+        <a href="index.html">
+            Ana Sayfa
+        </a>
+
+        <a href="movies.html" class="active">
+            Filmler
+        </a>
+
+        <a href="series.html">
+            Diziler
+        </a>
+
+        <a href="lists.html">Yazılar</a>
+
+    </nav>
+
+
+    <div class="nav-right">
+
+        <button
+            id="themeButton"
+            class="icon-button"
+        >
+            🌙
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="page-container">
+
+
+    <div class="page-heading">
+
+        <span>🎬 POPCORN MOVIES</span>
+
+        <h1>Filmler</h1>
+
+        <p>
+            İzlemek için yeni bir film mi arıyorsun?
+            Popüler yapımlara göz at.
+        </p>
+
+    </div>
+
+
+    <div class="filter-area">
+
+        <input
+            type="text"
+            id="movieSearch"
+            placeholder="Film ara..."
+        >
+
+
+        <select id="genreFilter">
+
+            <option value="all">
+                Tüm Türler
+            </option>
+
+            <option value="Bilim Kurgu">
+                Bilim Kurgu
+            </option>
+
+            <option value="Aksiyon">
+                Aksiyon
+            </option>
+
+            <option value="Dram">
+                Dram
+            </option>
+
+            <option value="Komedi">
+                Komedi
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        id="allMovies"
+        class="movie-grid"
+    ></div>
+
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+        🍿 POPCORN
+    </div>
+
+    <p>
+        Film, dizi ve eğlence dünyasından öneriler.
+    </p>
+
+    <div class="footer-links">
+
+        <a href="index.html">
+            Ana Sayfa
+        </a>
+
+        <a href="movies.html">
+            Filmler
+        </a>
+
+        <a href="series.html">
+            Diziler
+        </a>
+
+    </div>
+
+</footer>
+
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
