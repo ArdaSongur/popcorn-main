@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import ArticleContent from "../../components/ArticleContent.astro";
+import CommentSection from "../../components/CommentSection.astro";
 import articles from "../../data/articles.json";
 import {
     categoryLabels,
@@ -76,11 +77,6 @@ const relatedArticles = articles
             </section>
         )}
 
-        <section class="comments-placeholder" aria-labelledby="comments-title">
-            <h2 id="comments-title">Yorumlar</h2>
-            <div class="comments-mount" data-article-id={article.id}>
-                <p>Yorum alanı ileride burada yer alacak.</p>
-            </div>
-        </section>
+        <CommentSection contentKey={`article:${article.category}:${article.slug}`} />
     </article>
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CommentSection from "../../../components/CommentSection.astro";
 import listsData from "../../../data/lists.json";
 import data from "../../../data/data.json";
 import { slugify } from "../../../utils/slugify.js";
@@ -81,5 +82,7 @@ const picks = list.picks
         </section>
 
         <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+
+        <CommentSection contentKey={`article:film-dizi:${list.slug}`} />
     </article>
 </BaseLayout>

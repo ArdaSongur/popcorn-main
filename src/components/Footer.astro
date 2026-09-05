@@ -1,0 +1,26 @@
+---
+const currentYear = new Date().getFullYear();
+
+const links = [
+    { href: "/hakkimizda/", label: "Hakkımızda" },
+    { href: "/iletisim/", label: "İletişim" },
+    { href: "/gizlilik-politikasi/", label: "Gizlilik Politikası" },
+    { href: "/kullanim-sartlari/", label: "Kullanım Şartları" },
+    { href: "/cerez-politikasi/", label: "Çerez Politikası" }
+];
+---
+
+<footer class="site-footer">
+    <div class="site-footer-inner">
+        <a class="site-footer-brand" href="/" aria-label="Popcorn ana sayfa">
+            <span aria-hidden="true">🍿</span>
+            <strong>POPCORN</strong>
+        </a>
+
+        <nav class="site-footer-nav" aria-label="Kurumsal ve yasal bağlantılar">
+            {links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </nav>
+
+        <p>© {currentYear} Popcorn</p>
+    </div>
+</footer>

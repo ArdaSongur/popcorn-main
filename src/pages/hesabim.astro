@@ -4,96 +4,145 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
     title="Hesabım | Popcorn"
-    description="Popcorn hesap bilgilerinizi yönetin."
+    description="Popcorn profil, hesap ve güvenlik ayarlarınızı yönetin."
 >
-    <section class="page-container account-page">
+    <section class="page-container account-page account-page-premium">
         <div class="account-loading" id="accountLoading" role="status">
             Hesap bilgileri yükleniyor…
         </div>
 
         <div id="accountContent" hidden>
-            <header class="account-hero">
-                <div>
+            <header class="account-identity">
+                <div class="account-avatar" id="accountAvatar" aria-hidden="true">P</div>
+                <div class="account-identity-copy">
                     <span class="eyebrow">POPCORN HESABIN</span>
-                    <h1 id="accountUsername">@kullanici</h1>
-                    <p id="accountEmail"></p>
-                    <small id="accountCreatedAt"></small>
-                </div>
-
-                <div class="account-hero-actions">
-                    <a href="/favorilerim/">Favorilerime Git</a>
-                    <button id="accountLogout" type="button">Çıkış Yap</button>
+                    <h1 id="accountDisplayName">Kullanıcı</h1>
+                    <p id="accountUsername">@kullanici</p>
                 </div>
             </header>
 
             <div class="auth-message account-message" id="accountMessage" role="status" aria-live="polite" hidden></div>
 
-            <div class="account-settings">
-                <form class="account-setting-card auth-form" id="usernameForm" novalidate>
-                    <div>
-                        <h2>Kullanıcı adı</h2>
-                        <p>3-24 karakter; yalnızca küçük harf, rakam ve _ kullan.</p>
-                    </div>
-                    <label for="accountUsernameInput">
-                        <span>Yeni kullanıcı adı</span>
-                        <input
-                            id="accountUsernameInput"
-                            type="text"
-                            autocomplete="username"
-                            minlength="3"
-                            maxlength="24"
-                            pattern="[a-z0-9_]{3,24}"
-                            required
-                        />
-                    </label>
-                    <button class="auth-submit" type="submit">Kullanıcı Adını Güncelle</button>
-                </form>
+            <div class="account-dashboard">
+                <div class="account-primary-column">
+                    <section class="account-panel" aria-labelledby="profilePanelTitle">
+                        <header class="account-panel-heading">
+                            <span class="account-panel-icon" aria-hidden="true">◇</span>
+                            <div>
+                                <span class="account-section-label">PROFİL</span>
+                                <h2 id="profilePanelTitle">Seni nasıl tanıyalım?</h2>
+                                <p>Popcorn’da görünen adını ve giriş kullanıcı adını yönet.</p>
+                            </div>
+                        </header>
 
-                <form class="account-setting-card auth-form" id="emailForm" novalidate>
-                    <div>
-                        <h2>E-posta</h2>
-                        <p>Yeni adresin için doğrulama gerekebilir.</p>
-                    </div>
-                    <label for="accountEmailInput">
-                        <span>Yeni e-posta</span>
-                        <input id="accountEmailInput" type="email" autocomplete="email" required />
-                    </label>
-                    <button class="auth-submit" type="submit">E-postayı Güncelle</button>
-                </form>
+                        <form class="account-form" id="profileForm" novalidate>
+                            <div class="account-form-grid">
+                                <label for="accountDisplayNameInput">
+                                    <span>Görünen Ad</span>
+                                    <input id="accountDisplayNameInput" type="text" autocomplete="name" maxlength="50" placeholder="Örn. Arda" />
+                                    <small>İsteğe bağlı, en fazla 50 karakter.</small>
+                                </label>
 
-                <form class="account-setting-card auth-form" id="passwordForm" novalidate>
-                    <div>
-                        <h2>Şifre</h2>
-                        <p>Yeni şifren en az 8 karakter olmalı.</p>
-                    </div>
-                    <label for="accountPasswordInput">
-                        <span>Yeni şifre</span>
-                        <div class="auth-password-field">
-                            <input
-                                id="accountPasswordInput"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                required
-                            />
-                            <button type="button" data-account-password-toggle="accountPasswordInput" aria-label="Şifreyi göster">Göster</button>
+                                <label for="accountUsernameInput">
+                                    <span>Kullanıcı Adı</span>
+                                    <div class="account-input-prefix">
+                                        <span aria-hidden="true">@</span>
+                                        <input
+                                            id="accountUsernameInput"
+                                            type="text"
+                                            autocomplete="username"
+                                            minlength="3"
+                                            maxlength="24"
+                                            pattern="[a-z0-9_]{3,24}"
+                                            required
+                                        />
+                                    </div>
+                                    <small>3-24 karakter; küçük harf, rakam ve _ kullan.</small>
+                                </label>
+                            </div>
+                            <button class="account-primary-button" type="submit">Kaydet</button>
+                        </form>
+                    </section>
+
+                    <section class="account-panel" aria-labelledby="accountPanelTitle">
+                        <header class="account-panel-heading">
+                            <span class="account-panel-icon" aria-hidden="true">✉</span>
+                            <div>
+                                <span class="account-section-label">HESAP</span>
+                                <h2 id="accountPanelTitle">Hesap bilgileri</h2>
+                                <p>E-posta adresini güncelle ve üyelik bilgilerini görüntüle.</p>
+                            </div>
+                        </header>
+
+                        <form class="account-form" id="emailForm" novalidate>
+                            <label for="accountEmailInput">
+                                <span>E-posta</span>
+                                <input id="accountEmailInput" type="email" autocomplete="email" required />
+                                <small>Adres değişikliğinde e-posta doğrulaması gerekebilir.</small>
+                            </label>
+                            <button class="account-secondary-button" type="submit">E-postayı Güncelle</button>
+                        </form>
+
+                        <div class="account-meta-row">
+                            <span>Hesap oluşturma tarihi</span>
+                            <strong id="accountCreatedAt">—</strong>
                         </div>
-                    </label>
-                    <label for="accountPasswordAgainInput">
-                        <span>Yeni şifre tekrar</span>
-                        <div class="auth-password-field">
-                            <input
-                                id="accountPasswordAgainInput"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                required
-                            />
-                            <button type="button" data-account-password-toggle="accountPasswordAgainInput" aria-label="Şifreyi göster">Göster</button>
+                    </section>
+
+                    <section class="account-panel" aria-labelledby="securityPanelTitle">
+                        <header class="account-panel-heading">
+                            <span class="account-panel-icon" aria-hidden="true">⌁</span>
+                            <div>
+                                <span class="account-section-label">GÜVENLİK</span>
+                                <h2 id="securityPanelTitle">Şifre ve oturum güvenliği</h2>
+                                <p>Şifreni yenile veya hesabındaki tüm aktif oturumları kapat.</p>
+                            </div>
+                        </header>
+
+                        <form class="account-form" id="passwordForm" novalidate>
+                            <label for="accountPasswordInput">
+                                <span>Yeni şifre</span>
+                                <div class="auth-password-field account-password-field">
+                                    <input id="accountPasswordInput" type="password" autocomplete="new-password" minlength="8" required />
+                                    <button type="button" data-account-password-toggle="accountPasswordInput" aria-label="Şifreyi göster">Göster</button>
+                                </div>
+                                <small>En az 8 karakter kullan.</small>
+                            </label>
+                            <button class="account-secondary-button" type="submit">Şifreyi Değiştir</button>
+                        </form>
+
+                        <div class="account-danger-row">
+                            <div>
+                                <strong>Tüm cihazlardan çıkış yap</strong>
+                                <p>Telefon, tablet ve diğer tarayıcılardaki oturumlarını sonlandırır.</p>
+                            </div>
+                            <button class="account-danger-button" id="accountGlobalLogout" type="button">Tüm Cihazlardan Çıkış Yap</button>
                         </div>
-                    </label>
-                    <button class="auth-submit" type="submit">Şifreyi Güncelle</button>
-                </form>
+                    </section>
+                </div>
+
+                <aside class="account-side-column" aria-label="Hesap kısayolları">
+                    <section class="account-panel account-compact-panel">
+                        <span class="account-section-label">KISAYOLLAR</span>
+                        <h2>Kaydettiklerin</h2>
+                        <p>Beğendiğin film ve dizileri tek yerde gör.</p>
+                        <a class="account-link-button" href="/favorilerim/">
+                            <span aria-hidden="true">♡</span>
+                            Favorilerime Git
+                            <span aria-hidden="true">→</span>
+                        </a>
+                    </section>
+
+                    <section class="account-panel account-compact-panel account-session-panel">
+                        <span class="account-section-label">OTURUM</span>
+                        <h2>Bu cihaz</h2>
+                        <p>Yalnızca bu tarayıcıdaki Popcorn oturumunu kapat.</p>
+                        <button class="account-logout-button" id="accountLogout" type="button">
+                            <span aria-hidden="true">↪</span>
+                            Çıkış Yap
+                        </button>
+                    </section>
+                </aside>
             </div>
         </div>
     </section>
@@ -104,19 +153,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         const usernamePattern = /^[a-z0-9_]{3,24}$/;
         const loading = document.getElementById("accountLoading");
         const content = document.getElementById("accountContent");
+        const displayNameHeading = document.getElementById("accountDisplayName");
         const usernameHeading = document.getElementById("accountUsername");
-        const emailText = document.getElementById("accountEmail");
+        const avatar = document.getElementById("accountAvatar");
         const createdAtText = document.getElementById("accountCreatedAt");
-        const usernameForm = document.getElementById("usernameForm");
+        const profileForm = document.getElementById("profileForm");
         const emailForm = document.getElementById("emailForm");
         const passwordForm = document.getElementById("passwordForm");
+        const displayNameInput = document.getElementById("accountDisplayNameInput");
         const usernameInput = document.getElementById("accountUsernameInput");
         const emailInput = document.getElementById("accountEmailInput");
         const passwordInput = document.getElementById("accountPasswordInput");
-        const passwordAgainInput = document.getElementById("accountPasswordAgainInput");
         const message = document.getElementById("accountMessage");
         const logoutButton = document.getElementById("accountLogout");
+        const globalLogoutButton = document.getElementById("accountGlobalLogout");
         let currentUser;
+        let currentProfile;
 
         const showMessage = (text, type) => {
             if (!message) return;
@@ -131,6 +183,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             form.querySelectorAll("input, button").forEach((control) => {
                 control.disabled = isLoading;
             });
+            form.setAttribute("aria-busy", String(isLoading));
+        };
+
+        const renderIdentity = (profile) => {
+            const displayName = profile.display_name?.trim() || profile.username;
+            if (displayNameHeading) displayNameHeading.textContent = displayName;
+            if (usernameHeading) usernameHeading.textContent = `@${profile.username}`;
+            if (avatar) avatar.textContent = displayName.charAt(0).toLocaleUpperCase("tr-TR") || "P";
         };
 
         const { data: { session } } = await supabase.auth.getSession();
@@ -141,67 +201,83 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             currentUser = session.user;
             const { data: profile, error } = await supabase
                 .from("profiles")
-                .select("username")
+                .select("username, display_name")
                 .eq("id", currentUser.id)
                 .single();
 
             if (error || !profile) {
-                if (loading) loading.textContent = "Hesap bilgileri yüklenemedi. Lütfen daha sonra tekrar deneyin.";
+                if (loading) loading.textContent = "Hesap bilgileri yüklenemedi. SQL migration'ın çalıştırıldığından emin olun ve tekrar deneyin.";
             } else {
-                if (usernameHeading) usernameHeading.textContent = `@${profile.username}`;
-                if (emailText) emailText.textContent = currentUser.email ?? "";
-                if (createdAtText) {
-                    const date = new Intl.DateTimeFormat("tr-TR", { dateStyle: "long" })
-                        .format(new Date(currentUser.created_at));
-                    createdAtText.textContent = `Hesap oluşturma tarihi: ${date}`;
-                }
+                currentProfile = profile;
+                renderIdentity(profile);
+                if (displayNameInput instanceof HTMLInputElement) displayNameInput.value = profile.display_name ?? "";
                 if (usernameInput instanceof HTMLInputElement) usernameInput.value = profile.username;
                 if (emailInput instanceof HTMLInputElement) emailInput.value = currentUser.email ?? "";
+                if (createdAtText) {
+                    createdAtText.textContent = new Intl.DateTimeFormat("tr-TR", { dateStyle: "long" })
+                        .format(new Date(currentUser.created_at));
+                }
                 if (loading) loading.hidden = true;
                 if (content) content.hidden = false;
             }
         }
 
-        usernameForm?.addEventListener("submit", async (event) => {
+        profileForm?.addEventListener("submit", async (event) => {
             event.preventDefault();
-            if (!(usernameInput instanceof HTMLInputElement) || !currentUser) return;
+            if (!(displayNameInput instanceof HTMLInputElement)
+                || !(usernameInput instanceof HTMLInputElement)
+                || !currentUser
+                || !currentProfile) return;
 
+            const displayName = displayNameInput.value.trim();
             const username = usernameInput.value.trim();
+
+            if (Array.from(displayName).length > 50) {
+                showMessage("Görünen ad en fazla 50 karakter olabilir.", "error");
+                displayNameInput.focus();
+                return;
+            }
+
             if (!usernamePattern.test(username)) {
                 showMessage("Kullanıcı adı 3-24 karakter olmalı ve yalnızca küçük harf, rakam veya _ içermelidir.", "error");
                 usernameInput.focus();
                 return;
             }
 
-            setFormLoading(usernameForm, true);
-            showMessage("Kullanıcı adı kontrol ediliyor…", "loading");
+            setFormLoading(profileForm, true);
+            showMessage("Profil bilgileriniz kontrol ediliyor…", "loading");
 
-            const { data: isAvailable, error: availabilityError } = await supabase
-                .rpc("is_username_available", { candidate: username });
+            if (username !== currentProfile.username) {
+                const { data: isAvailable, error: availabilityError } = await supabase
+                    .rpc("is_username_available", { candidate: username });
 
-            if (availabilityError || !isAvailable) {
-                showMessage(
-                    availabilityError
-                        ? "Kullanıcı adı şu anda kontrol edilemiyor."
-                        : "Bu kullanıcı adı zaten kullanılıyor.",
-                    "error"
-                );
-                setFormLoading(usernameForm, false);
-                return;
+                if (availabilityError || !isAvailable) {
+                    showMessage(
+                        availabilityError
+                            ? "Kullanıcı adı şu anda kontrol edilemiyor. Lütfen tekrar deneyin."
+                            : "Bu kullanıcı adı zaten kullanılıyor.",
+                        "error"
+                    );
+                    setFormLoading(profileForm, false);
+                    return;
+                }
             }
 
+            const nextProfile = { username, display_name: displayName || null };
             const { error } = await supabase
                 .from("profiles")
-                .update({ username })
+                .update(nextProfile)
                 .eq("id", currentUser.id);
 
             if (error) {
-                showMessage("Kullanıcı adı güncellenemedi. Başka bir kullanıcı adı deneyin.", "error");
+                showMessage("Profil bilgileriniz güncellenemedi. Lütfen tekrar deneyin.", "error");
             } else {
-                if (usernameHeading) usernameHeading.textContent = `@${username}`;
-                showMessage("Kullanıcı adınız güncellendi.", "success");
+                currentProfile = nextProfile;
+                renderIdentity(nextProfile);
+                document.dispatchEvent(new CustomEvent("popcorn:profile-updated", { detail: nextProfile }));
+                showMessage("Profil bilgileriniz kaydedildi.", "success");
             }
-            setFormLoading(usernameForm, false);
+            setFormLoading(profileForm, false);
         });
 
         emailForm?.addEventListener("submit", async (event) => {
@@ -216,12 +292,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
             setFormLoading(emailForm, true);
             showMessage("E-posta adresiniz güncelleniyor…", "loading");
-            const { data, error } = await supabase.auth.updateUser({ email: emailInput.value.trim() });
+            const { error } = await supabase.auth.updateUser({ email: emailInput.value.trim() });
 
             if (error) {
                 showMessage("E-posta adresi güncellenemedi. Lütfen tekrar deneyin.", "error");
             } else {
-                if (emailText && data.user.email) emailText.textContent = data.user.email;
                 showMessage("E-posta değişikliği alındı. Gönderilen doğrulama bağlantısını açmanız gerekebilir.", "success");
             }
             setFormLoading(emailForm, false);
@@ -229,18 +304,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         passwordForm?.addEventListener("submit", async (event) => {
             event.preventDefault();
-            if (!(passwordInput instanceof HTMLInputElement)
-                || !(passwordAgainInput instanceof HTMLInputElement)) return;
+            if (!(passwordInput instanceof HTMLInputElement)) return;
 
             if (passwordInput.value.length < 8) {
                 showMessage("Yeni şifre en az 8 karakter olmalıdır.", "error");
                 passwordInput.focus();
-                return;
-            }
-
-            if (passwordInput.value !== passwordAgainInput.value) {
-                showMessage("Yeni şifreler eşleşmiyor.", "error");
-                passwordAgainInput.focus();
                 return;
             }
 
@@ -264,19 +332,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 const willShow = input.type === "password";
                 input.type = willShow ? "text" : "password";
                 button.textContent = willShow ? "Gizle" : "Göster";
+                button.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
             });
+        });
+
+        globalLogoutButton?.addEventListener("click", async () => {
+            if (!(globalLogoutButton instanceof HTMLButtonElement)) return;
+            const confirmed = window.confirm("Tüm cihazlardaki Popcorn oturumlarınız kapatılsın mı?");
+            if (!confirmed) return;
+
+            globalLogoutButton.disabled = true;
+            globalLogoutButton.textContent = "Oturumlar kapatılıyor…";
+            showMessage("Tüm cihazlardaki oturumlarınız güvenli şekilde kapatılıyor…", "loading");
+            const { error } = await supabase.auth.signOut({ scope: "global" });
+
+            if (error) {
+                globalLogoutButton.disabled = false;
+                globalLogoutButton.textContent = "Tüm Cihazlardan Çıkış Yap";
+                showMessage("Tüm cihazlardan çıkış yapılamadı. Lütfen tekrar deneyin.", "error");
+                return;
+            }
+            window.location.replace("/");
         });
 
         logoutButton?.addEventListener("click", async () => {
             if (!(logoutButton instanceof HTMLButtonElement)) return;
             logoutButton.disabled = true;
-            const { error } = await supabase.auth.signOut();
+            const { error } = await supabase.auth.signOut({ scope: "local" });
             if (error) {
                 logoutButton.disabled = false;
                 showMessage("Çıkış yapılamadı. Lütfen tekrar deneyin.", "error");
                 return;
             }
-            window.location.assign("/giris/");
+            window.location.replace("/");
         });
     </script>
 </BaseLayout>

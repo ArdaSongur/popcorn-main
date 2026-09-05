@@ -1,0 +1,49 @@
+---
+const pathname = Astro.url.pathname;
+
+const links = [
+    { href: "/hakkimizda/", desktopLabel: "Hakkımızda", mobileLabel: "Hakkımızda" },
+    { href: "/iletisim/", desktopLabel: "İletişim", mobileLabel: "İletişim" },
+    { href: "/gizlilik-politikasi/", desktopLabel: "Gizlilik", mobileLabel: "Gizlilik Politikası" },
+    { href: "/kullanim-sartlari/", desktopLabel: "Şartlar", mobileLabel: "Kullanım Şartları" },
+    { href: "/cerez-politikasi/", desktopLabel: "Çerezler", mobileLabel: "Çerez Politikası" }
+];
+
+const isActive = (href) => {
+    const pathWithoutTrailingSlash = href.replace(/\/$/, "");
+    return pathname === pathWithoutTrailingSlash || pathname.startsWith(href);
+};
+
+const hasActiveLink = links.some((link) => isActive(link.href));
+---
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <nav class="topbar-nav" aria-label="Kurumsal bağlantılar">
+            {links.map((link) => (
+                <a
+                    href={link.href}
+                    class:list={{ active: isActive(link.href) }}
+                    aria-current={isActive(link.href) ? "page" : undefined}
+                >
+                    {link.desktopLabel}
+                </a>
+            ))}
+        </nav>
+
+        <details class:list={["topbar-menu", { active: hasActiveLink }]}>
+            <summary>Kurumsal <span aria-hidden="true">⌄</span></summary>
+            <nav aria-label="Mobil kurumsal bağlantılar">
+                {links.map((link) => (
+                    <a
+                        href={link.href}
+                        class:list={{ active: isActive(link.href) }}
+                        aria-current={isActive(link.href) ? "page" : undefined}
+                    >
+                        {link.mobileLabel}
+                    </a>
+                ))}
+            </nav>
+        </details>
+    </div>
+</header>

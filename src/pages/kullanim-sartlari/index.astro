@@ -1,0 +1,57 @@
+---
+import StaticContentPage from "../../components/StaticContentPage.astro";
+const updated = { datetime: "2026-09-05", label: "Son güncelleme: 5 Eylül 2026" };
+---
+
+<StaticContentPage
+    title="Kullanım Şartları | Popcorn"
+    description="Popcorn içeriklerini, kullanıcı hesaplarını ve site özelliklerini kullanmaya ilişkin temel koşullar."
+    eyebrow="KULLANIM"
+    intro="Popcorn'u kullanırken geçerli olan temel kurallar ve hizmetin kapsamı bu sayfada açıklanır."
+    {updated}
+>
+    <section>
+        <h2>Site kullanımı</h2>
+        <p>
+            Popcorn'u yalnızca hukuka uygun amaçlarla ve diğer kullanıcıların deneyimine zarar vermeden
+            kullanmanız beklenir. Siteye erişmeniz bu koşulları kabul ettiğiniz anlamına gelir.
+        </p>
+    </section>
+
+    <section>
+        <h2>Kullanıcı hesapları</h2>
+        <p>
+            Hesap bilgilerinizin doğru ve güncel tutulmasından, giriş bilgilerinizin gizliliğinden ve
+            hesabınız üzerinden gerçekleşen işlemlerden siz sorumlusunuz. Yetkisiz kullanım şüphesi
+            durumunda şifrenizi değiştirmeniz önerilir.
+        </p>
+    </section>
+
+    <section>
+        <h2>İçeriklerin kapsamı</h2>
+        <p>
+            Popcorn'daki içerikler genel bilgi, keşif ve eğlence amacıyla sunulur. Özellikle astroloji,
+            rüya tabirleri ve kişisel gelişim içerikleri kesin sonuç vadetmez; tıbbi, hukuki, finansal
+            veya başka bir profesyonel tavsiyenin yerine geçmez.
+        </p>
+    </section>
+
+    <section>
+        <h2>Yasaklı davranışlar</h2>
+        <ul>
+            <li>Siteye, hesaplara veya teknik altyapıya yetkisiz erişim girişiminde bulunmak</li>
+            <li>Hizmetin çalışmasını bozmak, kötü amaçlı kod iletmek veya otomatik şekilde aşırı yük oluşturmak</li>
+            <li>Başkalarının haklarını ihlal eden, yanıltıcı ya da hukuka aykırı faaliyet yürütmek</li>
+            <li>Site içeriğini izin verilmeyen bir amaçla çoğaltmak veya yanıltıcı biçimde kullanmak</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Hizmette değişiklikler</h2>
+        <p>
+            İçerikler, özellikler ve bu şartlar zaman içinde değiştirilebilir, geçici olarak durdurulabilir
+            veya kaldırılabilir. Önemli güncellemeler bu sayfada yayımlanır. Sorularınız için iletişim
+            kanalı yayınlandığında <a href="/iletisim/">İletişim</a> sayfasını kullanabilirsiniz.
+        </p>
+    </section>
+</StaticContentPage>

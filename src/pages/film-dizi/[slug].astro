@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import MovieCard from "../../components/MovieCard.astro";
+import CommentSection from "../../components/CommentSection.astro";
 import data from "../../data/data.json";
 import { slugify } from "../../utils/slugify.js";
 
@@ -26,7 +27,13 @@ const typeLabel = item.type === "movie" ? "Film" : "Dizi";
 
         <div class="media-detail-hero">
             <div class="detail-poster">
-                <img src={item.image} alt={`${item.title} posteri`} />
+                <img
+                    src={item.image || "/images/poster-placeholder.svg"}
+                    alt={`${item.title} posteri`}
+                    width="500"
+                    height="750"
+                    onerror="this.onerror=null; this.src='/images/poster-placeholder.svg';"
+                />
             </div>
 
             <div class="detail-content">
@@ -65,5 +72,7 @@ const typeLabel = item.type === "movie" ? "Film" : "Dizi";
                 </div>
             </section>
         )}
+
+        <CommentSection contentKey={`film-dizi:${slugify(item.title)}`} />
     </article>
 </BaseLayout>

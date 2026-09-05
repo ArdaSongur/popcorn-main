@@ -1,0 +1,70 @@
+---
+const { contentKey } = Astro.props;
+
+if (!contentKey || !String(contentKey).trim()) {
+    throw new Error("CommentSection için geçerli bir contentKey gereklidir.");
+}
+---
+
+<section
+    class="comment-section"
+    data-comment-section
+    data-content-key={String(contentKey).trim()}
+    aria-labelledby={`comments-${String(contentKey).replace(/[^a-z0-9]+/gi, "-")}`}
+>
+    <header class="comment-section-header">
+        <div>
+            <span class="eyebrow">TOPLULUK</span>
+            <h2 id={`comments-${String(contentKey).replace(/[^a-z0-9]+/gi, "-")}`}>Yorumlar</h2>
+        </div>
+        <span class="comment-count" data-comment-count aria-label="Yorum sayısı">0</span>
+    </header>
+
+    <div class="comment-load-status" data-comment-load-status role="status">
+        Yorumlar yükleniyor…
+    </div>
+
+    <div class="comment-list" data-comment-list aria-live="polite"></div>
+
+    <div class="comment-empty" data-comment-empty hidden>
+        <strong>Henüz yorum yok.</strong>
+        <p>İlk yorumu sen yap.</p>
+    </div>
+
+    <aside class="comment-guest" data-comment-guest hidden>
+        <p>Yorum yapmak için hesabına giriş yap.</p>
+        <a href="/giris/">Giriş Yap →</a>
+    </aside>
+
+    <form class="comment-form" data-comment-form hidden novalidate>
+        <label>
+            <span>Yorumun</span>
+            <textarea
+                data-comment-textarea
+                name="body"
+                rows="5"
+                minlength="2"
+                maxlength="1000"
+                placeholder="Düşüncelerini paylaş…"
+                required
+            ></textarea>
+        </label>
+
+        <div class="comment-form-footer">
+            <span class="comment-character-count" aria-live="polite">
+                <span data-comment-character-count>0</span>/1000
+            </span>
+            <button type="submit" data-comment-submit disabled>Yorum Gönder</button>
+        </div>
+
+        <p class="comment-form-status" data-comment-form-status role="status" hidden></p>
+    </form>
+
+    <p class="comment-action-status" data-comment-action-status role="status" hidden></p>
+</section>
+
+<script>
+    import { initCommentSections } from "../lib/comments.js";
+
+    initCommentSections();
+</script>

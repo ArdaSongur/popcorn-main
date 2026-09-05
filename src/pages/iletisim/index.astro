@@ -1,0 +1,43 @@
+---
+import StaticContentPage from "../../components/StaticContentPage.astro";
+import { siteContact } from "../../config/site.js";
+
+const contactEmail = siteContact.email.trim();
+---
+
+<StaticContentPage
+    title="İletişim | Popcorn"
+    description="Popcorn ile genel iletişim, içerik konuları ve iş birliği talepleri hakkında bağlantı kurun."
+    eyebrow="İLETİŞİM"
+    intro="Görüş, içerik önerisi ve iş birliği talepleriniz için bize ulaşabilirsiniz."
+>
+    <section>
+        <h2>Nasıl yardımcı olabiliriz?</h2>
+        <div class="contact-topics">
+            <div>
+                <h3>Genel iletişim</h3>
+                <p>Site deneyimiyle ilgili görüşleriniz ve genel sorularınız için.</p>
+            </div>
+            <div>
+                <h3>İçerik</h3>
+                <p>İçerik önerileri, düzeltme bildirimleri ve yayın konuları için.</p>
+            </div>
+            <div>
+                <h3>İş birliği</h3>
+                <p>Popcorn ile uyumlu proje ve iş birliği fikirleri için.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-address">
+        <h2>İletişim adresi</h2>
+        {contactEmail ? (
+            <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+        ) : (
+            <p>
+                İletişim adresimiz yakında bu sayfada yayınlanacaktır. Bu alan hazır olduğunda
+                iletişim bilgisi tek bir merkezi ayardan eklenecektir.
+            </p>
+        )}
+    </section>
+</StaticContentPage>

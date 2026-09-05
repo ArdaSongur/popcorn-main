@@ -10,9 +10,11 @@ const itemUrl = `/film-dizi/${slugify(item.title)}/`;
     <a href={itemUrl} class="movie-card-poster">
 
         <img
-            src={item.image}
+            src={item.image || "/images/poster-placeholder.svg"}
             alt={`${item.title} posteri`}
             loading="lazy"
+            width="500"
+            height="750"
             onerror="this.onerror=null; this.src='/images/poster-placeholder.svg';"
 
         />

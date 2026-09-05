@@ -3,11 +3,23 @@ const pathname = Astro.url.pathname;
 
 const isActive = (path) => {
     if (path === "/") return pathname === "/";
-    return pathname.startsWith(path);
+    const pathWithoutTrailingSlash = path.replace(/\/$/, "");
+    return pathname === pathWithoutTrailingSlash || pathname.startsWith(path);
 };
 ---
 
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar" aria-label="Ana menü">
+
+    <button
+        class="sidebar-collapse-button"
+        id="sidebarCollapseButton"
+        type="button"
+        aria-label="Kenar çubuğunu daralt"
+        aria-expanded="true"
+        title="Kenar çubuğunu daralt"
+    >
+        <span aria-hidden="true">‹</span>
+    </button>
 
     <div class="sidebar-main">
 
@@ -29,6 +41,9 @@ const isActive = (path) => {
             <a
                 href="/"
                 class:list={["sidebar-link", { active: isActive("/") }]}
+                aria-current={isActive("/") ? "page" : undefined}
+                aria-label="Ana Sayfa"
+                title="Ana Sayfa"
             >
                 <span class="sidebar-icon">⌂</span>
                 <span>Ana Sayfa</span>
@@ -37,6 +52,9 @@ const isActive = (path) => {
             <a
                 href="/film-dizi/"
                 class:list={["sidebar-link", { active: isActive("/film-dizi/") }]}
+                aria-current={isActive("/film-dizi/") ? "page" : undefined}
+                aria-label="Filmler & Diziler"
+                title="Filmler & Diziler"
             >
                 <span class="sidebar-icon">▶</span>
                 <span>Filmler & Diziler</span>
@@ -45,6 +63,9 @@ const isActive = (path) => {
             <a
                 href="/astroloji/"
                 class:list={["sidebar-link", { active: isActive("/astroloji/") }]}
+                aria-current={isActive("/astroloji/") ? "page" : undefined}
+                aria-label="Astroloji"
+                title="Astroloji"
             >
                 <span class="sidebar-icon">✦</span>
                 <span>Astroloji</span>
@@ -53,6 +74,9 @@ const isActive = (path) => {
             <a
                 href="/yemek-tarifleri/"
                 class:list={["sidebar-link", { active: isActive("/yemek-tarifleri/") }]}
+                aria-current={isActive("/yemek-tarifleri/") ? "page" : undefined}
+                aria-label="Yemek Tarifleri"
+                title="Yemek Tarifleri"
             >
                 <span class="sidebar-icon">♨</span>
                 <span>Yemek Tarifleri</span>
@@ -61,6 +85,9 @@ const isActive = (path) => {
             <a
                 href="/kultur-sanat/"
                 class:list={["sidebar-link", { active: isActive("/kultur-sanat/") }]}
+                aria-current={isActive("/kultur-sanat/") ? "page" : undefined}
+                aria-label="Kültür & Sanat"
+                title="Kültür & Sanat"
             >
                 <span class="sidebar-icon">◇</span>
                 <span>Kültür & Sanat</span>
@@ -69,6 +96,9 @@ const isActive = (path) => {
             <a
                 href="/ruya-tabirleri/"
                 class:list={["sidebar-link", { active: isActive("/ruya-tabirleri/") }]}
+                aria-current={isActive("/ruya-tabirleri/") ? "page" : undefined}
+                aria-label="Rüya Tabirleri"
+                title="Rüya Tabirleri"
             >
                 <span class="sidebar-icon">☾</span>
                 <span>Rüya Tabirleri</span>
@@ -77,6 +107,9 @@ const isActive = (path) => {
             <a
                 href="/kisisel-gelisim/"
                 class:list={["sidebar-link", { active: isActive("/kisisel-gelisim/") }]}
+                aria-current={isActive("/kisisel-gelisim/") ? "page" : undefined}
+                aria-label="Kişisel Gelişim"
+                title="Kişisel Gelişim"
             >
                 <span class="sidebar-icon">◎</span>
                 <span>Kişisel Gelişim</span>
@@ -98,16 +131,23 @@ const isActive = (path) => {
             aria-label="Açık temaya geç"
             aria-pressed="false"
         >
-            <span data-theme-icon aria-hidden="true">🌙</span>
-            <span data-theme-label>Koyu Tema</span>
+            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">☀</span>
+            <span class="theme-toggle-track" aria-hidden="true"><span></span></span>
+            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">☾</span>
         </button>
 
-        <a href="/favorilerim/" class="sidebar-secondary-link">
-            <span>♡</span>
-            Favorilerim
+        <a
+            href="/favorilerim/"
+            class:list={["sidebar-secondary-link", { active: isActive("/favorilerim/") }]}
+            aria-current={isActive("/favorilerim/") ? "page" : undefined}
+            aria-label="Favorilerim"
+            title="Favorilerim"
+        >
+            <span class="sidebar-icon">♡</span>
+            <span>Favorilerim</span>
         </a>
 
-        <a href="/giris/" class="sidebar-login" id="sidebarGuest">
+        <a href="/giris/" class="sidebar-login" id="sidebarGuest" aria-label="Giriş Yap" title="Giriş Yap">
             <span>●</span>
 
             <div>
@@ -117,17 +157,24 @@ const isActive = (path) => {
         </a>
 
         <div class="sidebar-authenticated" id="sidebarAuthenticated" hidden>
-            <a class="sidebar-account" href="/hesabim/">
+            <a
+                class:list={["sidebar-account", { active: isActive("/hesabim/") }]}
+                href="/hesabim/"
+                aria-current={isActive("/hesabim/") ? "page" : undefined}
+                aria-label="Hesabım"
+                title="Hesabım"
+            >
                 <span aria-hidden="true">●</span>
 
                 <div>
-                    <strong>Hesabım</strong>
-                    <small id="sidebarUserEmail"></small>
+                    <strong id="sidebarUserDisplayName">Hesabım</strong>
+                    <small id="sidebarUsername"></small>
                 </div>
             </a>
 
-            <button class="sidebar-logout" id="sidebarLogout" type="button">
-                Çıkış Yap
+            <button class="sidebar-logout" id="sidebarLogout" type="button" aria-label="Çıkış Yap" title="Çıkış Yap">
+                <span aria-hidden="true">↪</span>
+                <span>Çıkış Yap</span>
             </button>
         </div>
 
@@ -140,32 +187,58 @@ const isActive = (path) => {
 
     const guestLink = document.getElementById("sidebarGuest");
     const authenticatedArea = document.getElementById("sidebarAuthenticated");
-    const userEmail = document.getElementById("sidebarUserEmail");
+    const userDisplayName = document.getElementById("sidebarUserDisplayName");
+    const usernameText = document.getElementById("sidebarUsername");
     const logoutButton = document.getElementById("sidebarLogout");
 
-    const renderSession = (session) => {
+    const renderProfile = (profile, email = "") => {
+        const username = profile?.username?.trim();
+        const displayName = profile?.display_name?.trim() || username || "Hesabım";
+        if (userDisplayName) userDisplayName.textContent = displayName;
+        if (usernameText) usernameText.textContent = username ? `@${username}` : email;
+    };
+
+    const renderSession = async (session) => {
         const isSignedIn = Boolean(session?.user);
 
         if (guestLink) guestLink.hidden = isSignedIn;
         if (authenticatedArea) authenticatedArea.hidden = !isSignedIn;
-        if (userEmail) userEmail.textContent = session?.user?.email ?? "";
+        if (!session?.user) {
+            renderProfile(null);
+            return;
+        }
+
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("username, display_name")
+            .eq("id", session.user.id)
+            .maybeSingle();
+
+        renderProfile(profile, session.user.email ?? "");
     };
 
     const { data: { session } } = await supabase.auth.getSession();
-    renderSession(session);
+    await renderSession(session);
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-        renderSession(nextSession);
+        void renderSession(nextSession);
+    });
+
+    document.addEventListener("popcorn:profile-updated", (event) => {
+        renderProfile(event.detail);
     });
 
     logoutButton?.addEventListener("click", async () => {
         logoutButton.disabled = true;
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabase.auth.signOut({ scope: "local" });
 
         if (error) {
             logoutButton.disabled = false;
             window.alert("Çıkış yapılırken bir hata oluştu. Lütfen tekrar deneyin.");
+            return;
         }
+
+        window.location.replace("/");
     });
 
     document.addEventListener("astro:before-swap", () => {

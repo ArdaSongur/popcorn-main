@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "./ArticleCard.astro";
+import CommentSection from "./CommentSection.astro";
 import articles from "../data/articles.json";
 import { formatArticleDate, sortArticlesNewest } from "../utils/articles.js";
 
@@ -188,6 +189,8 @@ const relatedArticles = sortArticlesNewest(
             </section>
 
         )}
+
+        <CommentSection contentKey={`horoscope:${horoscope.date}`} />
 
     </div>
     <button

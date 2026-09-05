@@ -1,0 +1,63 @@
+---
+import StaticContentPage from "../../components/StaticContentPage.astro";
+const updated = { datetime: "2026-09-05", label: "Son güncelleme: 5 Eylül 2026" };
+---
+
+<StaticContentPage
+    title="Gizlilik Politikası | Popcorn"
+    description="Popcorn'da hesap, profil, favori ve tarayıcı tercihi verilerinin nasıl kullanıldığına ilişkin temel bilgiler."
+    eyebrow="GİZLİLİK"
+    intro="Bu metin, Popcorn'u kullanırken hangi bilgilerin işlendiğini ve bunların hangi amaçlarla kullanıldığını genel hatlarıyla açıklar."
+    {updated}
+>
+    <section>
+        <h2>İşlenen bilgiler</h2>
+        <p>
+            Hesap oluşturduğunuzda veya hesabınızı kullandığınızda e-posta adresiniz ile seçtiğiniz
+            kullanıcı adı ve görünen ad gibi profil bilgileri işlenebilir. Kimlik doğrulama ve hesap
+            oturumları Supabase altyapısı üzerinden yönetilir.
+        </p>
+        <p>
+            Favorilerinize eklediğiniz film ve diziler hesabınızla ilişkilendirilerek saklanır. Hesap
+            kullanmadan yalnızca herkese açık içerikleri görüntülediğinizde bu hesap verileri oluşmaz.
+        </p>
+    </section>
+
+    <section>
+        <h2>Bilgileri kullanma amaçları</h2>
+        <ul>
+            <li>Hesap oluşturma, giriş yapma ve oturumu sürdürme</li>
+            <li>Profil bilgilerini ve favorileri kullanıcıya sunma</li>
+            <li>Hesap güvenliği ve temel hizmet işlevlerini sağlama</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Tarayıcıda saklanan tercihler</h2>
+        <p>
+            Tema ve kenar çubuğu görünümü gibi arayüz tercihleri tarayıcınızın localStorage alanında
+            tutulur. Supabase istemcisi de oturumun devamını sağlamak amacıyla kimlik doğrulama
+            bilgilerini tarayıcı depolamasında saklayabilir. Ayrıntılar için
+            <a href="/cerez-politikasi/">Çerez Politikası</a> sayfasına bakabilirsiniz.
+        </p>
+    </section>
+
+    <section>
+        <h2>Hizmet sağlayıcı ve saklama</h2>
+        <p>
+            Hesap ve favori özelliklerinin çalışması için Supabase bir altyapı hizmeti olarak kullanılır.
+            Bilgiler, ilgili özelliğin çalışması ve hesabın yönetilmesi için gerekli olduğu sürece veya
+            geçerli yükümlülüklerin gerektirdiği ölçüde saklanabilir. Bu metin genel bilgilendirme
+            amacı taşır ve hizmet değiştikçe güncellenebilir.
+        </p>
+    </section>
+
+    <section>
+        <h2>Tercihleriniz ve iletişim</h2>
+        <p>
+            Profil bilgilerinizi hesap sayfasından güncelleyebilirsiniz. Gizlilikle ilgili sorular için
+            güncel iletişim kanalımız yayınlandığında <a href="/iletisim/">İletişim</a> sayfasını
+            kullanabilirsiniz.
+        </p>
+    </section>
+</StaticContentPage>

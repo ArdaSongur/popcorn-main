@@ -33,11 +33,6 @@ const articleSections = [
 
     <div class="home-container">
 
-        <aside class="home-welcome" id="homeWelcome" hidden aria-live="polite">
-            <span aria-hidden="true">✦</span>
-            <p>Hoş geldin, <strong id="homeWelcomeUsername"></strong></p>
-        </aside>
-
         <section class="home-hero">
 
             <div class="home-hero-content">
@@ -45,7 +40,7 @@ const articleSections = [
                     POPCORN'DA BUGÜN
                 </span>
 
-                <h1>Keşfedecek çok şey var.</h1>
+                <h1 id="homeHeroTitle" aria-live="polite">Keşfedecek çok şey var.</h1>
 
                 <p>
                     Film ve dizilerden günlük burç yorumlarına,
@@ -101,28 +96,30 @@ const articleSections = [
     <script>
         import { supabase } from "../lib/supabase.js";
 
-        const welcome = document.getElementById("homeWelcome");
-        const welcomeUsername = document.getElementById("homeWelcomeUsername");
+        const heroTitle = document.getElementById("homeHeroTitle");
+        const defaultTitle = "Keşfedecek çok şey var.";
 
         const renderWelcome = async (session) => {
             if (!session?.user) {
-                if (welcome) welcome.hidden = true;
+                if (heroTitle) heroTitle.textContent = defaultTitle;
                 return;
             }
 
             const { data: profile } = await supabase
                 .from("profiles")
-                .select("username")
+                .select("*")
                 .eq("id", session.user.id)
                 .maybeSingle();
 
-            if (!profile?.username) {
-                if (welcome) welcome.hidden = true;
-                return;
+            const name = profile?.display_name?.trim()
+                || profile?.username?.trim()
+                || session.user.user_metadata?.display_name?.trim()
+                || session.user.user_metadata?.username?.trim();
+            if (heroTitle) {
+                heroTitle.textContent = name
+                    ? `Hoş geldin ${name}, keşfedecek çok şey var.`
+                    : defaultTitle;
             }
-
-            if (welcomeUsername) welcomeUsername.textContent = `@${profile.username}`;
-            if (welcome) welcome.hidden = false;
         };
 
         const { data: { session } } = await supabase.auth.getSession();

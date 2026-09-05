@@ -1,0 +1,59 @@
+---
+import StaticContentPage from "../../components/StaticContentPage.astro";
+const updated = { datetime: "2026-09-05", label: "Son güncelleme: 5 Eylül 2026" };
+---
+
+<StaticContentPage
+    title="Çerez Politikası | Popcorn"
+    description="Popcorn'un tarayıcı depolaması, arayüz tercihleri ve Supabase oturum yönetimine ilişkin açıklamalar."
+    eyebrow="TARAYICI DEPOLAMASI"
+    intro="Popcorn'un mevcut sürümünde tarayıcıda hangi bilgilerin saklandığını ve bunların neden kullanıldığını açıklıyoruz."
+    {updated}
+>
+    <section>
+        <h2>Mevcut kullanım</h2>
+        <p>
+            Popcorn'un mevcut uygulama kodu özel bir reklam veya analiz çerezi yerleştirmez. Bununla
+            birlikte site özelliklerinin çalışması için tarayıcının localStorage gibi yerel depolama
+            alanları kullanılır. Tarayıcı depolaması teknik olarak çerezden farklı olsa da kullanıcı
+            tercihleri konusunda şeffaflık sağlamak amacıyla bu sayfada birlikte açıklanır.
+        </p>
+    </section>
+
+    <section>
+        <h2>Arayüz tercihleri</h2>
+        <p>
+            Seçtiğiniz koyu veya açık tema ile kenar çubuğunun açık ya da daraltılmış görünümü
+            localStorage alanına kaydedilir. Bu bilgiler cihazınızdaki tarayıcıda tutulur ve sayfalar
+            arasında tercihinizi hatırlamak için kullanılır.
+        </p>
+    </section>
+
+    <section>
+        <h2>Oturum yönetimi</h2>
+        <p>
+            Kullanıcı girişi Supabase Authentication ile sağlanır. Supabase istemcisi, giriş durumunu
+            korumak ve oturumu yenilemek için gerekli kimlik doğrulama verilerini tarayıcı depolamasında
+            saklayabilir. Bu verileri silmeniz oturumunuzun kapanmasına veya yeniden giriş yapmanızın
+            gerekmesine neden olabilir.
+        </p>
+    </section>
+
+    <section>
+        <h2>Depolamayı yönetme</h2>
+        <p>
+            Tarayıcı ayarlarınızdan site verilerini görüntüleyebilir veya silebilirsiniz. Yerel verileri
+            engellemek ya da silmek tema tercihinin hatırlanmaması ve hesap oturumunun çalışmaması gibi
+            sonuçlar doğurabilir.
+        </p>
+    </section>
+
+    <section>
+        <h2>Politika güncellemeleri</h2>
+        <p>
+            Gelecekte analiz, reklam veya farklı bir dış hizmet eklenirse bu politika, kullanılan
+            teknolojileri ve tercih seçeneklerini yansıtacak şekilde güncellenir. Güncel sürüm ve
+            değişiklik tarihi bu sayfada yer alır.
+        </p>
+    </section>
+</StaticContentPage>
