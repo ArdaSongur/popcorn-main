@@ -1,0 +1,18 @@
+---
+import { formatArticleDate } from "../utils/articles.js";
+
+const { horoscope } = Astro.props;
+---
+
+<article class="horoscope-feature">
+    <div class="horoscope-feature-symbol" aria-hidden="true">✦</div>
+    <div class="horoscope-feature-content">
+        <span class="eyebrow">GÜNLÜK ASTROLOJİ</span>
+        <h2>{horoscope.title}</h2>
+        <time datetime={horoscope.publishedAt}>{formatArticleDate(horoscope.publishedAt)}</time>
+        <p>{horoscope.intro}</p>
+        <a class="horoscope-feature-link" href="/astroloji/gunluk-burc-yorumlari/">
+            Günlük Burç Yorumlarını Oku →
+        </a>
+    </div>
+</article>

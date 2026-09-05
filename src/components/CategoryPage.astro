@@ -18,6 +18,8 @@ const categoryArticles = sortArticlesNewest(
             <p>{description}</p>
         </header>
 
+        <slot name="featured" />
+
         <div class="ad-placeholder" aria-label="Reklam alanı">
             Reklam Alanı
         </div>

@@ -1,9 +1,16 @@
 ---
 import CategoryPage from "../../components/CategoryPage.astro";
+import HoroscopeFeatureCard from "../../components/HoroscopeFeatureCard.astro";
+import horoscopes from "../../data/horoscopes.json";
+import { getLatestHoroscope } from "../../utils/horoscopes.js";
+
+const latestHoroscope = getLatestHoroscope(horoscopes);
 ---
 
 <CategoryPage
     category="astroloji"
     title="Astroloji"
     description="Burçlar, gökyüzü hareketleri ve astroloji içerikleri için keşif alanı."
-/>
+>
+    <HoroscopeFeatureCard slot="featured" horoscope={latestHoroscope} />
+</CategoryPage>

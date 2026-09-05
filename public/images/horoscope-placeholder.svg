@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title description">
+  <title id="title">Burç görseli yer tutucusu</title>
+  <desc id="description">Popcorn günlük burç yorumları için koyu renkli görsel yer tutucusu</desc>
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#35313f"/>
+      <stop offset="1" stop-color="#18181d"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#sky)"/>
+  <g fill="#d5b463" opacity=".75">
+    <circle cx="170" cy="140" r="5"/><circle cx="285" cy="235" r="3"/>
+    <circle cx="905" cy="125" r="4"/><circle cx="1020" cy="310" r="5"/>
+    <circle cx="790" cy="430" r="3"/><circle cx="390" cy="455" r="4"/>
+  </g>
+  <circle cx="600" cy="280" r="115" fill="none" stroke="#d5b463" stroke-width="3" opacity=".7"/>
+  <path d="m600 125 28 108 108 28-108 28-28 108-28-108-108-28 108-28Z" fill="#d5b463" opacity=".7"/>
+  <text x="600" y="525" text-anchor="middle" fill="#aaaab3" font-size="30" font-family="Arial, sans-serif">GÜNLÜK BURÇ YORUMU</text>
+</svg>

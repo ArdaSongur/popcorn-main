@@ -1,51 +1,9 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import HoroscopePage from "../../components/HoroscopePage.astro";
+import horoscopes from "../../data/horoscopes.json";
+import { getLatestHoroscope } from "../../utils/horoscopes.js";
 
-const signs = [
-    "Koç", "Boğa", "İkizler", "Yengeç", "Aslan", "Başak",
-    "Terazi", "Akrep", "Yay", "Oğlak", "Kova", "Balık"
-];
-const today = new Date();
-const isoDate = today.toISOString().slice(0, 10);
-const displayDate = new Intl.DateTimeFormat("tr-TR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-}).format(today);
+const latestHoroscope = getLatestHoroscope(horoscopes);
 ---
 
-<BaseLayout
-    title="Günlük Burç Yorumları | Popcorn"
-    description="On iki burç için günlük burç yorumları sayfası."
->
-    <div class="page-container horoscope-page">
-        <header class="page-heading">
-            <span class="eyebrow">GÜNLÜK ASTROLOJİ</span>
-            <h1>Günlük Burç Yorumları</h1>
-            <time datetime={isoDate}>{displayDate}</time>
-            <p>Bugünün kısa burç yorumlarını tek sayfada inceleyin.</p>
-        </header>
-
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
-
-        <div class="horoscope-list">
-            {signs.map((sign, index) => (
-                <>
-                    <article class="horoscope-card">
-                        <div class="horoscope-image-placeholder" aria-hidden="true">
-                            <span>{sign}</span>
-                        </div>
-                        <div class="horoscope-content">
-                            <span class="eyebrow">GÜNLÜK YORUM</span>
-                            <h2>{sign}</h2>
-                            <p>Günlük yorum içeriği bu alanda yer alacak.</p>
-                        </div>
-                    </article>
-                    {(index + 1) % 4 === 0 && index < signs.length - 1 && (
-                        <div class="ad-placeholder horoscope-ad" aria-label="Reklam alanı">Reklam Alanı</div>
-                    )}
-                </>
-            ))}
-        </div>
-    </div>
-</BaseLayout>
+<HoroscopePage horoscope={latestHoroscope} />

@@ -574,6 +574,10 @@ a {
     margin-top: 36px;
 }
 
+.horoscope-heading {
+    max-width: 900px;
+}
+
 .horoscope-card {
     display: grid;
     grid-template-columns: minmax(220px, 360px) 1fr;
@@ -585,13 +589,18 @@ a {
     background: #1b1b20;
 }
 
-.horoscope-image-placeholder {
-    display: grid;
-    place-items: center;
+.horoscope-image {
+    overflow: hidden;
     aspect-ratio: 16 / 8;
-    color: #777781;
-    font-size: 20px;
-    font-weight: 800;
+    border-radius: 10px;
+    background: #24242a;
+}
+
+.horoscope-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
 
 .horoscope-content h2 {
@@ -605,6 +614,72 @@ a {
 
 .horoscope-ad {
     margin-top: 0;
+}
+
+.horoscope-feature {
+    position: relative;
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    min-height: 230px;
+    overflow: hidden;
+    border: 1px solid #51472e;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at 12% 50%, rgba(213, 180, 99, 0.16), transparent 32%),
+        #1b1b20;
+}
+
+.horoscope-feature-symbol {
+    display: grid;
+    place-items: center;
+    color: #d5b463;
+    font-size: 86px;
+    text-shadow: 0 0 32px rgba(213, 180, 99, 0.32);
+}
+
+.horoscope-feature-content {
+    display: flex;
+    min-width: 0;
+    padding: 28px 30px 28px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.horoscope-feature-content h2 {
+    margin: 7px 0 4px;
+    font-size: clamp(25px, 3.5vw, 36px);
+    line-height: 1.15;
+}
+
+.horoscope-feature-content time {
+    color: #8f8f99;
+    font-size: 13px;
+}
+
+.horoscope-feature-content p {
+    max-width: 760px;
+    margin-top: 12px;
+    color: #b9b9c1;
+}
+
+.horoscope-feature-link {
+    display: inline-flex;
+    margin-top: 18px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #d5b463;
+    color: #171717;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.horoscope-feature-link:hover {
+    background: #e2c777;
+}
+
+.horoscope-related {
+    margin-top: 64px;
 }
 
 .article-list {
@@ -876,6 +951,23 @@ a {
         gap: 18px;
     }
 
+    .horoscope-feature {
+        grid-template-columns: 1fr;
+    }
+
+    .horoscope-feature-symbol {
+        min-height: 110px;
+        font-size: 64px;
+    }
+
+    .horoscope-feature-content {
+        padding: 6px 20px 24px;
+    }
+
+    .horoscope-image {
+        width: 100%;
+    }
+
     .article-card-image {
         min-height: 0;
         aspect-ratio: 16 / 9;
@@ -908,5 +1000,11 @@ a {
     .media-results-heading {
         align-items: flex-end;
         gap: 12px;
+    }
+
+    .horoscope-related .section-header {
+        align-items: flex-start;
+        gap: 8px;
+        flex-direction: column;
     }
 }

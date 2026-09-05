@@ -1,0 +1,15 @@
+---
+import HoroscopePage from "../../../components/HoroscopePage.astro";
+import horoscopes from "../../../data/horoscopes.json";
+
+export function getStaticPaths() {
+    return horoscopes.map((horoscope) => ({
+        params: { date: horoscope.date },
+        props: { horoscope }
+    }));
+}
+
+const { horoscope } = Astro.props;
+---
+
+<HoroscopePage horoscope={horoscope} />

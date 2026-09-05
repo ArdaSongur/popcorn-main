@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "./ArticleCard.astro";
+import articles from "../data/articles.json";
+import { formatArticleDate, sortArticlesNewest } from "../utils/articles.js";
+
+const { horoscope } = Astro.props;
+const signOrder = [
+    "koc", "boga", "ikizler", "yengec", "aslan", "basak",
+    "terazi", "akrep", "yay", "oglak", "kova", "balik"
+];
+const relatedArticles = sortArticlesNewest(
+    articles.filter((article) => article.category === "astroloji")
+).slice(0, 3);
+---
+
+<BaseLayout title={horoscope.seoTitle} description={horoscope.seoDescription}>
+    <div class="page-container horoscope-page">
+        <nav class="breadcrumb" aria-label="Sayfa yolu">
+            <a href="/">Ana Sayfa</a>
+            <span aria-hidden="true">/</span>
+            <a href="/astroloji/">Astroloji</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Günlük Burç Yorumları</span>
+        </nav>
+
+        <header class="page-heading horoscope-heading">
+            <span class="eyebrow">GÜNLÜK ASTROLOJİ</span>
+            <h1>{horoscope.title}</h1>
+            <time datetime={horoscope.publishedAt}>{formatArticleDate(horoscope.publishedAt)}</time>
+            <p>{horoscope.intro}</p>
+        </header>
+
+        <div class="horoscope-list">
+            {signOrder.map((signKey, index) => {
+                const sign = horoscope.signs[signKey];
+
+                return (
+                    <>
+                        <article class="horoscope-card" id={signKey}>
+                            <div class="horoscope-image">
+                                <img
+                                    src={sign.image || "/images/horoscope-placeholder.svg"}
+                                    alt={`${sign.name} burcu günlük yorum görseli`}
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='/images/horoscope-placeholder.svg';"
+                                />
+                            </div>
+                            <div class="horoscope-content">
+                                <span class="eyebrow">GÜNLÜK YORUM</span>
+                                <h2>{sign.name}</h2>
+                                <p>{sign.text}</p>
+                            </div>
+                        </article>
+                        {(index + 1) % 4 === 0 && index < signOrder.length - 1 && (
+                            <div class="ad-placeholder horoscope-ad" aria-label="Reklam alanı">
+                                Reklam Alanı
+                            </div>
+                        )}
+                    </>
+                );
+            })}
+        </div>
+
+        {relatedArticles.length > 0 && (
+            <section class="horoscope-related" aria-labelledby="horoscope-related-title">
+                <div class="section-header">
+                    <h2 id="horoscope-related-title">Bunlar da ilginizi çekebilir</h2>
+                    <a href="/astroloji/">Tüm Astroloji İçerikleri →</a>
+                </div>
+                <div class="article-list">
+                    {relatedArticles.map((article) => <ArticleCard article={article} />)}
+                </div>
+            </section>
+        )}
+    </div>
+</BaseLayout>

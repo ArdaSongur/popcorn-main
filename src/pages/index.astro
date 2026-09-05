@@ -2,11 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import MovieCard from "../components/MovieCard.astro";
 import ArticleCard from "../components/ArticleCard.astro";
+import HoroscopeFeatureCard from "../components/HoroscopeFeatureCard.astro";
 import data from "../data/data.json";
 import articles from "../data/articles.json";
+import horoscopes from "../data/horoscopes.json";
 import { sortArticlesNewest } from "../utils/articles.js";
+import { getLatestHoroscope } from "../utils/horoscopes.js";
 
 const featuredMovies = data.movies.slice(0, 4);
+const latestHoroscope = getLatestHoroscope(horoscopes);
 const articleSections = [
     { category: "astroloji", title: "✨ Astroloji" },
     { category: "kultur-sanat", title: "🎨 Kültür & Sanat" },
@@ -65,18 +69,7 @@ const articleSections = [
 
 
         <section class="home-section">
-
-            <div class="section-header">
-                <h2>🔮 Günlük Burç Yorumları</h2>
-                <a href="/astroloji/gunluk-burc-yorumlari/">
-                    Bugünün Yorumları →
-                </a>
-            </div>
-
-            <div class="placeholder-card">
-                Bugünün günlük burç içeriği
-            </div>
-
+            <HoroscopeFeatureCard horoscope={latestHoroscope} />
         </section>
 
 
