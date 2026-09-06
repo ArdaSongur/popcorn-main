@@ -1,7 +1,18 @@
 ---
 const pathname = Astro.url.pathname;
 
-const links = [
+const primaryLinks = [
+    { href: "/", label: "Ana Sayfa", priority: "primary" },
+    { href: "/astroloji/", label: "Astroloji", priority: "primary" },
+    { href: "/yemek-tarifleri/", label: "Tarifler", priority: "primary" },
+    { href: "/kultur-sanat/", label: "Kültür & Sanat", priority: "secondary" },
+    { href: "/ruya-tabirleri/", label: "Rüya Tabirleri", priority: "secondary" },
+    { href: "/kisisel-gelisim/", label: "Kişisel Gelişim", priority: "secondary" },
+    { href: "/evcil-hayvanlar/", label: "Evcil Hayvanlar", priority: "secondary" },
+    { href: "/film-dizi/", label: "Filmler & Diziler", priority: "primary" }
+];
+
+const corporateLinks = [
     { href: "/hakkimizda/", desktopLabel: "Hakkımızda", mobileLabel: "Hakkımızda" },
     { href: "/iletisim/", desktopLabel: "İletişim", mobileLabel: "İletişim" },
     { href: "/gizlilik-politikasi/", desktopLabel: "Gizlilik", mobileLabel: "Gizlilik Politikası" },
@@ -10,31 +21,33 @@ const links = [
 ];
 
 const isActive = (href) => {
+    if (href === "/") return pathname === "/";
     const pathWithoutTrailingSlash = href.replace(/\/$/, "");
     return pathname === pathWithoutTrailingSlash || pathname.startsWith(href);
 };
 
-const hasActiveLink = links.some((link) => isActive(link.href));
+const hasActiveCorporateLink = corporateLinks.some((link) => isActive(link.href));
 ---
 
 <header class="topbar">
     <div class="topbar-inner">
-        <nav class="topbar-nav" aria-label="Kurumsal bağlantılar">
-            {links.map((link) => (
+        <nav class="topbar-nav" aria-label="Hızlı kategori bağlantıları">
+            {primaryLinks.map((link) => (
                 <a
                     href={link.href}
                     class:list={{ active: isActive(link.href) }}
+                    data-priority={link.priority}
                     aria-current={isActive(link.href) ? "page" : undefined}
                 >
-                    {link.desktopLabel}
+                    {link.label}
                 </a>
             ))}
         </nav>
 
-        <details class:list={["topbar-menu", { active: hasActiveLink }]}>
+        <details class:list={["topbar-menu", { active: hasActiveCorporateLink }]}>
             <summary>Kurumsal <span aria-hidden="true">⌄</span></summary>
-            <nav aria-label="Mobil kurumsal bağlantılar">
-                {links.map((link) => (
+            <nav aria-label="Kurumsal bağlantılar">
+                {corporateLinks.map((link) => (
                     <a
                         href={link.href}
                         class:list={{ active: isActive(link.href) }}
@@ -47,3 +60,18 @@ const hasActiveLink = links.some((link) => isActive(link.href));
         </details>
     </div>
 </header>
+
+<script is:inline>
+    const categoryNav = document.querySelector(".topbar-nav");
+    const activeCategory = categoryNav?.querySelector("a.active");
+
+    if (categoryNav instanceof HTMLElement && activeCategory instanceof HTMLElement) {
+        requestAnimationFrame(() => {
+            if (!window.matchMedia("(max-width: 900px)").matches) return;
+            categoryNav.scrollLeft = Math.max(
+                0,
+                activeCategory.offsetLeft - ((categoryNav.clientWidth - activeCategory.offsetWidth) / 2)
+            );
+        });
+    }
+</script>

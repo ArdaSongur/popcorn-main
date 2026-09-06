@@ -190,6 +190,7 @@ const adsenseScriptUrl = adsenseEnabled
 
         document.addEventListener("pointerdown", (event) => {
             if (!mobileMedia.matches || !event.isPrimary || !sidebar) return;
+            if (event.target instanceof Element && event.target.closest(".topbar-nav")) return;
 
             if (sidebar.classList.contains("open")) {
                 if (event.target instanceof Node && sidebar.contains(event.target)) {
