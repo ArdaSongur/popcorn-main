@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const {
     title,
     description,
-    eyebrow = "POPCORN",
+    eyebrow = "MERAK ATLASI",
     intro,
     updated
 } = Astro.props;
@@ -16,12 +16,12 @@ const {
         <nav class="breadcrumb" aria-label="İçerik yolu">
             <a href="/">Ana Sayfa</a>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">{title.replace(" | Popcorn", "")}</span>
+            <span aria-current="page">{title.replace(" | Merak Atlası", "")}</span>
         </nav>
 
         <header class="static-page-header">
             <span class="eyebrow">{eyebrow}</span>
-            <h1>{title.replace(" | Popcorn", "")}</h1>
+            <h1>{title.replace(" | Merak Atlası", "")}</h1>
             <p>{intro}</p>
             {updated && <time datetime={updated.datetime}>{updated.label}</time>}
         </header>

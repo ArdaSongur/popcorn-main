@@ -21,16 +21,24 @@ const isActive = (path) => {
         <span aria-hidden="true">‹</span>
     </button>
 
-    <div class="sidebar-main">
+    <a href="/" class="sidebar-logo" aria-label="Merak Atlası ana sayfa">
+        <span class="sidebar-logo-mark">
+            <img
+                src="/images/merak-atlasi-logo.png"
+                alt="Merak Atlası logosu"
+                width="40"
+                height="40"
+            />
+        </span>
 
-        <a href="/" class="sidebar-logo">
-            <span class="sidebar-logo-mark">🍿</span>
+        <div class="sidebar-logo-text">
+            <strong>MERAK ATLASI</strong>
+            <small>Keşfet. Oku. İzle.</small>
+        </div>
+    </a>
 
-            <div class="sidebar-logo-text">
-                <strong>POPCORN</strong>
-                <small>Keşfet. Oku. İzle.</small>
-            </div>
-        </a>
+    <div class="sidebar-scroll">
+        <div class="sidebar-main">
 
         <div class="sidebar-section-label">
             KEŞFET
@@ -126,12 +134,10 @@ const isActive = (path) => {
                 <span>Evcil Hayvanlar</span>
             </a>
 
-        </nav>
+            </nav>
+        </div>
 
-    </div>
-
-
-    <div class="sidebar-bottom">
+        <div class="sidebar-bottom">
 
         <div class="sidebar-divider"></div>
 
@@ -189,6 +195,7 @@ const isActive = (path) => {
             </button>
         </div>
 
+        </div>
     </div>
 
 </aside>

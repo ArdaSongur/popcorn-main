@@ -3,7 +3,16 @@ import { siteConfig } from "../config/site.js";
 const absoluteUrlPattern = /^https?:\/\//i;
 
 export function getSiteUrl() {
-    return String(siteConfig.siteUrl ?? "").trim().replace(/\/+$/, "");
+    const configuredUrl = String(siteConfig.siteUrl ?? "").trim();
+    if (!configuredUrl) return "";
+
+    try {
+        const url = new URL(configuredUrl);
+        if (!/^https?:$/.test(url.protocol)) return "";
+        return url.href.replace(/\/+$/, "");
+    } catch {
+        return "";
+    }
 }
 
 export function toAbsoluteUrl(value) {

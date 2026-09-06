@@ -286,7 +286,7 @@ const initCommentSection = async (section) => {
         const authorBlock = createElement("div", "comment-author");
         const displayName = String(comment.display_name ?? "").trim();
         const username = String(comment.username ?? "").trim();
-        authorBlock.append(createElement("strong", "", displayName || username || "Popcorn kullanıcısı"));
+        authorBlock.append(createElement("strong", "", displayName || username || "Merak Atlası kullanıcısı"));
         if (displayName && username) authorBlock.append(createElement("span", "", `@${username}`));
         const meta = createElement("div", "comment-meta");
         const time = createElement("time", "", formatDate(comment.created_at));

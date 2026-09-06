@@ -12,8 +12,8 @@ import { createWebSiteStructuredData } from "../utils/seo.js";
 const featuredMovies = data.movies.slice(0, 4);
 const articleSections = [
     { category: "astroloji", title: "✨ Astroloji" },
-    { category: "kultur-sanat", title: "🎨 Kültür & Sanat" },
     { category: "yemek-tarifleri", title: "🍴 Yemek Tarifleri" },
+    { category: "kultur-sanat", title: "🎨 Kültür & Sanat" },
     { category: "ruya-tabirleri", title: "🌙 Rüya Tabirleri" },
     { category: "kisisel-gelisim", title: "🧠 Kişisel Gelişim" },
     { category: "evcil-hayvanlar", title: "🐾 Evcil Hayvanlar" }
@@ -27,7 +27,7 @@ const articleSections = [
 
 
 <BaseLayout
-    title="Popcorn | Film, Astroloji, Kültür ve Lifestyle"
+    title="Merak Atlası | Film, Astroloji, Kültür ve Yaşam"
     description="Film, dizi, astroloji, yemek tarifleri, kültür sanat, rüya tabirleri, kişisel gelişim ve evcil hayvan içerikleri."
     canonicalPath="/"
 >
@@ -40,7 +40,7 @@ const articleSections = [
 
             <div class="home-hero-content">
                 <span class="home-hero-label">
-                    POPCORN'DA ÖNE ÇIKANLAR
+                    MERAK ATLASI'NDA ÖNE ÇIKANLAR
                 </span>
 
                 <h1 id="homeHeroTitle" aria-live="polite">Keşfedecek çok şey var.</h1>
@@ -48,25 +48,9 @@ const articleSections = [
                 <p>
                     Film ve dizilerden burç rehberlerine,
                     yemek tariflerinden kültür ve sanata kadar
-                    Popcorn'un öne çıkan içeriklerini keşfet.
+                    Merak Atlası'nın öne çıkan içeriklerini keşfet.
                 </p>
             </div>
-
-        </section>
-
-
-        <section class="home-section">
-
-            <div class="section-header">
-                <h2>🎬 Filmler & Diziler</h2>
-                <a href="/film-dizi/">Tümünü Gör →</a>
-            </div>
-
-           <div class="placeholder-grid">
-    {featuredMovies.map((movie) => (
-        <MovieCard item={movie} />
-    ))}
-</div>
 
         </section>
 
@@ -93,6 +77,19 @@ const articleSections = [
                 </div>
             </section>
         ))}
+
+        <section class="home-section">
+            <div class="section-header">
+                <h2>🎬 Filmler & Diziler</h2>
+                <a href="/film-dizi/">Tümünü Gör →</a>
+            </div>
+
+            <div class="placeholder-grid">
+                {featuredMovies.map((movie) => (
+                    <MovieCard item={movie} />
+                ))}
+            </div>
+        </section>
 
     </div>
 

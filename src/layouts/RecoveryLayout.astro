@@ -1,11 +1,12 @@
 ---
 import "../styles/global.css";
+import BrandMark from "../components/BrandMark.astro";
 import { siteConfig } from "../config/site.js";
 import { toAbsoluteUrl } from "../utils/seo.js";
 
 const {
-    title = "Şifre Yenile | Popcorn",
-    description = "Popcorn hesabınız için yeni bir şifre belirleyin."
+    title = "Şifre Yenile | Merak Atlası",
+    description = "Merak Atlası hesabınız için yeni bir şifre belirleyin."
 } = Astro.props;
 const canonicalUrl = toAbsoluteUrl(Astro.url.pathname);
 ---
@@ -63,10 +64,10 @@ const canonicalUrl = toAbsoluteUrl(Astro.url.pathname);
 
 <body class="recovery-body">
     <main class="recovery-shell">
-        <div class="recovery-brand" aria-label="Popcorn">
-            <span class="recovery-brand-mark" aria-hidden="true">🍿</span>
+        <div class="recovery-brand" aria-label="Merak Atlası">
+            <span class="recovery-brand-mark" aria-hidden="true"><BrandMark /></span>
             <span class="recovery-brand-text">
-                <strong>POPCORN</strong>
+                <strong>MERAK ATLASI</strong>
                 <small>Güvenli hesap işlemi</small>
             </span>
         </div>

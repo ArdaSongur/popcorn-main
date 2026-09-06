@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title description">
   <title id="title">Burç görseli yer tutucusu</title>
-  <desc id="description">Popcorn günlük burç yorumları için koyu renkli görsel yer tutucusu</desc>
+  <desc id="description">Merak Atlası burç içerikleri için koyu renkli görsel yer tutucusu</desc>
   <defs>
     <radialGradient id="sky" cx="50%" cy="45%" r="70%">
       <stop offset="0" stop-color="#35313f"/>

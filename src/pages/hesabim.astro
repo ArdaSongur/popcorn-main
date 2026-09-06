@@ -3,8 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-    title="Hesabım | Popcorn"
-    description="Popcorn profil, hesap ve güvenlik ayarlarınızı yönetin."
+    title="Hesabım | Merak Atlası"
+    description="Merak Atlası profil, hesap ve güvenlik ayarlarınızı yönetin."
     canonicalPath="/hesabim/"
     noindex
 >
@@ -17,7 +17,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <header class="account-identity">
                 <div class="account-avatar" id="accountAvatar" aria-hidden="true">P</div>
                 <div class="account-identity-copy">
-                    <span class="eyebrow">POPCORN HESABIN</span>
+                    <span class="eyebrow">MERAK ATLASI HESABIN</span>
                     <h1 id="accountDisplayName">Kullanıcı</h1>
                     <p id="accountUsername">@kullanici</p>
                 </div>
@@ -33,7 +33,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                             <div>
                                 <span class="account-section-label">PROFİL</span>
                                 <h2 id="profilePanelTitle">Seni nasıl tanıyalım?</h2>
-                                <p>Popcorn’da görünen adını ve giriş kullanıcı adını yönet.</p>
+                                <p>Merak Atlası'nda görünen adını ve giriş kullanıcı adını yönet.</p>
                             </div>
                         </header>
 
@@ -138,7 +138,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                     <section class="account-panel account-compact-panel account-session-panel">
                         <span class="account-section-label">OTURUM</span>
                         <h2>Bu cihaz</h2>
-                        <p>Yalnızca bu tarayıcıdaki Popcorn oturumunu kapat.</p>
+                        <p>Yalnızca bu tarayıcıdaki Merak Atlası oturumunu kapat.</p>
                         <button class="account-logout-button" id="accountLogout" type="button">
                             <span aria-hidden="true">↪</span>
                             Çıkış Yap
@@ -340,7 +340,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         globalLogoutButton?.addEventListener("click", async () => {
             if (!(globalLogoutButton instanceof HTMLButtonElement)) return;
-            const confirmed = window.confirm("Tüm cihazlardaki Popcorn oturumlarınız kapatılsın mı?");
+            const confirmed = window.confirm("Tüm cihazlardaki Merak Atlası oturumlarınız kapatılsın mı?");
             if (!confirmed) return;
 
             globalLogoutButton.disabled = true;

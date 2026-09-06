@@ -24,6 +24,9 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f1117" />
+    <link rel="icon" type="image/png" href="/images/merak-atlasi-logo.png" />
+    <link rel="apple-touch-icon" href="/images/merak-atlasi-logo.png" />
 
     <script is:inline>
         (() => {
@@ -71,6 +74,8 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 
     <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Menüyü kapat" tabindex="-1"></button>
 
+    <div class="sidebar-swipe-edge" id="sidebarSwipeEdge" aria-hidden="true"></div>
+
     <Sidebar />
 
     <Topbar />
@@ -87,13 +92,37 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
         const button = document.getElementById("menuButton");
         const sidebar = document.getElementById("sidebar");
         const backdrop = document.getElementById("sidebarBackdrop");
+        const swipeEdge = document.getElementById("sidebarSwipeEdge");
         const collapseButton = document.getElementById("sidebarCollapseButton");
+        const mobileMedia = window.matchMedia("(max-width: 900px)");
+        let lockedScrollY = 0;
+
+        const lockPageScroll = () => {
+            if (document.body.classList.contains("mobile-menu-open")) return;
+            lockedScrollY = window.scrollY;
+            document.body.style.position = "fixed";
+            document.body.style.top = `-${lockedScrollY}px`;
+            document.body.style.right = "0";
+            document.body.style.left = "0";
+        };
+
+        const unlockPageScroll = () => {
+            if (!document.body.classList.contains("mobile-menu-open")) return;
+            document.body.style.position = "";
+            document.body.style.top = "";
+            document.body.style.right = "";
+            document.body.style.left = "";
+            window.scrollTo(0, lockedScrollY);
+        };
 
         const setMobileMenu = (isOpen) => {
-            sidebar?.classList.toggle("open", isOpen);
-            document.body.classList.toggle("mobile-menu-open", isOpen);
-            button?.setAttribute("aria-expanded", String(isOpen));
-            button?.setAttribute("aria-label", isOpen ? "Menüyü kapat" : "Menüyü aç");
+            const shouldOpen = Boolean(isOpen && mobileMedia.matches);
+            if (shouldOpen) lockPageScroll();
+            else unlockPageScroll();
+            sidebar?.classList.toggle("open", shouldOpen);
+            document.body.classList.toggle("mobile-menu-open", shouldOpen);
+            button?.setAttribute("aria-expanded", String(shouldOpen));
+            button?.setAttribute("aria-label", shouldOpen ? "Menüyü kapat" : "Menüyü aç");
         };
 
         button?.addEventListener("click", () => {
@@ -106,6 +135,60 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
         });
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") setMobileMenu(false);
+        });
+
+        let swipeGesture = null;
+        let suppressSidebarClick = false;
+        const swipeThreshold = 60;
+
+        const beginSwipe = (event, mode) => {
+            if (!mobileMedia.matches || !event.isPrimary) return;
+            swipeGesture = {
+                pointerId: event.pointerId,
+                mode,
+                startX: event.clientX,
+                startY: event.clientY
+            };
+        };
+
+        sidebar?.addEventListener("pointerdown", (event) => {
+            if (sidebar.classList.contains("open")) beginSwipe(event, "close");
+        });
+
+        swipeEdge?.addEventListener("pointerdown", (event) => {
+            if (!sidebar?.classList.contains("open") && event.clientX <= 28) beginSwipe(event, "open");
+        });
+
+        document.addEventListener("pointerup", (event) => {
+            if (!swipeGesture || event.pointerId !== swipeGesture.pointerId) return;
+
+            const deltaX = event.clientX - swipeGesture.startX;
+            const deltaY = event.clientY - swipeGesture.startY;
+            const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+            const shouldClose = swipeGesture.mode === "close" && deltaX <= -swipeThreshold;
+            const shouldOpen = swipeGesture.mode === "open" && deltaX >= swipeThreshold;
+
+            if (isHorizontal && (shouldClose || shouldOpen)) {
+                suppressSidebarClick = shouldClose;
+                setMobileMenu(shouldOpen);
+                window.setTimeout(() => { suppressSidebarClick = false; }, 350);
+            }
+
+            swipeGesture = null;
+        });
+
+        document.addEventListener("pointercancel", () => {
+            swipeGesture = null;
+        });
+
+        sidebar?.addEventListener("click", (event) => {
+            if (!suppressSidebarClick) return;
+            event.preventDefault();
+            event.stopPropagation();
+        }, true);
+
+        mobileMedia.addEventListener?.("change", (event) => {
+            if (!event.matches) setMobileMenu(false);
         });
 
         const updateCollapseButton = () => {
