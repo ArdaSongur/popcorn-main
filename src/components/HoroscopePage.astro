@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CommentSection from "./CommentSection.astro";
+import AdSlot from "./AdSlot.astro";
 
 const { signs } = Astro.props;
 ---
@@ -114,12 +115,7 @@ const { signs } = Astro.props;
                         {(index + 1) % 4 === 0 &&
                             index < signs.length - 1 && (
 
-                            <div
-                                class="ad-placeholder horoscope-ad"
-                                aria-label="Reklam alanı"
-                            >
-                                <span>REKLAM</span>
-                            </div>
+                            <AdSlot placement="listContent" class="horoscope-ad" />
 
                         )}
 

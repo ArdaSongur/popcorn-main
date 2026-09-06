@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "./ArticleCard.astro";
+import AdSlot from "./AdSlot.astro";
 import articles from "../data/articles.json";
 import { sortArticlesNewest } from "../utils/articles.js";
 
@@ -24,9 +25,7 @@ const categoryArticles = sortArticlesNewest(
 
         <slot name="featured" />
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">
-            Reklam Alanı
-        </div>
+        <AdSlot placement="listContent" />
 
         <section class="category-content" aria-labelledby="category-content-title">
             <div class="section-header">
@@ -45,8 +44,6 @@ const categoryArticles = sortArticlesNewest(
             )}
         </section>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">
-            Reklam Alanı
-        </div>
+        <AdSlot placement="listContent" />
     </div>
 </BaseLayout>

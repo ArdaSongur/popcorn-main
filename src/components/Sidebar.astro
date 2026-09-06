@@ -21,21 +21,33 @@ const isActive = (path) => {
         <span aria-hidden="true">‹</span>
     </button>
 
-    <a href="/" class="sidebar-logo" aria-label="Merak Atlası ana sayfa">
-        <span class="sidebar-logo-mark">
-            <img
-                src="/images/merak-atlasi-logo.png"
-                alt="Merak Atlası logosu"
-                width="40"
-                height="40"
-            />
-        </span>
+    <div class="mobile-sidebar-header">
+        <a href="/" class="sidebar-logo" aria-label="Merak Atlası ana sayfa">
+            <span class="sidebar-logo-mark">
+                <img
+                    src="/images/merak-atlasi-logo.png"
+                    alt="Merak Atlası logosu"
+                    width="40"
+                    height="40"
+                />
+            </span>
 
-        <div class="sidebar-logo-text">
-            <strong>MERAK ATLASI</strong>
-            <small>Keşfet. Oku. İzle.</small>
-        </div>
-    </a>
+            <div class="sidebar-logo-text">
+                <strong>MERAK ATLASI</strong>
+                <small>Keşfet. Oku. İzle.</small>
+            </div>
+        </a>
+
+        <button
+            class="mobile-sidebar-close"
+            id="sidebarCloseButton"
+            type="button"
+            aria-label="Menüyü kapat"
+            title="Menüyü kapat"
+        >
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
 
     <div class="sidebar-scroll">
         <div class="sidebar-main">

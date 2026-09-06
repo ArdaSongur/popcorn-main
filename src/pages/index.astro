@@ -4,6 +4,7 @@ import MovieCard from "../components/MovieCard.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import HoroscopeFeatureCard from "../components/HoroscopeFeatureCard.astro";
 import StructuredData from "../components/StructuredData.astro";
+import AdSlot from "../components/AdSlot.astro";
 import data from "../data/data.json";
 import articles from "../data/articles.json";
 import { sortArticlesNewest } from "../utils/articles.js";
@@ -60,9 +61,7 @@ const articleSections = [
         </section>
 
 
-        <div class="ad-placeholder">
-            Reklam Alanı
-        </div>
+        <AdSlot placement="homepage" />
 
 
         {articleSections.map((section) => (

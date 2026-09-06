@@ -1,4 +1,6 @@
 ---
+import AdSlot from "./AdSlot.astro";
+
 const { blocks = [] } = Astro.props;
 ---
 
@@ -20,7 +22,7 @@ const { blocks = [] } = Astro.props;
                 />
             </figure>
         ) : block.type === "ad" ? (
-            <div class="ad-placeholder article-ad" aria-label="Reklam alanı">Reklam Alanı</div>
+            <AdSlot placement="articleMiddle" class="article-ad" />
         ) : null
     ))}
 </div>

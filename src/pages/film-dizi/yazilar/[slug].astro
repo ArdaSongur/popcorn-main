@@ -2,6 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import CommentSection from "../../../components/CommentSection.astro";
 import StructuredData from "../../../components/StructuredData.astro";
+import AdSlot from "../../../components/AdSlot.astro";
 import listsData from "../../../data/lists.json";
 import data from "../../../data/data.json";
 import { createArticleStructuredData } from "../../../utils/seo.js";
@@ -74,7 +75,7 @@ const structuredData = createArticleStructuredData({
             />
         </div>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+        <AdSlot placement="articleTop" />
 
         <section class="movie-list-picks" aria-labelledby="picks-title">
             <div class="section-header">
@@ -107,7 +108,7 @@ const structuredData = createArticleStructuredData({
             })}
         </section>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+        <AdSlot placement="articleBottom" />
 
         <CommentSection contentKey={`article:film-dizi:${list.slug}`} />
     </article>

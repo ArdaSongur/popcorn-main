@@ -1,0 +1,54 @@
+---
+import {
+    adsConfig,
+    isAdsenseEnabled,
+    isValidAdsenseSlotId
+} from "../config/ads.js";
+
+const {
+    placement,
+    class: className = ""
+} = Astro.props;
+const slotId = String(adsConfig.slots?.[placement] ?? "").trim();
+const publisherId = String(adsConfig.publisherId ?? "").trim();
+const showLiveAd = isAdsenseEnabled() && isValidAdsenseSlotId(slotId);
+---
+
+<div
+    class:list={["ad-placeholder", "ad-slot", className, { "ad-slot--live": showLiveAd }]}
+    data-ad-placement={placement}
+    aria-label="Reklam alanı"
+>
+    <span class="ad-slot-label">REKLAM</span>
+
+    {showLiveAd ? (
+        <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-client={publisherId}
+            data-ad-slot={slotId}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+        ></ins>
+    ) : (
+        <span class="ad-slot-placeholder-text">Reklam alanı</span>
+    )}
+</div>
+
+{showLiveAd && (
+    <script is:inline>
+        (() => {
+            const componentScript = document.currentScript;
+            const container = componentScript?.previousElementSibling;
+            const ad = container?.querySelector(".adsbygoogle");
+            if (!ad || ad.dataset.adsenseInitialized === "true") return;
+
+            ad.dataset.adsenseInitialized = "true";
+            try {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch {
+                // Reklam engelleyici veya ağ hatası sitenin geri kalanını etkilemez.
+            }
+        })();
+    </script>
+)}

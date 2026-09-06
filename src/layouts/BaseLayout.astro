@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar.astro";
 import Topbar from "../components/Topbar.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../config/site.js";
+import { adsConfig, isAdsenseEnabled } from "../config/ads.js";
 import { toAbsoluteUrl } from "../utils/seo.js";
 import "../styles/global.css";
 
@@ -17,6 +18,10 @@ const {
 const canonicalUrl = toAbsoluteUrl(canonicalPath);
 const socialImageUrl = toAbsoluteUrl(image);
 const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+const adsenseEnabled = isAdsenseEnabled();
+const adsenseScriptUrl = adsenseEnabled
+    ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsConfig.publisherId.trim())}`
+    : "";
 ---
 
 <!doctype html>
@@ -27,6 +32,14 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
     <meta name="theme-color" content="#0f1117" />
     <link rel="icon" type="image/png" href="/images/merak-atlasi-logo.png" />
     <link rel="apple-touch-icon" href="/images/merak-atlasi-logo.png" />
+    {adsenseEnabled && (
+        <script
+            is:inline
+            async
+            crossorigin="anonymous"
+            src={adsenseScriptUrl}
+        ></script>
+    )}
 
     <script is:inline>
         (() => {
@@ -93,6 +106,7 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
         const sidebar = document.getElementById("sidebar");
         const backdrop = document.getElementById("sidebarBackdrop");
         const swipeEdge = document.getElementById("sidebarSwipeEdge");
+        const mobileCloseButton = document.getElementById("sidebarCloseButton");
         const collapseButton = document.getElementById("sidebarCollapseButton");
         const mobileMedia = window.matchMedia("(max-width: 900px)");
         let lockedScrollY = 0;
@@ -125,70 +139,120 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
             button?.setAttribute("aria-label", shouldOpen ? "Menüyü kapat" : "Menüyü aç");
         };
 
+        const openSidebar = () => setMobileMenu(true);
+        const closeSidebar = () => setMobileMenu(false);
+
         button?.addEventListener("click", () => {
-            setMobileMenu(!sidebar?.classList.contains("open"));
+            if (sidebar?.classList.contains("open")) closeSidebar();
+            else openSidebar();
         });
 
-        backdrop?.addEventListener("click", () => setMobileMenu(false));
+        mobileCloseButton?.addEventListener("click", closeSidebar);
+        backdrop?.addEventListener("click", closeSidebar);
         sidebar?.querySelectorAll("a").forEach((link) => {
-            link.addEventListener("click", () => setMobileMenu(false));
+            link.addEventListener("click", closeSidebar);
         });
         document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") setMobileMenu(false);
+            if (event.key === "Escape") closeSidebar();
         });
 
         let swipeGesture = null;
-        let suppressSidebarClick = false;
+        let suppressGestureClick = false;
         const swipeThreshold = 60;
 
-        const beginSwipe = (event, mode) => {
+        const releaseSwipeCapture = () => {
+            if (!swipeGesture?.captureTarget?.hasPointerCapture?.(swipeGesture.pointerId)) return;
+            swipeGesture.captureTarget.releasePointerCapture(swipeGesture.pointerId);
+        };
+
+        const resetSwipe = () => {
+            releaseSwipeCapture();
+            swipeGesture = null;
+        };
+
+        const beginSwipe = (event, mode, captureTarget = null) => {
             if (!mobileMedia.matches || !event.isPrimary) return;
             swipeGesture = {
                 pointerId: event.pointerId,
                 mode,
                 startX: event.clientX,
-                startY: event.clientY
+                startY: event.clientY,
+                direction: null,
+                captureTarget
             };
+
+            try {
+                captureTarget?.setPointerCapture?.(event.pointerId);
+            } catch {
+                // Pointer capture desteklenmese de global event takibi devam eder.
+            }
         };
 
-        sidebar?.addEventListener("pointerdown", (event) => {
-            if (sidebar.classList.contains("open")) beginSwipe(event, "close");
-        });
+        document.addEventListener("pointerdown", (event) => {
+            if (!mobileMedia.matches || !event.isPrimary || !sidebar) return;
 
-        swipeEdge?.addEventListener("pointerdown", (event) => {
-            if (!sidebar?.classList.contains("open") && event.clientX <= 28) beginSwipe(event, "open");
-        });
+            if (sidebar.classList.contains("open")) {
+                if (event.target instanceof Node && sidebar.contains(event.target)) {
+                    beginSwipe(event, "close");
+                }
+                return;
+            }
 
-        document.addEventListener("pointerup", (event) => {
+            if (event.clientX <= 28) beginSwipe(event, "open", swipeEdge);
+        }, true);
+
+        const handleSwipeMovement = (event) => {
             if (!swipeGesture || event.pointerId !== swipeGesture.pointerId) return;
 
             const deltaX = event.clientX - swipeGesture.startX;
             const deltaY = event.clientY - swipeGesture.startY;
-            const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+            const absoluteX = Math.abs(deltaX);
+            const absoluteY = Math.abs(deltaY);
+
+            if (!swipeGesture.direction && Math.max(absoluteX, absoluteY) >= 8) {
+                swipeGesture.direction = absoluteX > absoluteY * 1.2 ? "horizontal" : "vertical";
+            }
+
+            if (swipeGesture.direction === "vertical") {
+                resetSwipe();
+                return;
+            }
+
+            if (swipeGesture.direction !== "horizontal") return;
+            if (event.cancelable) event.preventDefault();
+
             const shouldClose = swipeGesture.mode === "close" && deltaX <= -swipeThreshold;
             const shouldOpen = swipeGesture.mode === "open" && deltaX >= swipeThreshold;
 
-            if (isHorizontal && (shouldClose || shouldOpen)) {
-                suppressSidebarClick = shouldClose;
-                setMobileMenu(shouldOpen);
-                window.setTimeout(() => { suppressSidebarClick = false; }, 350);
+            if (shouldClose || shouldOpen) {
+                suppressGestureClick = true;
+                if (shouldOpen) openSidebar();
+                else closeSidebar();
+                resetSwipe();
+                window.setTimeout(() => { suppressGestureClick = false; }, 400);
             }
+        };
 
-            swipeGesture = null;
+        document.addEventListener("pointermove", handleSwipeMovement, { passive: false });
+
+        document.addEventListener("pointerup", (event) => {
+            if (!swipeGesture || event.pointerId !== swipeGesture.pointerId) return;
+            handleSwipeMovement(event);
+            resetSwipe();
         });
 
-        document.addEventListener("pointercancel", () => {
-            swipeGesture = null;
+        document.addEventListener("pointercancel", (event) => {
+            if (swipeGesture && event.pointerId === swipeGesture.pointerId) resetSwipe();
         });
 
-        sidebar?.addEventListener("click", (event) => {
-            if (!suppressSidebarClick) return;
+        document.addEventListener("click", (event) => {
+            if (!suppressGestureClick) return;
             event.preventDefault();
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         }, true);
 
         mobileMedia.addEventListener?.("change", (event) => {
-            if (!event.matches) setMobileMenu(false);
+            if (!event.matches) closeSidebar();
         });
 
         const updateCollapseButton = () => {

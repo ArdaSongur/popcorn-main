@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import MovieListCard from "../../../components/MovieListCard.astro";
+import AdSlot from "../../../components/AdSlot.astro";
 import listsData from "../../../data/lists.json";
 
 const lists = listsData.lists;
@@ -26,7 +27,7 @@ const lists = listsData.lists;
             <p>İzleme listeniz için film ve dizi önerileri ile tematik seçkileri keşfedin.</p>
         </header>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+        <AdSlot placement="listContent" />
 
         <section class="movie-list-section" aria-labelledby="all-lists-title">
             <div class="section-header">
@@ -45,6 +46,6 @@ const lists = listsData.lists;
             )}
         </section>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+        <AdSlot placement="listContent" />
     </div>
 </BaseLayout>

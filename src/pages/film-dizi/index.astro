@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import MovieCard from "../../components/MovieCard.astro";
 import MovieListCard from "../../components/MovieListCard.astro";
+import AdSlot from "../../components/AdSlot.astro";
 import data from "../../data/data.json";
 import listsData from "../../data/lists.json";
 
@@ -229,12 +230,7 @@ const seriesCount = data.series.length;
 
         <!-- AD -->
 
-        <div
-            class="ad-placeholder premium-ad"
-            aria-label="Reklam alanı"
-        >
-            <span>REKLAM</span>
-        </div>
+        <AdSlot placement="listContent" class="premium-ad" />
 
 
 
@@ -291,12 +287,7 @@ const seriesCount = data.series.length;
 
 
 
-        <div
-            class="ad-placeholder premium-ad"
-            aria-label="Reklam alanı"
-        >
-            <span>REKLAM</span>
-        </div>
+        <AdSlot placement="listContent" class="premium-ad" />
 
     </div>
 

@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import MovieCard from "../../components/MovieCard.astro";
 import CommentSection from "../../components/CommentSection.astro";
 import StructuredData from "../../components/StructuredData.astro";
+import AdSlot from "../../components/AdSlot.astro";
 import data from "../../data/data.json";
 import { createMediaStructuredData } from "../../utils/seo.js";
 import { validateContentRoutes } from "../../utils/contentRoutes.js";
@@ -76,7 +77,7 @@ const structuredData = createMediaStructuredData({ item, canonicalPath });
             </div>
         </div>
 
-        <div class="ad-placeholder" aria-label="Reklam alanı">Reklam Alanı</div>
+        <AdSlot placement="filmDetail" />
 
         {relatedItems.length > 0 && (
             <section class="related-section" aria-labelledby="related-title">
