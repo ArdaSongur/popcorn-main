@@ -16,6 +16,8 @@ const privateRoutes = [
 ];
 
 export default defineConfig({
+    output: "static",
+    base: "/",
     site: siteUrl || undefined,
     integrations: siteUrl
         ? [sitemap({
