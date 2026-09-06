@@ -1,8 +1,6 @@
 ---
-import { slugify } from "../utils/slugify.js";
-
 const { item } = Astro.props;
-const itemUrl = `/film-dizi/${slugify(item.title)}/`;
+const itemUrl = `/film-dizi/${item.slug}/`;
 ---
 
 <article class="movie-card">
@@ -41,7 +39,7 @@ const itemUrl = `/film-dizi/${slugify(item.title)}/`;
             class="favorite-button"
             type="button"
             data-favorite-button
-            data-media-slug={slugify(item.title)}
+            data-media-slug={item.slug}
             aria-pressed="false"
         >
             🤍 Favori

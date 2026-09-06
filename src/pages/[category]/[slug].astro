@@ -10,9 +10,15 @@ import {
     formatArticleDate
 } from "../../utils/articles.js";
 import { createArticleStructuredData } from "../../utils/seo.js";
+import { validateContentRoutes } from "../../utils/contentRoutes.js";
 
 export function getStaticPaths() {
-    return articles.map((article) => ({
+    const validatedArticles = validateContentRoutes(articles, {
+        contentType: "article",
+        getRoute: (article) => `/${article.category}/${article.slug}/`
+    });
+
+    return validatedArticles.map((article) => ({
         params: {
             category: article.category,
             slug: article.slug

@@ -4,11 +4,21 @@ import CommentSection from "../../../components/CommentSection.astro";
 import StructuredData from "../../../components/StructuredData.astro";
 import listsData from "../../../data/lists.json";
 import data from "../../../data/data.json";
-import { slugify } from "../../../utils/slugify.js";
 import { createArticleStructuredData } from "../../../utils/seo.js";
+import { validateContentRoutes } from "../../../utils/contentRoutes.js";
 
 export function getStaticPaths() {
-    return listsData.lists.map((list) => ({
+    const validatedLists = validateContentRoutes(listsData.lists, {
+        contentType: "film/dizi yazısı",
+        getRoute: (list) => `/film-dizi/yazilar/${list.slug}/`
+    });
+
+    validateContentRoutes([...data.movies, ...data.series], {
+        contentType: "film/dizi",
+        getRoute: (item) => `/film-dizi/${item.slug}/`
+    });
+
+    return validatedLists.map((list) => ({
         params: { slug: list.slug },
         props: { list }
     }));
@@ -72,7 +82,7 @@ const structuredData = createArticleStructuredData({
             </div>
 
             {picks.map(({ item, note }) => {
-                const itemUrl = `/film-dizi/${slugify(item.title)}/`;
+                const itemUrl = `/film-dizi/${item.slug}/`;
                 const typeLabel = item.type === "movie" ? "Film" : "Dizi";
 
                 return (

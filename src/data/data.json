@@ -3,6 +3,7 @@
         {
             "id": 1,
             "title": "Interstellar",
+            "slug": "interstellar",
             "year": 2014,
             "rating": 8.7,
             "genre": "Bilim Kurgu",
@@ -13,6 +14,7 @@
         {
             "id": 2,
             "title": "Inception",
+            "slug": "inception",
             "year": 2010,
             "rating": 8.8,
             "genre": "Bilim Kurgu",
@@ -23,6 +25,7 @@
         {
             "id": 3,
             "title": "The Dark Knight",
+            "slug": "the-dark-knight",
             "year": 2008,
             "rating": 9.0,
             "genre": "Aksiyon",
@@ -33,6 +36,7 @@
         {
             "id": 4,
             "title": "Forrest Gump",
+            "slug": "forrest-gump",
             "year": 1994,
             "rating": 8.8,
             "genre": "Dram",
@@ -43,6 +47,7 @@
         {
             "id": 5,
             "title": "The Matrix",
+            "slug": "the-matrix",
             "year": 1999,
             "rating": 8.7,
             "genre": "Bilim Kurgu",
@@ -53,6 +58,7 @@
         {
             "id": 6,
             "title": "The Hangover",
+            "slug": "the-hangover",
             "year": 2009,
             "rating": 7.7,
             "genre": "Komedi",
@@ -65,6 +71,7 @@
         {
             "id": 101,
             "title": "Breaking Bad",
+            "slug": "breaking-bad",
             "year": 2008,
             "rating": 9.5,
             "genre": "Dram",
@@ -75,6 +82,7 @@
         {
             "id": 102,
             "title": "Dark",
+            "slug": "dark",
             "year": 2017,
             "rating": 8.7,
             "genre": "Bilim Kurgu",
@@ -85,6 +93,7 @@
         {
             "id": 103,
             "title": "Stranger Things",
+            "slug": "stranger-things",
             "year": 2016,
             "rating": 8.6,
             "genre": "Bilim Kurgu",
@@ -95,6 +104,7 @@
         {
             "id": 104,
             "title": "The Office",
+            "slug": "the-office",
             "year": 2005,
             "rating": 8.5,
             "genre": "Komedi",
@@ -105,6 +115,7 @@
         {
             "id": 105,
             "title": "The Originals",
+            "slug": "the-originals",
             "year": 2013,
             "rating": 8.3,
             "genre": "Fantastik",
@@ -115,6 +126,7 @@
         {
             "id": 106,
             "title": "Teen Wolf",
+            "slug": "teen-wolf",
             "year": 2011,
             "rating": 7.7,
             "genre": "Fantastik",
@@ -125,6 +137,7 @@
         {
             "id": 107,
             "title": "The Secret Circle",
+            "slug": "the-secret-circle",
             "year": 2011,
             "rating": 7.3,
             "genre": "Fantastik",

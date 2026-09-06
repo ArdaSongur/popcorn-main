@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import MovieCard from "../components/MovieCard.astro";
 import data from "../data/data.json";
-import { slugify } from "../utils/slugify.js";
 
 const items = [...data.movies, ...data.series];
 ---
@@ -42,7 +41,7 @@ const items = [...data.movies, ...data.series];
 
         <div class="media-grid favorites-grid" id="favoritesGrid" hidden>
             {items.map((item) => (
-                <div class="favorite-card-item" data-favorite-card={slugify(item.title)} hidden>
+                <div class="favorite-card-item" data-favorite-card={item.slug} hidden>
                     <MovieCard item={item} />
                 </div>
             ))}

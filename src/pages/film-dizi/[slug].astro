@@ -4,14 +4,19 @@ import MovieCard from "../../components/MovieCard.astro";
 import CommentSection from "../../components/CommentSection.astro";
 import StructuredData from "../../components/StructuredData.astro";
 import data from "../../data/data.json";
-import { slugify } from "../../utils/slugify.js";
 import { createMediaStructuredData } from "../../utils/seo.js";
+import { validateContentRoutes } from "../../utils/contentRoutes.js";
 
 const items = [...data.movies, ...data.series];
 
 export function getStaticPaths() {
-    return [...data.movies, ...data.series].map((item) => ({
-        params: { slug: slugify(item.title) },
+    const validatedItems = validateContentRoutes([...data.movies, ...data.series], {
+        contentType: "film/dizi",
+        getRoute: (item) => `/film-dizi/${item.slug}/`
+    });
+
+    return validatedItems.map((item) => ({
+        params: { slug: item.slug },
         props: { item }
     }));
 }
@@ -21,7 +26,7 @@ const relatedItems = items
     .filter((candidate) => candidate.genre === item.genre && candidate.id !== item.id)
     .slice(0, 4);
 const typeLabel = item.type === "movie" ? "Film" : "Dizi";
-const canonicalPath = `/film-dizi/${slugify(item.title)}/`;
+const canonicalPath = `/film-dizi/${item.slug}/`;
 const structuredData = createMediaStructuredData({ item, canonicalPath });
 ---
 
@@ -63,7 +68,7 @@ const structuredData = createMediaStructuredData({ item, canonicalPath });
                     class="favorite-button detail-favorite"
                     type="button"
                     data-favorite-button
-                    data-media-slug={slugify(item.title)}
+                    data-media-slug={item.slug}
                     aria-pressed="false"
                 >
                     🤍 Favori
@@ -84,6 +89,6 @@ const structuredData = createMediaStructuredData({ item, canonicalPath });
             </section>
         )}
 
-        <CommentSection contentKey={`film-dizi:${slugify(item.title)}`} />
+        <CommentSection contentKey={`film-dizi:${item.slug}`} />
     </article>
 </BaseLayout>
