@@ -1856,14 +1856,10 @@ html[data-theme="light"] .scroll-top-button:hover {
     width: 40px;
     height: 40px;
     flex: 0 0 40px;
-    overflow: hidden;
     place-items: center;
-
-    border: 1px solid #38332a;
-    border-radius: 11px;
-
-    background: #211e18;
-
+    border: 0;
+    background: transparent;
+    box-shadow: none;
     font-size: 20px;
 }
 
@@ -2921,7 +2917,6 @@ html[data-theme="light"] .account-hero-actions a {
 
 .sidebar-logo-mark {
     flex: 0 0 auto;
-    box-shadow: inset 0 0 22px rgba(213, 180, 99, 0.06);
 }
 
 .sidebar-link,
