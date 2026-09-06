@@ -10,7 +10,11 @@ const categoryArticles = sortArticlesNewest(
 );
 ---
 
-<BaseLayout title={`${title} | Popcorn`} description={description}>
+<BaseLayout
+    title={`${title} | Popcorn`}
+    description={description}
+    canonicalPath={Astro.url.pathname}
+>
     <div class="page-container category-page">
         <header class="page-heading">
             <span class="eyebrow">POPCORN</span>

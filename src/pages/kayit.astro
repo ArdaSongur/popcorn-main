@@ -5,9 +5,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout
     title="Kayıt Ol | Popcorn"
     description="Popcorn hesabınızı oluşturun."
+    canonicalPath="/kayit/"
+    noindex
 >
     <section class="auth-page">
-        <div class="auth-card">
+        <div class="auth-card auth-card--register">
             <div class="auth-heading">
                 <span class="eyebrow">POPCORN'A KATIL</span>
                 <h1>Hesabını oluştur</h1>
@@ -57,7 +59,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                             minlength="8"
                             required
                         />
-                        <button type="button" data-password-toggle="registerPassword" aria-label="Şifreyi göster">
+                        <button type="button" data-password-toggle="registerPassword" aria-label="Şifreyi göster" aria-pressed="false">
                             Göster
                         </button>
                     </div>
@@ -75,7 +77,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                             minlength="8"
                             required
                         />
-                        <button type="button" data-password-toggle="registerPasswordAgain" aria-label="Şifre tekrarını göster">
+                        <button type="button" data-password-toggle="registerPasswordAgain" aria-label="Şifre tekrarını göster" aria-pressed="false">
                             Göster
                         </button>
                     </div>
@@ -177,6 +179,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 input.type = willShow ? "text" : "password";
                 button.textContent = willShow ? "Gizle" : "Göster";
                 button.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
+                button.setAttribute("aria-pressed", String(willShow));
             });
         });
 

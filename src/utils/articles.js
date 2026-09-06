@@ -3,7 +3,8 @@ export const categoryLabels = {
     "yemek-tarifleri": "Yemek Tarifleri",
     "kultur-sanat": "Kültür & Sanat",
     "ruya-tabirleri": "Rüya Tabirleri",
-    "kisisel-gelisim": "Kişisel Gelişim"
+    "kisisel-gelisim": "Kişisel Gelişim",
+    "evcil-hayvanlar": "Evcil Hayvanlar"
 };
 
 export function getArticleUrl(article) {

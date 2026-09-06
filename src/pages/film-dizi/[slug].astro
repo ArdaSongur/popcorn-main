@@ -2,8 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import MovieCard from "../../components/MovieCard.astro";
 import CommentSection from "../../components/CommentSection.astro";
+import StructuredData from "../../components/StructuredData.astro";
 import data from "../../data/data.json";
 import { slugify } from "../../utils/slugify.js";
+import { createMediaStructuredData } from "../../utils/seo.js";
 
 const items = [...data.movies, ...data.series];
 
@@ -19,9 +21,18 @@ const relatedItems = items
     .filter((candidate) => candidate.genre === item.genre && candidate.id !== item.id)
     .slice(0, 4);
 const typeLabel = item.type === "movie" ? "Film" : "Dizi";
+const canonicalPath = `/film-dizi/${slugify(item.title)}/`;
+const structuredData = createMediaStructuredData({ item, canonicalPath });
 ---
 
-<BaseLayout title={`${item.title} | Popcorn`} description={item.description}>
+<BaseLayout
+    title={`${item.title} | Popcorn`}
+    description={item.description}
+    canonicalPath={canonicalPath}
+    image={item.image}
+    type={item.type === "movie" ? "video.movie" : "video.tv_show"}
+>
+    <StructuredData data={structuredData} />
     <article class="page-container media-detail">
         <a class="back-link" href="/film-dizi/">← Filmler & Diziler'e dön</a>
 

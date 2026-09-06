@@ -3,11 +3,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import ArticleContent from "../../components/ArticleContent.astro";
 import CommentSection from "../../components/CommentSection.astro";
+import StructuredData from "../../components/StructuredData.astro";
 import articles from "../../data/articles.json";
 import {
     categoryLabels,
     formatArticleDate
 } from "../../utils/articles.js";
+import { createArticleStructuredData } from "../../utils/seo.js";
 
 export function getStaticPaths() {
     return articles.map((article) => ({
@@ -37,9 +39,24 @@ const relatedArticles = articles
     )
     .slice(0, 3)
     .map((candidate) => candidate.article);
+const canonicalPath = `/${article.category}/${article.slug}/`;
+const structuredData = createArticleStructuredData({
+    title: article.title,
+    description: article.seoDescription || article.excerpt,
+    canonicalPath,
+    image: article.coverImage,
+    publishedAt: article.publishedAt
+});
 ---
 
-<BaseLayout title={article.seoTitle} description={article.seoDescription}>
+<BaseLayout
+    title={article.seoTitle || `${article.title} | Popcorn`}
+    description={article.seoDescription || article.excerpt}
+    canonicalPath={canonicalPath}
+    image={article.coverImage || undefined}
+    type="article"
+>
+    <StructuredData data={structuredData} />
     <article class="page-container article-detail">
         <nav class="breadcrumb" aria-label="Sayfa yolu">
             <a href="/">Ana Sayfa</a>

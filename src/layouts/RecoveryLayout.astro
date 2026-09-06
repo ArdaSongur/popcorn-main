@@ -1,0 +1,79 @@
+---
+import "../styles/global.css";
+import { siteConfig } from "../config/site.js";
+import { toAbsoluteUrl } from "../utils/seo.js";
+
+const {
+    title = "Şifre Yenile | Popcorn",
+    description = "Popcorn hesabınız için yeni bir şifre belirleyin."
+} = Astro.props;
+const canonicalUrl = toAbsoluteUrl(Astro.url.pathname);
+---
+
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script is:inline>
+        (() => {
+            try {
+                const savedTheme = localStorage.getItem("theme");
+                document.documentElement.dataset.theme = savedTheme === "light" ? "light" : "dark";
+
+                const hashParameters = new URLSearchParams(window.location.hash.slice(1));
+                const queryParameters = new URLSearchParams(window.location.search);
+                const linkHasError = Boolean(
+                    hashParameters.get("error")
+                    || hashParameters.get("error_code")
+                    || queryParameters.get("error")
+                    || queryParameters.get("error_code")
+                );
+                const hasRecoveryIndicator = Boolean(
+                    hashParameters.get("access_token")
+                    || hashParameters.get("type") === "recovery"
+                    || queryParameters.get("code")
+                    || queryParameters.get("token_hash")
+                    || queryParameters.get("type") === "recovery"
+                );
+
+                if (hasRecoveryIndicator && !linkHasError) {
+                    sessionStorage.setItem("popcorn-password-recovery", "active");
+                }
+            } catch {
+                document.documentElement.dataset.theme = "dark";
+            }
+        })();
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+</head>
+
+<body class="recovery-body">
+    <main class="recovery-shell">
+        <div class="recovery-brand" aria-label="Popcorn">
+            <span class="recovery-brand-mark" aria-hidden="true">🍿</span>
+            <span class="recovery-brand-text">
+                <strong>POPCORN</strong>
+                <small>Güvenli hesap işlemi</small>
+            </span>
+        </div>
+
+        <div class="recovery-main">
+            <slot />
+        </div>
+    </main>
+</body>
+</html>

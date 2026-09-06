@@ -1,0 +1,282 @@
+---
+import RecoveryLayout from "../../layouts/RecoveryLayout.astro";
+---
+
+<RecoveryLayout
+    title="Şifre Yenile | Popcorn"
+    description="Popcorn hesabınız için yeni bir şifre belirleyin."
+>
+    <section class="auth-page">
+        <div class="auth-card auth-card--compact">
+            <div class="auth-heading">
+                <span class="eyebrow">GÜVENLİ HESAP</span>
+                <h1>Yeni şifreni belirle</h1>
+                <p>Bağlantın doğrulandıktan sonra hesabın için yeni bir şifre oluşturabilirsin.</p>
+            </div>
+
+            <div
+                class="auth-message is-loading"
+                id="recoveryLinkStatus"
+                role="status"
+                aria-live="polite"
+            >
+                Şifre yenileme bağlantısı doğrulanıyor…
+            </div>
+
+            <form class="auth-form" id="resetPasswordForm" hidden novalidate>
+                <label for="resetPassword">
+                    <span>Yeni şifre</span>
+                    <div class="auth-password-field">
+                        <input
+                            id="resetPassword"
+                            name="password"
+                            type="password"
+                            autocomplete="new-password"
+                            placeholder="En az 8 karakter"
+                            minlength="8"
+                            required
+                        />
+                        <button
+                            type="button"
+                            data-password-toggle="resetPassword"
+                            aria-label="Yeni şifreyi göster"
+                            aria-pressed="false"
+                        >Göster</button>
+                    </div>
+                </label>
+
+                <label for="resetPasswordAgain">
+                    <span>Yeni şifre tekrar</span>
+                    <div class="auth-password-field">
+                        <input
+                            id="resetPasswordAgain"
+                            name="passwordAgain"
+                            type="password"
+                            autocomplete="new-password"
+                            placeholder="Yeni şifreni tekrar yaz"
+                            minlength="8"
+                            required
+                        />
+                        <button
+                            type="button"
+                            data-password-toggle="resetPasswordAgain"
+                            aria-label="Yeni şifre tekrarını göster"
+                            aria-pressed="false"
+                        >Göster</button>
+                    </div>
+                </label>
+
+                <div class="auth-message" id="resetPasswordMessage" role="status" aria-live="polite" hidden></div>
+
+                <button class="auth-submit" id="resetPasswordSubmit" type="submit">
+                    Şifreyi Güncelle
+                </button>
+            </form>
+
+            <button class="auth-recovery-cancel" id="recoveryCancel" type="button" hidden>
+                Vazgeç ve giriş sayfasına dön
+            </button>
+
+            <div class="auth-success-panel" id="resetPasswordSuccess" hidden>
+                <strong>Şifreniz güncellendi.</strong>
+                <p>Yeni şifrenizle giriş yapabilirsiniz. Giriş sayfasına yönlendiriliyorsunuz…</p>
+            </div>
+
+            <p class="auth-recovery-help" id="recoveryHelp" hidden>
+                Bağlantının süresi dolmuş veya bağlantı daha önce kullanılmış olabilir.
+                <a href="/sifremi-unuttum/">Yeni sıfırlama bağlantısı iste</a>
+            </p>
+        </div>
+    </section>
+
+    <script>
+        import { supabase } from "../../lib/supabase.js";
+
+        const form = document.getElementById("resetPasswordForm");
+        const passwordInput = document.getElementById("resetPassword");
+        const passwordAgainInput = document.getElementById("resetPasswordAgain");
+        const submitButton = document.getElementById("resetPasswordSubmit");
+        const message = document.getElementById("resetPasswordMessage");
+        const linkStatus = document.getElementById("recoveryLinkStatus");
+        const recoveryHelp = document.getElementById("recoveryHelp");
+        const successPanel = document.getElementById("resetPasswordSuccess");
+        const recoveryCancel = document.getElementById("recoveryCancel");
+        const recoveryStorageKey = "popcorn-password-recovery";
+        let recoveryReady = false;
+        let recoveryFinished = false;
+
+        const isRecoveryFlowTracked = () => {
+            try {
+                return sessionStorage.getItem(recoveryStorageKey) === "active";
+            } catch {
+                return false;
+            }
+        };
+
+        const hashParameters = new URLSearchParams(window.location.hash.slice(1));
+        const queryParameters = new URLSearchParams(window.location.search);
+        const linkHasError = Boolean(
+            hashParameters.get("error")
+            || hashParameters.get("error_code")
+            || queryParameters.get("error")
+            || queryParameters.get("error_code")
+        );
+        const hasRecoveryIndicator = Boolean(
+            hashParameters.get("access_token")
+            || hashParameters.get("type") === "recovery"
+            || queryParameters.get("code")
+            || queryParameters.get("token_hash")
+            || queryParameters.get("type") === "recovery"
+        );
+
+        const showMessage = (text, type) => {
+            if (!message) return;
+            message.textContent = text;
+            message.className = `auth-message is-${type}`;
+            message.hidden = false;
+        };
+
+        const showInvalidLink = () => {
+            if (recoveryReady || recoveryFinished) return;
+            try {
+                sessionStorage.removeItem(recoveryStorageKey);
+            } catch {
+                // Depolama kapalıysa sayfanın özel layout'u yine navigasyonu gizler.
+            }
+            if (form) form.hidden = true;
+            if (recoveryCancel) recoveryCancel.hidden = true;
+            if (linkStatus) {
+                linkStatus.textContent = "Bu şifre yenileme bağlantısı geçersiz veya süresi dolmuş.";
+                linkStatus.className = "auth-message is-error";
+            }
+            if (recoveryHelp) recoveryHelp.hidden = false;
+        };
+
+        const showRecoveryForm = () => {
+            if (recoveryFinished) return;
+            recoveryReady = true;
+            try {
+                sessionStorage.setItem(recoveryStorageKey, "active");
+            } catch {
+                // Recovery ekranı normal navigasyonu zaten göstermiyor.
+            }
+            if (linkStatus) linkStatus.hidden = true;
+            if (recoveryHelp) recoveryHelp.hidden = true;
+            if (form) form.hidden = false;
+            if (recoveryCancel) recoveryCancel.hidden = false;
+            passwordInput?.focus();
+        };
+
+        const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+            if (event === "PASSWORD_RECOVERY" && session) {
+                showRecoveryForm();
+            }
+        });
+
+        if (linkHasError) {
+            showInvalidLink();
+        } else {
+            const { data, error } = await supabase.auth.getSession();
+
+            if (error || (!hasRecoveryIndicator && !isRecoveryFlowTracked())) {
+                showInvalidLink();
+            } else if (!hasRecoveryIndicator && isRecoveryFlowTracked() && data.session) {
+                // URL Supabase tarafından temizlendikten sonraki güvenli sayfa yenilemelerini destekler.
+                showRecoveryForm();
+            } else {
+                window.setTimeout(showInvalidLink, 1500);
+            }
+        }
+
+        document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const input = document.getElementById(button.dataset.passwordToggle);
+                if (!(input instanceof HTMLInputElement)) return;
+
+                const willShow = input.type === "password";
+                input.type = willShow ? "text" : "password";
+                button.textContent = willShow ? "Gizle" : "Göster";
+                button.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
+                button.setAttribute("aria-pressed", String(willShow));
+            });
+        });
+
+        recoveryCancel?.addEventListener("click", async () => {
+            if (recoveryCancel instanceof HTMLButtonElement) {
+                recoveryCancel.disabled = true;
+                recoveryCancel.textContent = "Güvenli çıkış yapılıyor…";
+            }
+
+            try {
+                await supabase.auth.signOut();
+            } finally {
+                try {
+                    sessionStorage.removeItem(recoveryStorageKey);
+                } catch {
+                    // Yönlendirme yine devam eder.
+                }
+                authListener.subscription.unsubscribe();
+                window.location.replace("/giris/");
+            }
+        });
+
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!recoveryReady) {
+                showInvalidLink();
+                return;
+            }
+
+            if (!(passwordInput instanceof HTMLInputElement)
+                || !(passwordAgainInput instanceof HTMLInputElement)
+                || !(submitButton instanceof HTMLButtonElement)) return;
+
+            if (passwordInput.value.length < 8) {
+                showMessage("Yeni şifre en az 8 karakter olmalıdır.", "error");
+                passwordInput.focus();
+                return;
+            }
+
+            if (passwordInput.value !== passwordAgainInput.value) {
+                showMessage("Şifreler eşleşmiyor.", "error");
+                passwordAgainInput.focus();
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Şifre güncelleniyor…";
+            showMessage("Yeni şifreniz güvenli şekilde kaydediliyor…", "loading");
+
+            const { error } = await supabase.auth.updateUser({
+                password: passwordInput.value
+            });
+
+            if (error) {
+                showMessage("Şifre güncellenemedi. Bağlantı süresi dolmuş olabilir; yeniden bağlantı isteyin.", "error");
+                submitButton.disabled = false;
+                submitButton.textContent = "Şifreyi Güncelle";
+                if (recoveryHelp) recoveryHelp.hidden = false;
+                return;
+            }
+
+            recoveryFinished = true;
+            form.reset();
+            form.hidden = true;
+            if (recoveryCancel) recoveryCancel.hidden = true;
+            if (linkStatus) linkStatus.hidden = true;
+            if (successPanel) successPanel.hidden = false;
+            try {
+                await supabase.auth.signOut();
+            } finally {
+                try {
+                    sessionStorage.removeItem(recoveryStorageKey);
+                } catch {
+                    // Yönlendirme yine devam eder.
+                }
+                authListener.subscription.unsubscribe();
+                window.setTimeout(() => window.location.replace("/giris/"), 1200);
+            }
+        });
+    </script>
+</RecoveryLayout>

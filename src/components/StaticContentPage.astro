@@ -11,7 +11,7 @@ const {
 
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} canonicalPath={Astro.url.pathname}>
     <article class="static-page">
         <nav class="breadcrumb" aria-label="İçerik yolu">
             <a href="/">Ana Sayfa</a>

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ArdaSongur/popcorn-main#readme",
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@supabase/supabase-js": "^2.115.0",
     "astro": "^7.3.1"
   }

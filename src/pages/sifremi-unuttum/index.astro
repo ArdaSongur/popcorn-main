@@ -1,0 +1,238 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Şifremi Unuttum | Popcorn"
+    description="Popcorn hesabınız için güvenli bir şifre yenileme bağlantısı isteyin."
+    canonicalPath="/sifremi-unuttum/"
+    noindex
+>
+    <section class="auth-page">
+        <div class="auth-card auth-card--compact">
+            <a class="auth-back-link" href="/giris/">← Giriş sayfasına dön</a>
+
+            <div class="auth-heading">
+                <span class="eyebrow">HESAP ERİŞİMİ</span>
+                <h1>Şifreni yenile</h1>
+                <p>Hesabında kullandığın e-posta adresini yaz; sana güvenli bir yenileme bağlantısı gönderelim.</p>
+            </div>
+
+            <form class="auth-form" id="forgotPasswordForm" novalidate>
+                <label for="forgotPasswordEmail">
+                    <span>E-posta adresi</span>
+                    <input
+                        id="forgotPasswordEmail"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        inputmode="email"
+                        placeholder="ornek@email.com"
+                        required
+                    />
+                </label>
+
+                <div class="auth-message" id="forgotPasswordMessage" role="status" aria-live="polite" hidden></div>
+
+                <button class="auth-submit" id="forgotPasswordSubmit" type="submit">
+                    Sıfırlama Bağlantısı Gönder
+                </button>
+            </form>
+
+            <p class="auth-privacy-note">
+                Güvenliğiniz için bu e-posta adresiyle bir hesap bulunup bulunmadığını açıklamayız.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        import { supabase } from "../../lib/supabase.js";
+
+        const form = document.getElementById("forgotPasswordForm");
+        const emailInput = document.getElementById("forgotPasswordEmail");
+        const submitButton = document.getElementById("forgotPasswordSubmit");
+        const message = document.getElementById("forgotPasswordMessage");
+        const cooldownStorageKey = "popcorn-password-reset-cooldowns";
+        const cooldownDuration = 60_000;
+        const memoryCooldowns = {};
+        const knownCooldownEmails = new Set();
+        let cooldownTimer = 0;
+        let isSubmitting = false;
+
+        const normalizeEmail = (value) => String(value ?? "").trim().toLowerCase();
+
+        const readCooldowns = () => {
+            const now = Date.now();
+            let storedCooldowns = memoryCooldowns;
+
+            try {
+                const parsed = JSON.parse(sessionStorage.getItem(cooldownStorageKey) || "{}");
+                if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+                    storedCooldowns = parsed;
+                }
+            } catch {
+                storedCooldowns = memoryCooldowns;
+            }
+
+            const activeCooldowns = {};
+            Object.entries(storedCooldowns).forEach(([email, expiresAt]) => {
+                const timestamp = Number(expiresAt);
+                if (Number.isFinite(timestamp) && timestamp > now) {
+                    activeCooldowns[email] = timestamp;
+                    memoryCooldowns[email] = timestamp;
+                } else {
+                    delete memoryCooldowns[email];
+                }
+            });
+
+            try {
+                if (Object.keys(activeCooldowns).length) {
+                    sessionStorage.setItem(cooldownStorageKey, JSON.stringify(activeCooldowns));
+                } else {
+                    sessionStorage.removeItem(cooldownStorageKey);
+                }
+            } catch {
+                // Depolama kapalıysa sekme açık kaldığı sürece bellek kaydı kullanılır.
+            }
+
+            return activeCooldowns;
+        };
+
+        const getRemainingSeconds = (email) => {
+            if (!email) return 0;
+            const expiresAt = Number(readCooldowns()[email]);
+            if (!Number.isFinite(expiresAt)) return 0;
+            knownCooldownEmails.add(email);
+            return Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
+        };
+
+        const saveCooldown = (email) => {
+            if (!email) return;
+            const cooldowns = readCooldowns();
+            const expiresAt = Date.now() + cooldownDuration;
+            cooldowns[email] = expiresAt;
+            memoryCooldowns[email] = expiresAt;
+            knownCooldownEmails.add(email);
+
+            try {
+                sessionStorage.setItem(cooldownStorageKey, JSON.stringify(cooldowns));
+            } catch {
+                // Bellek kaydı yine aynı sayfadaki tekrar gönderimi engeller.
+            }
+        };
+
+        const renderSubmitState = () => {
+            if (!(emailInput instanceof HTMLInputElement)
+                || !(submitButton instanceof HTMLButtonElement)) return;
+
+            window.clearTimeout(cooldownTimer);
+
+            if (isSubmitting) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Bağlantı gönderiliyor…";
+                return;
+            }
+
+            const email = normalizeEmail(emailInput.value);
+            const remainingSeconds = getRemainingSeconds(email);
+
+            if (remainingSeconds > 0) {
+                submitButton.disabled = true;
+                submitButton.textContent = `Tekrar gönder (${remainingSeconds})`;
+                cooldownTimer = window.setTimeout(renderSubmitState, 250);
+                return;
+            }
+
+            submitButton.disabled = false;
+            submitButton.textContent = knownCooldownEmails.has(email)
+                ? "Tekrar Gönder"
+                : "Sıfırlama Bağlantısı Gönder";
+        };
+
+        const startCooldown = (email) => {
+            saveCooldown(email);
+            renderSubmitState();
+        };
+
+        const isRateLimitError = (error) => {
+            const status = Number(error?.status);
+            const code = String(error?.code ?? "").toLowerCase();
+            const errorMessage = String(error?.message ?? "").toLowerCase();
+            return status === 429
+                || code.includes("rate_limit")
+                || code.includes("over_email_send")
+                || errorMessage.includes("rate limit")
+                || errorMessage.includes("security purposes")
+                || errorMessage.includes("seconds");
+        };
+
+        const showMessage = (text, type) => {
+            if (!message) return;
+            message.textContent = text;
+            message.className = `auth-message is-${type}`;
+            message.hidden = false;
+        };
+
+        emailInput?.addEventListener("input", () => {
+            if (!isSubmitting && message) message.hidden = true;
+            renderSubmitState();
+        });
+
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!(emailInput instanceof HTMLInputElement)
+                || !(submitButton instanceof HTMLButtonElement)) return;
+
+            if (isSubmitting) return;
+
+            const email = normalizeEmail(emailInput.value);
+            emailInput.value = email;
+
+            if (!email || !emailInput.validity.valid) {
+                showMessage("Geçerli bir e-posta adresi girin.", "error");
+                emailInput.focus();
+                return;
+            }
+
+            if (getRemainingSeconds(email) > 0) {
+                showMessage("Yeni bağlantı göndermek için biraz bekleyin.", "error");
+                renderSubmitState();
+                return;
+            }
+
+            isSubmitting = true;
+            emailInput.disabled = true;
+            renderSubmitState();
+            showMessage("İsteğiniz güvenli şekilde işleniyor…", "loading");
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/sifre-yenile/`
+            });
+
+            isSubmitting = false;
+            emailInput.disabled = false;
+
+            if (error) {
+                if (isRateLimitError(error)) {
+                    startCooldown(email);
+                    showMessage("Yeni bağlantı göndermek için biraz bekleyin.", "error");
+                } else {
+                    showMessage("Bağlantı şu anda gönderilemedi. Lütfen daha sonra tekrar deneyin.", "error");
+                    renderSubmitState();
+                }
+                return;
+            }
+
+            startCooldown(email);
+            showMessage(
+                "Eğer bu e-posta ile bir hesap varsa şifre yenileme bağlantısı gönderildi.",
+                "success"
+            );
+        });
+
+        readCooldowns();
+        renderSubmitState();
+        window.addEventListener("pageshow", renderSubmitState);
+    </script>
+</BaseLayout>

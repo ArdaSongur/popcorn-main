@@ -1,35 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArticleCard from "./ArticleCard.astro";
 import CommentSection from "./CommentSection.astro";
-import articles from "../data/articles.json";
-import { formatArticleDate, sortArticlesNewest } from "../utils/articles.js";
 
-const { horoscope } = Astro.props;
-
-const signOrder = [
-    "koc",
-    "boga",
-    "ikizler",
-    "yengec",
-    "aslan",
-    "basak",
-    "terazi",
-    "akrep",
-    "yay",
-    "oglak",
-    "kova",
-    "balik"
-];
-
-const relatedArticles = sortArticlesNewest(
-    articles.filter((article) => article.category === "astroloji")
-).slice(0, 3);
+const { signs } = Astro.props;
 ---
 
 <BaseLayout
-    title={horoscope.seoTitle}
-    description={horoscope.seoDescription}
+    title="Burçlar: 12 Burcun Genel Özellikleri | Popcorn"
+    description="Koç'tan Balık'a on iki burcun genel karakterini, güçlü yönlerini ve sosyal özelliklerini keşfedin."
+    canonicalPath="/astroloji/burclar/"
 >
     <div class="page-container horoscope-page">
 
@@ -42,7 +21,7 @@ const relatedArticles = sortArticlesNewest(
             <span aria-hidden="true">/</span>
 
             <span aria-current="page">
-                Günlük Burç Yorumları
+                Burçlar
             </span>
         </nav>
 
@@ -51,17 +30,14 @@ const relatedArticles = sortArticlesNewest(
         <header class="horoscope-heading">
 
             <span class="eyebrow">
-                GÜNLÜK ASTROLOJİ
+                ASTROLOJİ REHBERİ
             </span>
 
-            <h1>{horoscope.title}</h1>
-
-            <time datetime={horoscope.publishedAt}>
-                {formatArticleDate(horoscope.publishedAt)}
-            </time>
+            <h1>Burçlar ve Genel Özellikleri</h1>
 
             <p class="horoscope-intro">
-                {horoscope.intro}
+                On iki burcun karakterini, güçlü yönlerini, ilişkilerdeki yaklaşımını
+                ve dikkat edebileceği özellikleri zamansız bir rehberle keşfet.
             </p>
 
         </header>
@@ -78,9 +54,9 @@ const relatedArticles = sortArticlesNewest(
                 class="horoscope-quick-nav"
                 aria-label="Burçlara hızlı geçiş"
             >
-                {signOrder.map((signKey) => (
-                    <a href={`#${signKey}`}>
-                        {horoscope.signs[signKey].name}
+                {signs.map((sign) => (
+                    <a href={`#${sign.key}`}>
+                        {sign.name}
                     </a>
                 ))}
             </nav>
@@ -91,16 +67,12 @@ const relatedArticles = sortArticlesNewest(
         <!-- SIGNS -->
         <div class="horoscope-list">
 
-            {signOrder.map((signKey, index) => {
-
-                const sign = horoscope.signs[signKey];
-
-                return (
+            {signs.map((sign, index) => (
                     <>
 
                         <article
                             class="horoscope-section"
-                            id={signKey}
+                            id={sign.key}
                         >
 
                             <!-- IMAGE -->
@@ -111,7 +83,7 @@ const relatedArticles = sortArticlesNewest(
                                         sign.image ||
                                         "/images/horoscope-placeholder.svg"
                                     }
-                                    alt={`${sign.name} burcu günlük yorum görseli`}
+                                    alt={`${sign.name} burcu simgesel görseli`}
                                     loading="lazy"
                                     onerror="this.onerror=null; this.src='/images/horoscope-placeholder.svg';"
                                 />
@@ -123,7 +95,7 @@ const relatedArticles = sortArticlesNewest(
                             <div class="horoscope-copy">
 
                                 <span class="eyebrow">
-                                    GÜNLÜK YORUM
+                                    BURÇ PROFİLİ
                                 </span>
 
                                 <h2>
@@ -140,7 +112,7 @@ const relatedArticles = sortArticlesNewest(
 
 
                         {(index + 1) % 4 === 0 &&
-                            index < signOrder.length - 1 && (
+                            index < signs.length - 1 && (
 
                             <div
                                 class="ad-placeholder horoscope-ad"
@@ -152,45 +124,12 @@ const relatedArticles = sortArticlesNewest(
                         )}
 
                     </>
-                );
-            })}
+            ))}
 
         </div>
 
 
-        <!-- RELATED CONTENT -->
-        {relatedArticles.length > 0 && (
-
-            <section
-                class="horoscope-related"
-                aria-labelledby="horoscope-related-title"
-            >
-
-                <div class="section-header">
-
-                    <h2 id="horoscope-related-title">
-                        Bunlar da ilginizi çekebilir
-                    </h2>
-
-                    <a href="/astroloji/">
-                        Tüm Astroloji İçerikleri →
-                    </a>
-
-                </div>
-
-                <div class="article-list">
-
-                    {relatedArticles.map((article) => (
-                        <ArticleCard article={article} />
-                    ))}
-
-                </div>
-
-            </section>
-
-        )}
-
-        <CommentSection contentKey={`horoscope:${horoscope.date}`} />
+        <CommentSection contentKey="horoscope:zodiac-signs" />
 
     </div>
     <button

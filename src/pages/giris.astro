@@ -5,9 +5,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout
     title="Giriş Yap | Popcorn"
     description="Popcorn hesabınıza giriş yapın."
+    canonicalPath="/giris/"
+    noindex
 >
     <section class="auth-page">
-        <div class="auth-card">
+        <div class="auth-card auth-card--login">
             <div class="auth-heading">
                 <span class="eyebrow">TEKRAR HOŞ GELDİN</span>
                 <h1>Hesabına giriş yap</h1>
@@ -27,8 +29,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                     />
                 </label>
 
-                <label for="loginPassword">
-                    <span>Şifre</span>
+                <div class="auth-form-field">
+                    <div class="auth-label-row">
+                        <label for="loginPassword">Şifre</label>
+                        <a href="/sifremi-unuttum/">Şifreni mi unuttun?</a>
+                    </div>
                     <div class="auth-password-field">
                         <input
                             id="loginPassword"
@@ -38,11 +43,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                             placeholder="Şifren"
                             required
                         />
-                        <button type="button" id="loginPasswordToggle" aria-label="Şifreyi göster">
+                        <button type="button" id="loginPasswordToggle" aria-label="Şifreyi göster" aria-pressed="false">
                             Göster
                         </button>
                     </div>
-                </label>
+                </div>
 
                 <div class="auth-message" id="loginMessage" role="status" aria-live="polite" hidden></div>
 
@@ -79,6 +84,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             passwordInput.type = willShow ? "text" : "password";
             passwordToggle.textContent = willShow ? "Gizle" : "Göster";
             passwordToggle.setAttribute("aria-label", willShow ? "Şifreyi gizle" : "Şifreyi göster");
+            passwordToggle.setAttribute("aria-pressed", String(willShow));
         });
 
         form?.addEventListener("submit", async (event) => {

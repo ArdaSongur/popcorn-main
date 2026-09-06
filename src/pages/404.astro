@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Sayfa Bulunamadı | Popcorn"
+    description="Aradığınız Popcorn sayfası bulunamadı."
+    canonicalPath="/404/"
+    noindex
+>
+    <section class="not-found-page" aria-labelledby="not-found-title">
+        <span class="eyebrow">404</span>
+        <h1 id="not-found-title">Bu sayfa aramızdan ayrılmış.</h1>
+        <p>Bağlantı değişmiş veya aradığınız içerik kaldırılmış olabilir.</p>
+        <a href="/">Ana Sayfaya Dön →</a>
+    </section>
+</BaseLayout>

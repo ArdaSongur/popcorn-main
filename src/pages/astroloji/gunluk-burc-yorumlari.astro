@@ -1,9 +1,0 @@
----
-import HoroscopePage from "../../components/HoroscopePage.astro";
-import horoscopes from "../../data/horoscopes.json";
-import { getLatestHoroscope } from "../../utils/horoscopes.js";
-
-const latestHoroscope = getLatestHoroscope(horoscopes);
----
-
-<HoroscopePage horoscope={latestHoroscope} />

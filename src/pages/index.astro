@@ -3,20 +3,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import MovieCard from "../components/MovieCard.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import HoroscopeFeatureCard from "../components/HoroscopeFeatureCard.astro";
+import StructuredData from "../components/StructuredData.astro";
 import data from "../data/data.json";
 import articles from "../data/articles.json";
-import horoscopes from "../data/horoscopes.json";
 import { sortArticlesNewest } from "../utils/articles.js";
-import { getLatestHoroscope } from "../utils/horoscopes.js";
+import { createWebSiteStructuredData } from "../utils/seo.js";
 
 const featuredMovies = data.movies.slice(0, 4);
-const latestHoroscope = getLatestHoroscope(horoscopes);
 const articleSections = [
     { category: "astroloji", title: "✨ Astroloji" },
     { category: "kultur-sanat", title: "🎨 Kültür & Sanat" },
     { category: "yemek-tarifleri", title: "🍴 Yemek Tarifleri" },
     { category: "ruya-tabirleri", title: "🌙 Rüya Tabirleri" },
-    { category: "kisisel-gelisim", title: "🧠 Kişisel Gelişim" }
+    { category: "kisisel-gelisim", title: "🧠 Kişisel Gelişim" },
+    { category: "evcil-hayvanlar", title: "🐾 Evcil Hayvanlar" }
 ].map((section) => ({
     ...section,
     articles: sortArticlesNewest(
@@ -28,8 +28,11 @@ const articleSections = [
 
 <BaseLayout
     title="Popcorn | Film, Astroloji, Kültür ve Lifestyle"
-    description="Film, dizi, astroloji, yemek tarifleri, kültür sanat, rüya tabirleri ve kişisel gelişim içerikleri."
+    description="Film, dizi, astroloji, yemek tarifleri, kültür sanat, rüya tabirleri, kişisel gelişim ve evcil hayvan içerikleri."
+    canonicalPath="/"
 >
+
+    <StructuredData data={createWebSiteStructuredData()} />
 
     <div class="home-container">
 
@@ -37,13 +40,13 @@ const articleSections = [
 
             <div class="home-hero-content">
                 <span class="home-hero-label">
-                    POPCORN'DA BUGÜN
+                    POPCORN'DA ÖNE ÇIKANLAR
                 </span>
 
                 <h1 id="homeHeroTitle" aria-live="polite">Keşfedecek çok şey var.</h1>
 
                 <p>
-                    Film ve dizilerden günlük burç yorumlarına,
+                    Film ve dizilerden burç rehberlerine,
                     yemek tariflerinden kültür ve sanata kadar
                     Popcorn'un öne çıkan içeriklerini keşfet.
                 </p>
@@ -69,7 +72,7 @@ const articleSections = [
 
 
         <section class="home-section">
-            <HoroscopeFeatureCard horoscope={latestHoroscope} />
+            <HoroscopeFeatureCard />
         </section>
 
 

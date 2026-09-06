@@ -1,0 +1,74 @@
+[
+    {
+        "key": "koc",
+        "name": "Koç",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Koç burcu girişkenliği, cesareti ve hızlı harekete geçme isteğiyle anılır. Güçlü başlangıç enerjisi çevresine canlılık katabilir; sabırsız davranmadan karşısındakileri dinlemek ilişkilerinde daha dengeli bir alan açmasına yardımcı olur."
+    },
+    {
+        "key": "boga",
+        "name": "Boğa",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Boğa burcu güven, istikrar ve somut sonuçlarla ilişkilendirilir. Sabırlı ve dayanıklı yapısı uzun soluklu hedeflerde güç sağlayabilir; değişime fazla direnmek yerine esnekliğe yer vermesi sosyal bağlarını rahatlatabilir."
+    },
+    {
+        "key": "ikizler",
+        "name": "İkizler",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "İkizler burcu merak, iletişim ve farklı fikirlere hızlı uyum sağlama özellikleriyle öne çıkar. Sözcüklerle bağ kurma yeteneği sosyal ortamları hareketlendirebilir; ilgisini çok fazla alana bölmeden derinleşmesi potansiyelini daha görünür kılabilir."
+    },
+    {
+        "key": "yengec",
+        "name": "Yengeç",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Yengeç burcu duyarlılık, aidiyet ve koruyucu yaklaşımıyla tanımlanır. Yakınlarının ihtiyaçlarını sezme gücü sıcak ilişkiler kurmasını destekler; kendi sınırlarını koruması ve duygularını açıkça ifade etmesi de aynı ölçüde önemlidir."
+    },
+    {
+        "key": "aslan",
+        "name": "Aslan",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Aslan burcu yaratıcılık, özgüven ve kendini ifade etme isteğiyle ilişkilendirilir. Cömert ve motive edici tavrı çevresine ilham verebilir; ilgiyi paylaşmak ve başkalarının katkısını görünür kılmak ilişkilerini güçlendirebilir."
+    },
+    {
+        "key": "basak",
+        "name": "Başak",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Başak burcu gözlem gücü, düzen ve ayrıntılara gösterdiği özenle bilinir. Sorunları pratik adımlara ayırabilmesi güvenilir sonuçlar üretmesini sağlar; kusursuzluk arayışını yumuşatması hem kendine hem çevresine daha anlayışlı yaklaşmasına yardımcı olabilir."
+    },
+    {
+        "key": "terazi",
+        "name": "Terazi",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Terazi burcu denge, uyum ve farklı bakış açılarını buluşturma becerisiyle anılır. Diplomatik yaklaşımı sosyal ilişkilerde köprü kurabilir; herkesi memnun etmeye çalışmadan kendi tercihlerini netleştirmesi karar süreçlerini kolaylaştırabilir."
+    },
+    {
+        "key": "akrep",
+        "name": "Akrep",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Akrep burcu derinlik, kararlılık ve güçlü sezgilerle ilişkilendirilir. Güven duyduğu bağlara yoğun bir sadakat gösterebilir; kontrol ihtiyacını açık iletişimle dengelemesi yakın ilişkilerinde daha rahat bir akış yaratabilir."
+    },
+    {
+        "key": "yay",
+        "name": "Yay",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Yay burcu keşif, iyimserlik ve düşünce ufkunu genişletme arzusuyla öne çıkar. Yeni deneyimlere açıklığı çevresine enerji katabilir; ayrıntıları atlamadan verdiği sözleri takip etmesi özgürlük ihtiyacıyla sorumluluklarını dengelemesini sağlar."
+    },
+    {
+        "key": "oglak",
+        "name": "Oğlak",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Oğlak burcu sorumluluk, planlama ve hedeflere adım adım ilerleme yaklaşımıyla tanımlanır. Disiplini kalıcı başarılar kurmasını destekleyebilir; dinlenmeye ve duygusal paylaşıma da yer vermesi ilişkilerindeki mesafeyi azaltabilir."
+    },
+    {
+        "key": "kova",
+        "name": "Kova",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Kova burcu özgün düşünce, bağımsızlık ve toplumsal konulara duyduğu ilgiyle anılır. Farklı çözümler üretme becerisi gruplara yeni bir yön kazandırabilir; fikirlerini paylaşırken duygusal ihtiyaçları da hesaba katması bağlarını derinleştirebilir."
+    },
+    {
+        "key": "balik",
+        "name": "Balık",
+        "image": "/images/horoscope-placeholder.svg",
+        "text": "Balık burcu hayal gücü, empati ve sezgisel yaklaşımıyla ilişkilendirilir. İnce duyarlılığı sanatsal ve sosyal alanlarda güçlü bağlar kurmasını sağlayabilir; başkalarının duygularını üstlenmeden kendi sınırlarını belirlemesi iç dengesini korumasına yardımcı olur."
+    }
+]
