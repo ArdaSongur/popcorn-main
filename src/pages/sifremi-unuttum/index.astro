@@ -206,8 +206,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
             renderSubmitState();
             showMessage("İsteğiniz güvenli şekilde işleniyor…", "loading");
 
+            const redirectTo = `${window.location.origin}/sifre-yenile/`;
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: `${window.location.origin}/sifre-yenile/`
+                redirectTo
             });
 
             isSubmitting = false;

@@ -125,6 +125,7 @@ import RecoveryLayout from "../../layouts/RecoveryLayout.astro";
             hashParameters.get("access_token")
             || hashParameters.get("type") === "recovery"
             || queryParameters.get("code")
+            || queryParameters.get("token")
             || queryParameters.get("token_hash")
             || queryParameters.get("type") === "recovery"
         );
@@ -180,8 +181,8 @@ import RecoveryLayout from "../../layouts/RecoveryLayout.astro";
 
             if (error || (!hasRecoveryIndicator && !isRecoveryFlowTracked())) {
                 showInvalidLink();
-            } else if (!hasRecoveryIndicator && isRecoveryFlowTracked() && data.session) {
-                // URL Supabase tarafından temizlendikten sonraki güvenli sayfa yenilemelerini destekler.
+            } else if (data.session && (hasRecoveryIndicator || isRecoveryFlowTracked())) {
+                // Olay abonelik kurulmadan önce işlense bile doğrulanmış recovery session'ını kabul et.
                 showRecoveryForm();
             } else {
                 window.setTimeout(showInvalidLink, 1500);

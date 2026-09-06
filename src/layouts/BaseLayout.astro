@@ -46,6 +46,16 @@ const adsenseScriptUrl = adsenseEnabled
             try {
                 const recoveryFlowActive = sessionStorage.getItem("popcorn-password-recovery") === "active";
                 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
+                const hashParameters = new URLSearchParams(window.location.hash.slice(1));
+                const queryParameters = new URLSearchParams(window.location.search);
+                const recoveryLinkInUrl = hashParameters.get("type") === "recovery"
+                    || queryParameters.get("type") === "recovery";
+
+                if (recoveryLinkInUrl && normalizedPath !== "/sifre-yenile") {
+                    const recoveryUrl = `/sifre-yenile/${window.location.search}${window.location.hash}`;
+                    window.location.replace(recoveryUrl);
+                    return;
+                }
 
                 if (recoveryFlowActive && normalizedPath !== "/sifre-yenile") {
                     window.location.replace("/sifre-yenile/");

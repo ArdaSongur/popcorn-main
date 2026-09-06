@@ -1,9 +1,9 @@
 ---
-const { item } = Astro.props;
+const { item, compact = false } = Astro.props;
 const itemUrl = `/film-dizi/${item.slug}/`;
 ---
 
-<article class="movie-card">
+<article class:list={["movie-card", { "movie-card--compact": compact }]}>
 
     <a href={itemUrl} class="movie-card-poster">
 

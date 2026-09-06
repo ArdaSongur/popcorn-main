@@ -6101,3 +6101,114 @@ html[data-theme="light"] .detail-meta .detail-rating dd {
         margin-top: 38px;
     }
 }
+
+/* Film / Dizi arşivine özel kompakt kartlar ve responsive grid. */
+.media-library-results .media-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.media-library-results .media-grid-item {
+    min-width: 0;
+}
+
+.movie-card--compact {
+    min-width: 0;
+    border-radius: 11px;
+}
+
+.movie-card--compact .movie-rating {
+    right: 7px;
+    bottom: 7px;
+    max-width: calc(100% - 14px);
+    overflow: hidden;
+    padding: 4px 6px;
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-card--compact .movie-card-info {
+    min-width: 0;
+    padding: 11px;
+}
+
+.movie-card--compact .movie-card-info h3 {
+    display: -webkit-box;
+    min-height: 2.5em;
+    overflow: hidden;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.movie-card--compact .movie-card-info p {
+    overflow: hidden;
+    margin-bottom: 9px;
+    font-size: 12px;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-card--compact .favorite-button {
+    min-height: 38px;
+    overflow: hidden;
+    padding: 7px 8px;
+    font-size: 12px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+    .media-library-results .media-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .media-library-results .media-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+    .media-library-results .media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (max-width: 430px) {
+    .media-library-results .media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .movie-card--compact .movie-card-info {
+        padding: 9px;
+    }
+
+    .movie-card--compact .movie-card-info h3 {
+        margin-bottom: 4px;
+        font-size: 13px;
+    }
+
+    .movie-card--compact .movie-card-info p {
+        margin-bottom: 7px;
+        font-size: 11px;
+    }
+
+    .movie-card--compact .favorite-button {
+        min-height: 40px;
+        padding: 6px;
+        font-size: 11px;
+    }
+}
